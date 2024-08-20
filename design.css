@@ -1,0 +1,70 @@
+body {
+  background-color: #EDE6DC;
+  background-image: url(DEFTONES_alternative_metal_experimental_rock_nu_metal_heavy_hard_cat_kitten_2560x1440.jpg);/*change to just background if I want only image and no bg color*/
+  background-repeat: no-repeat;
+  background-size: 100%;/*add second 100 for scaling*/
+  font-size: small;
+}
+
+p {
+  line-height:30px;
+}
+
+#index {
+  /*font-size: large;*/
+  padding-top: 10%;
+  padding-left: 10%;
+  padding-right: 10%;
+  letter-spacing: 0.4em;
+  color: white;
+}
+
+.overlay {
+
+    z-index: 1;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    overflow: auto;
+    top: 0px;
+    left: 0px;
+    background: rgba(0, 0, 0, 0.7);
+    
+}
+
+span.highlighter {
+  /*font-size: large;*/
+  letter-spacing: 0.1em;
+  color: white;
+}
+
+a {
+  color: white;
+  text-decoration: inherit;
+}
+
+
+a:hover {
+  /*text-decoration: inherit;*/
+  background-color: white;
+  color: black;
+}
+
+a.link {
+  text-decoration: underline;
+  padding-left: 10px;
+  float: right;
+  line-height:1em;
+}
+
+
+#backgroundvideo {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
