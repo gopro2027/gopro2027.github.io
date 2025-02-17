@@ -1,17 +1,18 @@
 {
-  "name": "OASMan Controller",
-  "funding_url": "",
-  "new_install_prompt_erase": true,
-  "builds": [
-    {
-      "chipFamily": "ESP32",
-      "improv": false,
-      "parts": [
-        { "path": "firmware/controller/bootloader.bin", "offset": 4096 },
-        { "path": "firmware/controller/partitions.bin", "offset": 32768 },
-	{ "path": "firmware/controller/boot_app0.bin", "offset": 57344 },
-        { "path": "firmware/controller/firmware.bin", "offset": 65536 }
-      ]
-    }
-  ]
+	"name": "OASMan Controller",
+	"version": "",
+	"funding_url": "",
+	"new_install_prompt_erase": true,
+	"builds": [
+		{
+			"chipFamily": "ESP32",
+			"improv": false,
+			"parts": [
+				{ "path": "firmware/controller/bootloader.bin", "offset": 4096 },
+				{ "path": "firmware/controller/partitions.bin", "offset": 32768 },
+				{ "path": "firmware/controller/boot_app0.bin", "offset": 57344 },
+				{ "path": "firmware/controller/firmware.bin", "offset": 65536 }
+			]
+		}
+	]
 }

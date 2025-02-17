@@ -1,18 +1,18 @@
 {
-  "name": "OASMan Manifold (no acc wire reading)",
-  "version": "1.0",
-  "funding_url": "",
-  "new_install_prompt_erase": true,
-  "builds": [
-    {
-      "chipFamily": "ESP32",
-      "improv": false,
-      "parts": [
-        { "path": "firmware/manifold_no_acc/bootloader.bin", "offset": 4096 },
-        { "path": "firmware/manifold_no_acc/partitions.bin", "offset": 32768 },
-	{ "path": "firmware/manifold_no_acc/boot_app0.bin", "offset": 57344 },
-        { "path": "firmware/manifold_no_acc/firmware.bin", "offset": 65536 }
-      ]
-    }
-  ]
+	"name": "OASMan Manifold (no acc wire reading)",
+	"version": "",
+	"funding_url": "",
+	"new_install_prompt_erase": true,
+	"builds": [
+		{
+			"chipFamily": "ESP32",
+			"improv": false,
+			"parts": [
+				{ "path": "firmware/manifold_no_acc/bootloader.bin", "offset": 4096 },
+				{ "path": "firmware/manifold_no_acc/partitions.bin", "offset": 32768 },
+				{ "path": "firmware/manifold_no_acc/boot_app0.bin", "offset": 57344 },
+				{ "path": "firmware/manifold_no_acc/firmware.bin", "offset": 65536 }
+			]
+		}
+	]
 }
