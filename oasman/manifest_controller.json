@@ -1,6 +1,5 @@
 {
   "name": "OASMan Controller",
-  "version": "1.0",
   "funding_url": "",
   "new_install_prompt_erase": true,
   "builds": [
