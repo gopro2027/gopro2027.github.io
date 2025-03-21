@@ -43,20 +43,34 @@
 
 		// Example usage:
 
-		const rawUrl = "https://raw.githubusercontent.com/gopro2027/ArduinoAirSuspensionController/refs/heads/main/README.md";
+		const readme_list = {
+			"readme-home": "https://raw.githubusercontent.com/gopro2027/ArduinoAirSuspensionController/refs/heads/main/README.md",
+			"readme-parts": "https://raw.githubusercontent.com/gopro2027/ArduinoAirSuspensionController/refs/heads/main/tutorial/parts.md",
+			"readme-pcb-assembly": "https://raw.githubusercontent.com/gopro2027/ArduinoAirSuspensionController/refs/heads/main/tutorial/pcb_assembly.md",
+			"readme-manifold-assembly": "https://raw.githubusercontent.com/gopro2027/ArduinoAirSuspensionController/refs/heads/main/tutorial/manifold_assembly.md",
+			"readme-controller-assembly": "https://raw.githubusercontent.com/gopro2027/ArduinoAirSuspensionController/refs/heads/main/tutorial/controller_assembly.md",
+			"readme-flash": "https://raw.githubusercontent.com/gopro2027/ArduinoAirSuspensionController/refs/heads/main/tutorial/code_build_flash.md",
+			"readme-mobile-app": "https://raw.githubusercontent.com/gopro2027/ArduinoAirSuspensionController/refs/heads/main/tutorial/android_app.md",
+			"readme-ps3": "https://raw.githubusercontent.com/gopro2027/ArduinoAirSuspensionController/refs/heads/main/PS3_Controller_Tool/README.md",
+			//"readme-": "",
+		};
 
-		document.addEventListener("DOMContentLoaded", function () {
-			getRawFile(rawUrl).then((content) => {
+		function loadReadme(idx) {
+			getRawFile(readme_list[idx]).then((content) => {
 				if (content) {
-					console.log(content);
-					const myDiv = document.getElementById("readme-home");
-					myDiv.innerHTML = marked.parse(content);
+					document.getElementById(idx).innerHTML = marked.parse(content);
 					window.scrollTo(0, 1); // makes it refresh the nav bar, which is originally loaded prior to all the content being loaded (aka it is wrong until we scroll)
 					window.scrollTo(0, 0);
 				} else {
-					console.log("Failed to get the file content.");
+					console.log("Failed to get the file content." + idx);
 				}
 			});
+		}
+
+		document.addEventListener("DOMContentLoaded", function () {
+			for (idx in readme_list) {
+				loadReadme(idx);
+			}
 		});
 	</script>
 
@@ -94,7 +108,7 @@
 
 						<!-- Logo -->
 						<a class="logo ml-md-3" href="index.html" title="iDocs Template"> <img src="assets/images/oasman_logo.jpg" width="75px" alt="iDocs Template" /> </a>
-						<span class="text-2 ml-2">v1.0</span>
+						<!--<span class="text-2 ml-2">v1.0</span>-->
 						<!-- Logo End -->
 
 						<!-- Navbar Toggler -->
@@ -124,62 +138,19 @@
 	============================ -->
 				<div class="idocs-navigation bg-light">
 					<ul class="nav flex-column">
+						<li class="nav-item"><a class="nav-link active" href="#readme-home">Home</a></li>
+						<li class="nav-item"><a class="nav-link" href="#readme-parts">Parts</a></li>
 						<li class="nav-item">
-							<a class="nav-link active" href="#section_home">Home</a>
-							<ul class="nav flex-column"></ul>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="#section_parts">Parts</a>
+							<a class="nav-link" href="#readme-assembly">Assembly</a>
 							<ul class="nav flex-column">
-								<li class="nav-item"><a class="nav-link" href="#section_parts">Part</a></li>
-								<li class="nav-item"><a class="nav-link" href="#section_homr">HTML Structure</a></li>
-								<li class="nav-item"><a class="nav-link" href="#section_home3">Sass</a></li>
-								<li class="nav-item"><a class="nav-link" href="#section_home3">Color Schemes</a></li>
-								<li class="nav-item"><a class="nav-link" href="#section_home3">Customization</a></li>
-								<li class="nav-item"><a class="nav-link" href="#section_home3">Logo Settings</a></li>
+								<li class="nav-item"><a class="nav-link" href="#readme-pcb-assembly">PCB Assembly</a></li>
+								<li class="nav-item"><a class="nav-link" href="#readme-manifold-assembly">Manifold Assembly</a></li>
+								<li class="nav-item"><a class="nav-link" href="#readme-controller-assembly">Controller Assembly</a></li>
 							</ul>
 						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="#section_home3">Assembly</a>
-							<ul class="nav flex-column">
-								<li class="nav-item"><a class="nav-link" href="#section_home3">Header</a></li>
-								<li class="nav-item"><a class="nav-link" href="#section_home3">Navbar</a></li>
-								<li class="nav-item"><a class="nav-link" href="#section_home3">Sidebar</a></li>
-								<li class="nav-item"><a class="nav-link" href="#section_home3">Footer</a></li>
-								<li class="nav-item"><a class="nav-link" href="#section_home3">Box Layout</a></li>
-							</ul>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="#idocs_content">Software</a>
-							<ul class="nav flex-column">
-								<li class="nav-item"><a class="nav-link" href="#idocs_typography">Typography</a></li>
-								<li class="nav-item"><a class="nav-link" href="#idocs_code">Code</a></li>
-								<li class="nav-item"><a class="nav-link" href="#idocs_table">Table</a></li>
-								<li class="nav-item"><a class="nav-link" href="#idocs_icons">Icons</a></li>
-								<li class="nav-item"><a class="nav-link" href="#idocs_image">Image</a></li>
-								<li class="nav-item"><a class="nav-link" href="#idocs_video">Video</a></li>
-							</ul>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="#idocs_components">Components</a>
-							<ul class="nav flex-column">
-								<li class="nav-item"><a class="nav-link" href="#idocs_accordion">Accordion</a></li>
-								<li class="nav-item"><a class="nav-link" href="#idocs_tabs">Tabs</a></li>
-								<li class="nav-item"><a class="nav-link" href="#idocs_social_icon">Social Icon</a></li>
-								<li class="nav-item"><a class="nav-link" href="#idocs_helper_classes">Helper Classes</a></li>
-							</ul>
-						</li>
-						<li class="nav-item"><a class="nav-link" href="#idocs_faq">FAQ</a></li>
-						<li class="nav-item"><a class="nav-link" href="#idocs_source_credits">Source & Credits</a></li>
-						<li class="nav-item"><a class="nav-link" href="#idocs_support">Support</a></li>
-						<li class="nav-item"><a class="nav-link" href="#idocs_templates">More Templates</a></li>
-						<li class="nav-item">
-							<a class="nav-link" href="#idocs_changelog">Changelog</a>
-							<ul class="nav flex-column">
-								<li class="nav-item"><a class="nav-link" href="#v1-1">v1.1</a></li>
-								<li class="nav-item"><a class="nav-link" href="#v1-0">v1.0</a></li>
-							</ul>
-						</li>
+						<li class="nav-item"><a class="nav-link" href="#readme-flash">Flashing Code</a></li>
+						<li class="nav-item"><a class="nav-link" href="#readme-mobile-app">Mobile App</a></li>
+						<li class="nav-item"><a class="nav-link" href="#readme-ps3">PS3 Controller Setup</a></li>
 					</ul>
 				</div>
 
@@ -187,23 +158,29 @@
 	============================ -->
 				<div class="idocs-content">
 					<div class="container">
-						<!-- Getting Started
-		============================ -->
-						<section id="section_home">
-							<div id="readme-home" class="readmecontent">Loading....</div>
-						</section>
-
+						<section id="readme-home" class="readmecontent"></section>
 						<hr class="divider" />
 
-						<!-- Installation
-		============================ -->
-						<section id="section_parts">Parts</section>
-
+						<section id="readme-parts" class="readmecontent"></section>
 						<hr class="divider" />
 
-						<!-- Installation
-		============================ -->
-						<section id="section_homr">Homr</section>
+						<section id="readme-assembly" class="readmecontent"></section>
+						<section id="readme-pcb-assembly" class="readmecontent"></section>
+						<hr class="divider" />
+
+						<section id="readme-manifold-assembly" class="readmecontent"></section>
+						<hr class="divider" />
+
+						<section id="readme-controller-assembly" class="readmecontent"></section>
+						<hr class="divider" />
+
+						<section id="readme-flash" class="readmecontent"></section>
+						<hr class="divider" />
+
+						<section id="readme-mobile-app" class="readmecontent"></section>
+						<hr class="divider" />
+
+						<section id="readme-ps3" class="readmecontent"></section>
 					</div>
 				</div>
 			</div>
