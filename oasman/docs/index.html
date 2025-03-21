@@ -18,6 +18,8 @@
 		<link href="css/sb-admin-2.min.css" rel="stylesheet" />
 	</head>
 
+	<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
 	<script>
 		async function getRawFile(url) {
 			try {
@@ -41,8 +43,8 @@
 			getRawFile(rawUrl).then((content) => {
 				if (content) {
 					console.log(content);
-					const myDiv = document.getElementById("mkdown");
-					myDiv.innerHTML = content;
+					const myDiv = document.getElementById("readmecontent");
+					myDiv.innerHTML = marked.parse(content);
 				} else {
 					console.log("Failed to get the file content.");
 				}
@@ -360,11 +362,11 @@
 
 						<div class="row">
 							<div class="col-12">
-								<div class="card border-left-primary shadow h-100 py-2">
+								<div class="card border-left-primary shadow h-100 py-2 container-lg px-3 my-5">
 									<div class="card-body">
 										<div class="row no-gutters align-items-center">
 											<div class="col mr-2">
-												<div id="mkdown" class="container-lg px-3 my-5 markdown-body">Have **fun!**</div>
+												<div id="readmecontent">Loading....</div>
 											</div>
 										</div>
 									</div>
