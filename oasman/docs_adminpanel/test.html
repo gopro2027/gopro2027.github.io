@@ -45,7 +45,6 @@
 					console.log(content);
 					const myDiv = document.getElementById("readmecontent");
 					myDiv.innerHTML = marked.parse(content);
-					document.getElementById("readmecontent2").innerHTML = marked.parse(content);
 				} else {
 					console.log("Failed to get the file content.");
 				}
@@ -53,18 +52,22 @@
 		});
 	</script>
 
+	<style>
+		#readmecontent img {
+			display: block;
+			float: none;
+			max-width: 100%;
+		}
+	</style>
 	<body>
-		<div class="container-fluid">
+		<div class="container-lg">
 			<div class="row">
 				<div class="col-12">
-					<div id="readmecontent">Loading....</div>
-				</div>
-				<div class="col-12">
-					<div class="card border-left-primary shadow h-100 py-2 container-lg px-3 my-5">
+					<div class="card border-left-primary shadow">
 						<div class="card-body">
 							<div class="row no-gutters align-items-center">
 								<div class="col mr-2">
-									<div id="readmecontent2">Loading....</div>
+									<div id="readmecontent">Loading....</div>
 								</div>
 							</div>
 						</div>
