@@ -61,6 +61,10 @@
 					document.getElementById(idx).innerHTML = marked.parse(content);
 					window.scrollTo(0, 1); // makes it refresh the nav bar, which is originally loaded prior to all the content being loaded (aka it is wrong until we scroll)
 					window.scrollTo(0, 0);
+					var loc = location.hash.slice(1);
+					if (loc.length > 0) {
+						window.location.href = "#" + loc;
+					}
 				} else {
 					console.log("Failed to get the file content." + idx);
 				}
