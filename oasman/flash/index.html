@@ -77,7 +77,7 @@
 		<div class="content">
 			<h1>OAS-Man installer</h1>
 			<p>Select your product</p>
-			<ul class="radios">
+			<ul class="radios" id="firmwareRadioOptions">
 				<li>
 					<label><input type="radio" name="type" value="manifold" /> Manifold (Board &gt;= v3.2)</label>
 				</li>
@@ -86,6 +86,9 @@
 				</li>
 				<li>
 					<label><input type="radio" name="type" value="controller" /> Controller</label>
+				</li>
+				<li hidden id="hiddentestoption">
+					<label><input type="radio" name="type" value="test" /> Manifold (TEST)</label>
 				</li>
 			</ul>
 			<small id="versionnum">Version --</small>
@@ -117,6 +120,13 @@
 			console.log(versionnum);
 			const element = document.getElementById("versionnum");
 			element.textContent = "Version " + versionnum;
+
+			// check hidden test
+			const urlParams = new URLSearchParams(window.location.search);
+			const myParam = urlParams.get('test');
+			if (urlParams.has('test')) {
+				document.getElementById('hiddentestoption').hidden = false;
+			}
 		</script>
 	</body>
 </html>
