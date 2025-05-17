@@ -11,8 +11,7 @@
 				{ "path": "firmware/manifold_no_acc/bootloader.bin", "offset": 4096 },
 				{ "path": "firmware/manifold_no_acc/partitions.bin", "offset": 32768 },
 				{ "path": "firmware/manifold_no_acc/boot_app0.bin", "offset": 57344 },
-				{ "path": "firmware/manifold_no_acc/firmware.bin", "offset": 65536 },
-				{ "path": "firmware/default_min_spiffs.bin", "offset": 3997696 }
+				{ "path": "firmware/manifold_no_acc/firmware.bin", "offset": 65536 }
 			]
 		}
 	]
