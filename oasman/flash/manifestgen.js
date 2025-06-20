@@ -23,10 +23,10 @@ function generate_manifest(type, name, version, firmwareFileName) {
                 "chipFamily": "ESP32",
                 "improv": false,
                 "parts": [
-                    { "path": dependenciesDir+"bootloader.bin", "offset": 4096 },
-                    { "path": dependenciesDir+"partitions.bin", "offset": 32768 },
-                    { "path": dependenciesDir+"boot_app0.bin", "offset": 57344 },
-                    { "path": firmwareDir+firmwareFileName, "offset": 65536 }
+                    { "path": "../"+dependenciesDir+"bootloader.bin", "offset": 4096 },
+                    { "path": "../"+dependenciesDir+"partitions.bin", "offset": 32768 },
+                    { "path": "../"+dependenciesDir+"boot_app0.bin", "offset": 57344 },
+                    { "path": "../"+firmwareDir+firmwareFileName, "offset": 65536 }
                 ]
             }
         ]
