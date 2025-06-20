@@ -72,12 +72,13 @@
 			}
 		</style>
 		<script type="module" src="https://unpkg.com/esp-web-tools@8.0.1/dist/web/install-button.js?module"></script>
+		<script src="manifestgen.js"></script>
 	</head>
 	<body>
 		<div class="content">
 			<h1>OAS-Man installer</h1>
 			<p>Select your product</p>
-			<ul class="radios" id="firmwareRadioOptions">
+			<!-- <ul class="radios" id="firmwareRadioOptions">
 				<li>
 					<label><input type="radio" name="type" value="manifold" /> Manifold (Board &gt;= v3.2)</label>
 				</li>
@@ -90,7 +91,22 @@
 				<li hidden id="hiddentestoption">
 					<label><input type="radio" name="type" value="test" /> Manifold (TEST)</label>
 				</li>
+			</ul> -->
+
+			<ul class="radios" id="firmwareRadioOptions">
+				<li>
+					<label><input type="radio" name="type" value="manifold" /> Manifold Firmwares</label>
+				</li>
+				<li>
+					<label><input type="radio" name="type" value="controller" /> Controller Firmwares</label>
+				</li>
 			</ul>
+
+			<select id="firmwareFilesSelect" hidden>
+				<option value="NONE">NOTHING SELECTED</option>
+			</select>
+
+
 			<small id="versionnum">Version --</small>
 			<p class="button-row" align="center">
 				<esp-web-install-button class="invisible"></esp-web-install-button>
@@ -99,13 +115,11 @@
 			<div class="footer"><a href="https://github.com/gopro2027/ArduinoAirSuspensionController">OAS-Man</a> &mdash; Installer powered by <a href="https://esphome.github.io/esp-web-tools/">ESP Web Tools</a>.</div>
 		</div>
 		<script>
-			document.querySelectorAll('input[name="type"]').forEach((radio) =>
-				radio.addEventListener("change", () => {
-					const button = document.querySelector("esp-web-install-button");
-					button.manifest = `../manifest_${radio.value}.json`;
-					button.classList.remove("invisible");
-				})
-			);
+
+			// rest link: https://api.github.com/repos/gopro2027/gopro2027.github.io/contents/oasman/firmware/controller
+
+
+			// load version txt file
 			function loadFile(filePath) {
 				var result = null;
 				var xmlhttp = new XMLHttpRequest();
@@ -119,7 +133,86 @@
 			let versionnum = loadFile("https://oasman.dev/oasman/version.txt");
 			console.log(versionnum);
 			const element = document.getElementById("versionnum");
-			element.textContent = "Version " + versionnum;
+			element.textContent = "Latest Version " + versionnum;
+
+			
+
+			// document.querySelectorAll('input[name="type"]').forEach((radio) =>
+			// 	radio.addEventListener("change", () => {
+			// 		const button = document.querySelector("esp-web-install-button");
+			// 		button.manifest = `../manifest_${radio.value}.json`;
+			// 		button.classList.remove("invisible");
+			// 	})
+			// );
+
+			var chosenType = "";
+			var chosenFileName = "";
+
+			function setSelectedFile(fileName) {
+				chosenFileName = fileName;
+
+				const button = document.querySelector("esp-web-install-button");
+				if (fileName.length > 0) {
+					var genurl = generate_manifest(chosenType, "OASMan Firmware: "+chosenType,"999",fileName);
+					console.log(genurl);
+					button.manifest = genurl;
+					button.classList.remove("invisible");
+				} else {
+					button.classList.add("invisible");
+				}
+			}
+
+			function loadFirmwareFiles(link) {
+
+				setSelectedFile("");
+
+				var defaultSelectionFirmware = "firmware_"+versionnum+".bin";
+				filesData = JSON.parse(loadFile(link));
+
+				selectorObject = document.getElementById('firmwareFilesSelect');
+				selectorObject.hidden = false;
+				selectorObject.innerHTML = "";
+
+				for (a of filesData) {
+					console.log(a.name);
+					var opt = document.createElement('option');
+					opt.value = a.name;
+					opt.innerHTML = a.name;
+					//opt.selected = a.name.includes(versionnum);
+					selectorObject.appendChild(opt);
+					if (a.name.includes(defaultSelectionFirmware)) {
+						console.log("selecting "+a.name);
+						selectorObject.value = a.name;
+						setSelectedFile(a.name);
+					}
+				}
+			}
+
+			document.getElementById('firmwareFilesSelect').addEventListener('change', (event) => {
+				setSelectedFile(event.target.value);
+
+				console.log(`Selected value: ${event.target.value}`);
+			});
+
+			document.querySelectorAll('input[name="fileSelector"]').forEach((radio) =>
+				radio.addEventListener("change", () => {
+					const button = document.querySelector("esp-web-install-button");
+					button.manifest = `../manifest_${radio.value}.json`;
+					button.classList.remove("invisible");
+				})
+			);
+
+			document.querySelectorAll('input[name="type"]').forEach((radio) =>
+				radio.addEventListener("change", () => {
+					chosenType = radio.value;
+					
+					if (radio.value == "manifold") {
+						loadFirmwareFiles("https://api.github.com/repos/gopro2027/gopro2027.github.io/contents/oasman/firmware/manifold");
+					} else {
+						loadFirmwareFiles("https://api.github.com/repos/gopro2027/gopro2027.github.io/contents/oasman/firmware/controller");
+					}
+				})
+			);
 
 			// check hidden test
 			const urlParams = new URLSearchParams(window.location.search);
