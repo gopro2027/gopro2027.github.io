@@ -149,11 +149,20 @@
 			var chosenFileName = "";
 
 			function setSelectedFile(fileName) {
+				console.log(`Selected value: ${fileName}`);
 				chosenFileName = fileName;
+
+
+				const lastDotIndex = fileName.lastIndexOf('.');
+				const filenameWithoutExtension = lastDotIndex === -1 ? fileName : fileName.substring(0, lastDotIndex);
+				console.log("File name: "+filenameWithoutExtension);
+				const version = filenameWithoutExtension.substring(filenameWithoutExtension.lastIndexOf('_')+1, filenameWithoutExtension.length);
+				console.log("Version found: "+version);
+
 
 				const button = document.querySelector("esp-web-install-button");
 				if (fileName.length > 0) {
-					var genurl = generate_manifest(chosenType, "OASMan Firmware: "+chosenType,"999",fileName);
+					var genurl = generate_manifest(chosenType, "OASMan Firmware: "+chosenType,version,fileName);
 					console.log(genurl);
 					button.manifest = genurl;
 					button.classList.remove("invisible");
@@ -173,6 +182,8 @@
 				selectorObject.hidden = false;
 				selectorObject.innerHTML = "";
 
+				var selectedOne = null;
+
 				for (a of filesData) {
 					console.log(a.name);
 					var opt = document.createElement('option');
@@ -181,26 +192,22 @@
 					//opt.selected = a.name.includes(versionnum);
 					selectorObject.appendChild(opt);
 					if (a.name.includes(defaultSelectionFirmware)) {
-						console.log("selecting "+a.name);
-						selectorObject.value = a.name;
-						setSelectedFile(a.name);
+						if (selectedOne == null || selectedOne.length > a.name.length) {
+							selectedOne = a.name;
+						}
 					}
+				}
+
+				if (selectedOne != null) {
+					console.log("selecting "+selectedOne);
+					selectorObject.value = selectedOne;
+					setSelectedFile(selectedOne);
 				}
 			}
 
 			document.getElementById('firmwareFilesSelect').addEventListener('change', (event) => {
 				setSelectedFile(event.target.value);
-
-				console.log(`Selected value: ${event.target.value}`);
 			});
-
-			document.querySelectorAll('input[name="fileSelector"]').forEach((radio) =>
-				radio.addEventListener("change", () => {
-					const button = document.querySelector("esp-web-install-button");
-					button.manifest = `../manifest_${radio.value}.json`;
-					button.classList.remove("invisible");
-				})
-			);
 
 			document.querySelectorAll('input[name="type"]').forEach((radio) =>
 				radio.addEventListener("change", () => {

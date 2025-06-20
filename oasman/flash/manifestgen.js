@@ -6,11 +6,11 @@ function generate_manifest(type, name, version, firmwareFileName) {
     //partitions.bin is the same
     //boot_app0.bin is the samew
 
-    var dependenciesDir = "firmware/manifold_dependencies/"
-    var firmwareDir = "firmware/manifold/"
+    var dependenciesDir = "https://oasman.dev/oasman/firmware/manifold_dependencies/"
+    var firmwareDir = "https://oasman.dev/oasman/firmware/manifold/"
     if (type == "controller") {
-        dependenciesDir = "firmware/controller_dependencies/"
-        firmwareDir = "firmware/controller/"
+        dependenciesDir = "https://oasman.dev/oasman/firmware/controller_dependencies/"
+        firmwareDir = "https://oasman.dev/oasman/firmware/controller/"
     }
 
     var manifest = {
@@ -23,10 +23,10 @@ function generate_manifest(type, name, version, firmwareFileName) {
                 "chipFamily": "ESP32",
                 "improv": false,
                 "parts": [
-                    { "path": "../"+dependenciesDir+"bootloader.bin", "offset": 4096 },
-                    { "path": "../"+dependenciesDir+"partitions.bin", "offset": 32768 },
-                    { "path": "../"+dependenciesDir+"boot_app0.bin", "offset": 57344 },
-                    { "path": "../"+firmwareDir+firmwareFileName, "offset": 65536 }
+                    { "path": dependenciesDir+"bootloader.bin", "offset": 4096 },
+                    { "path": dependenciesDir+"partitions.bin", "offset": 32768 },
+                    { "path": dependenciesDir+"boot_app0.bin", "offset": 57344 },
+                    { "path": firmwareDir+firmwareFileName, "offset": 65536 }
                 ]
             }
         ]
