@@ -23,7 +23,7 @@ function generate_manifest(dirName, name, version, firmwareFileName) {
         "new_install_prompt_erase": true,
         "builds": [
             {
-                "chipFamily": "ESP32",
+                "chipFamily": "ESP32-S3",
                 "improv": false,
                 "parts": [
                     { "path": dependenciesDir+"bootloader.bin", "offset": 4096 }, // might need to update these values for the s3
@@ -37,7 +37,9 @@ function generate_manifest(dirName, name, version, firmwareFileName) {
 
     // duplicate data for the s3 family
     manifest["builds"].push(manifest["builds"][0]);
-    manifest["builds"][1]["chipFamily"] = "ESP32-S3";
+    manifest["builds"][1]["chipFamily"] = "ESP32";
+
+    console.log(manifest);
 
     var json = JSON.stringify(manifest);
     var blob = new Blob([json], {type: "application/json"});
