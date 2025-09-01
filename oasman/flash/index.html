@@ -78,27 +78,24 @@
 		<div class="content">
 			<h1>OAS-Man installer</h1>
 			<p>Select your product</p>
-			<!-- <ul class="radios" id="firmwareRadioOptions">
-				<li>
-					<label><input type="radio" name="type" value="manifold" /> Manifold (Board &gt;= v3.2)</label>
-				</li>
-				<li>
-					<label><input type="radio" name="type" value="manifold_no_acc" /> Manifold (Board &lt; v3.2, No accessory wire input reading code)</label>
-				</li>
-				<li>
-					<label><input type="radio" name="type" value="controller" /> Controller</label>
-				</li>
-				<li hidden id="hiddentestoption">
-					<label><input type="radio" name="type" value="test" /> Manifold (TEST)</label>
-				</li>
-			</ul> -->
 
 			<ul class="radios" id="firmwareRadioOptions">
 				<li>
-					<label><input type="radio" name="type" value="manifold" /> Manifold Firmwares</label>
+					<label><input type="radio" name="type" value="manifold_v4" /> Board V4 Manifold Firmwares</label>
 				</li>
 				<li>
-					<label><input type="radio" name="type" value="controller" /> Controller Firmwares</label>
+					<label><input type="radio" name="type" value="manifold" /> Board V3 Manifold Firmwares</label>
+				</li>
+				<li>
+					<label><input type="radio" name="type" value="manifold_no_acc" /> Board V2 Manifold Firmwares (No acc wire functionality, will work for some v3 boards also)</label>
+				</li>
+				
+				<hr>
+				<li>
+					<label><input type="radio" name="type" value="3p2cydcontroller" /> 3.2" CYD Controller Firmwares</label>
+				</li>
+				<li>
+					<label><input type="radio" name="type" value="ws2p8controller" /> 2.8" Waveshare Controller Firmwares</label>
 				</li>
 			</ul>
 
@@ -222,12 +219,7 @@
 			document.querySelectorAll('input[name="type"]').forEach((radio) =>
 				radio.addEventListener("change", () => {
 					chosenType = radio.value;
-					
-					if (radio.value == "manifold") {
-						loadFirmwareFiles("https://api.github.com/repos/gopro2027/gopro2027.github.io/contents/oasman/firmware/manifold");
-					} else {
-						loadFirmwareFiles("https://api.github.com/repos/gopro2027/gopro2027.github.io/contents/oasman/firmware/controller");
-					}
+					loadFirmwareFiles("https://api.github.com/repos/gopro2027/gopro2027.github.io/contents/oasman/firmware/"+ chosenType);
 				})
 			);
 
