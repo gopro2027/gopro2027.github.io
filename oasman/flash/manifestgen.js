@@ -35,6 +35,10 @@ function generate_manifest(dirName, name, version, firmwareFileName) {
         ]
     }
 
+    // duplicate data for the s3 family
+    manifest["builds"].push(manifest["builds"][0]);
+    manifest["builds"][1]["chipFamily"] = "ESP32-S3";
+
     var json = JSON.stringify(manifest);
     var blob = new Blob([json], {type: "application/json"});
     return URL.createObjectURL(blob)
