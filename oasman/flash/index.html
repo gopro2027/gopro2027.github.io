@@ -169,7 +169,13 @@
 
 				const button = document.querySelector("esp-web-install-button");
 				if (fileName.length > 0) {
-					var genurl = generate_manifest(chosenType, "OASMan Firmware: "+chosenType,version,fileName);
+					var chipFamily = "ESP32";
+					var bootloaderOffset = 4096;
+					if (chosenType == "ws2p8controller") {
+						chipFamily = "ESP32-S3";
+						bootloaderOffset = 0;
+					}
+					var genurl = generate_manifest(chosenType, "OASMan Firmware: "+chosenType,version,fileName, chipFamily, bootloaderOffset);
 					console.log(genurl);
 					button.manifest = genurl;
 					button.classList.remove("invisible");
