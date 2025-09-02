@@ -1,7 +1,7 @@
 
 
 
-function generate_manifest(dirName, name, version, firmwareFileName) {
+function generate_manifest(dirName, name, version, firmwareFileName, chipFamily = "ESP32") {
     //bootloader.bin is the same
     //partitions.bin is the same
     //boot_app0.bin is the samew
@@ -23,7 +23,7 @@ function generate_manifest(dirName, name, version, firmwareFileName) {
         "new_install_prompt_erase": true,
         "builds": [
             {
-                "chipFamily": "ESP32",
+                "chipFamily": chipFamily,
                 "improv": false,
                 "parts": [
                     { "path": dependenciesDir+"bootloader.bin", "offset": 4096 }, // on the s3 this might be 0 but otherwise all the offsets are the same
@@ -42,8 +42,8 @@ function generate_manifest(dirName, name, version, firmwareFileName) {
     // 0x10000 .pio\build\esp32-s3touchlcd2p8\firmware.bin
 
     // duplicate data for the s3 family
-    manifest["builds"].push(structuredClone(manifest["builds"][0]));
-    manifest["builds"][1]["chipFamily"] = "ESP32-S3";
+    // manifest["builds"].push(structuredClone(manifest["builds"][0]));
+    // manifest["builds"][1]["chipFamily"] = "ESP32-S3";
 
     console.log(manifest);
 
