@@ -27,9 +27,9 @@ function generate_manifest(dirName, name, version, firmwareFileName, chipFamily 
                 "improv": false,
                 "parts": [
                     { "path": dependenciesDir+"bootloader.bin", "offset": bootloaderOffset }, // on the s3 this might be 0 but otherwise all the offsets are the same
-                    { "path": dependenciesDir+"partitions.bin", "offset": 32768 },
-                    { "path": dependenciesDir+"boot_app0.bin", "offset": 57344 },
-                    { "path": firmwareDir+firmwareFileName, "offset": 65536 }
+                    { "path": dependenciesDir+"partitions.bin", "offset": 32768 }, // 0x8000
+                    { "path": dependenciesDir+"boot_app0.bin", "offset": 57344 }, // 0xe000
+                    { "path": firmwareDir+firmwareFileName, "offset": 65536 } // 0x10000
                 ]
             }
         ]
