@@ -23,10 +23,10 @@ function generate_manifest(dirName, name, version, firmwareFileName) {
         "new_install_prompt_erase": true,
         "builds": [
             {
-                "chipFamily": "ESP32-S3",
+                "chipFamily": "ESP32",
                 "improv": false,
                 "parts": [
-                    { "path": dependenciesDir+"bootloader.bin", "offset": 4096 }, // might need to update these values for the s3
+                    { "path": dependenciesDir+"bootloader.bin", "offset": 4096 }, // on the s3 this might be 0 but otherwise all the offsets are the same
                     { "path": dependenciesDir+"partitions.bin", "offset": 32768 },
                     { "path": dependenciesDir+"boot_app0.bin", "offset": 57344 },
                     { "path": firmwareDir+firmwareFileName, "offset": 65536 }
@@ -35,9 +35,15 @@ function generate_manifest(dirName, name, version, firmwareFileName) {
         ]
     }
 
+    //"C:\Users\user\.platformio\penv\Scripts\python.exe" "C:\Users\user\.platformio\packages\tool-esptoolpy\esptool.py" --chip esp32s3 --port "COM5" --baud 115200 --before default_reset --after hard_reset write_flash -z --flash_mode dio --flash_freq 80m --flash_size 16MB 
+    // 0x0000 C:\Users\user\Documents\GitHub\ArduinoAirSuspensionController\Wireless_Controller\.pio\build\esp32-s3touchlcd2p8\bootloader.bin 
+    // 0x8000 C:\Users\user\Documents\GitHub\ArduinoAirSuspensionController\Wireless_Controller\.pio\build\esp32-s3touchlcd2p8\partitions.bin 
+    // 0xe000 C:\Users\user\.platformio\packages\framework-arduinoespressif32\tools\partitions\boot_app0.bin 
+    // 0x10000 .pio\build\esp32-s3touchlcd2p8\firmware.bin
+
     // duplicate data for the s3 family
     manifest["builds"].push(manifest["builds"][0]);
-    manifest["builds"][1]["chipFamily"] = "ESP32";
+    manifest["builds"][1]["chipFamily"] = "ESP32-S3";
 
     console.log(manifest);
 
