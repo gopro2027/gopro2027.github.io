@@ -44,6 +44,7 @@ function generate_manifest(dirName, name, version, firmwareFileName) {
     // duplicate data for the s3 family
     manifest["builds"].push(structuredClone(manifest["builds"][0]));
     manifest["builds"][1]["chipFamily"] = "ESP32-S3";
+    manifest["builds"][1]["parts"][0]["offset"] = 0;
 
     console.log(manifest);
 
