@@ -42,7 +42,7 @@ function generate_manifest(dirName, name, version, firmwareFileName) {
     // 0x10000 .pio\build\esp32-s3touchlcd2p8\firmware.bin
 
     // duplicate data for the s3 family
-    manifest["builds"].push(manifest["builds"][0]);
+    manifest["builds"].push(structuredClone(manifest["builds"][0]));
     manifest["builds"][1]["chipFamily"] = "ESP32-S3";
 
     console.log(manifest);
