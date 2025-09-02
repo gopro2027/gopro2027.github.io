@@ -19,7 +19,7 @@ function generate_manifest(dirName, name, version, firmwareFileName) {
     var manifest = {
         "name": name,
         "version": version,
-        "funding_url": "",
+        "funding_url": "https://www.patreon.com/oasman",
         "new_install_prompt_erase": true,
         "builds": [
             {
