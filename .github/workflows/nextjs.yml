@@ -24,13 +24,14 @@ concurrency:
   group: "pages"
   cancel-in-progress: false
 
+defaults:
+  run:
+    working-directory: ./oasman-nextjs
+
 jobs:
   # Build job
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./oasman-nextjs
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -57,7 +58,6 @@ jobs:
         with:
           node-version: "20"
           cache: ${{ steps.detect-package-manager.outputs.manager }}
-          cache-dependency-path: "./oasman-nextjs/package-lock.json" # Adjust this path
       - name: Setup Pages
         uses: actions/configure-pages@v5
         with:
@@ -78,14 +78,12 @@ jobs:
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}-
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
-        working-directory: ./oasman-nextjs
       - name: Build with Next.js
         run: ${{ steps.detect-package-manager.outputs.runner }} next build
-        working-directory: ./oasman-nextjs
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./oasman-nextjs/out
+          path: ./out
 
   # Deployment job
   deploy:
