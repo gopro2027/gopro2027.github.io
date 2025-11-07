@@ -123,7 +123,7 @@
 		</div>
 		<script>
 
-			// rest link: https://api.github.com/repos/gopro2027/gopro2027.github.io/contents/oasman/firmware/controller
+			// rest link: https://api.github.com/repos/gopro2027/gopro2027.github.io/contents/oasman-nextjs/public/html/oasman/firmware/controller
 
 
 			// load version txt file
@@ -219,7 +219,7 @@
 			document.querySelectorAll('input[name="type"]').forEach((radio) =>
 				radio.addEventListener("change", () => {
 					chosenType = radio.value;
-					loadFirmwareFiles("https://api.github.com/repos/gopro2027/gopro2027.github.io/contents/oasman/firmware/"+ chosenType);
+					loadFirmwareFiles("https://api.github.com/repos/gopro2027/gopro2027.github.io/contents/oasman-nextjs/public/html/oasman/firmware/"+ chosenType);
 				})
 			);
 
