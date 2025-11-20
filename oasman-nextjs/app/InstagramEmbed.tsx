@@ -9,10 +9,12 @@ export default function InstagramEmbed() {
     document.body.appendChild(script);
 
     // Process embeds after script loads
-    script.onload = () => {
-      if (window.instgrm) {
-        window.instgrm.Embeds.process();
-      }
+      script.onload = () => {
+          if (window.instgrm != undefined) {
+              if (window.instgrm) {
+                  window.instgrm.Embeds.process();
+              }
+          }
     };
 
     return () => {
