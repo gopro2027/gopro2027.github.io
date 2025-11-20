@@ -10,7 +10,7 @@ export default function InstagramEmbed() {
 
     // Process embeds after script loads
       script.onload = () => {
-          if (window.instgrm != undefined) {
+          if (Object.hasOwn(window, 'instgrm')) {
               if (window.instgrm) {
                   window.instgrm.Embeds.process();
               }
