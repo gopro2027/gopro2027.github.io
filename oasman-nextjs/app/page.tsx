@@ -391,8 +391,8 @@ export default function Home() {
           position: "relative",
           paddingLeft: "1rem",
           paddingRight: "1rem",
-          paddingTop: "8rem",
-          paddingBottom: "8rem",
+          paddingTop: "4rem",
+          paddingBottom: "4rem",
           borderTop: "1px solid rgba(188, 160, 130, 0.15)",
           overflow: "hidden",
         }}
@@ -474,20 +474,14 @@ export default function Home() {
                 ))}
               </div>
             </div>
-            <div style={{ height: "24rem", position: "relative" }}>
-              
+            <div style={{ 
+              display: "flex", 
+              justifyContent: "center", 
+              alignItems: "center", 
+              minHeight: "32rem",
+              width: "100%"
+            }}>
               <InstagramEmbed />
-              <img
-                src="/gaming-controller-and-air-suspension-system.jpg"
-                alt="Gaming Controller"
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                  borderRadius: "0.125rem",
-                  border: "2px solid rgba(188, 160, 130, 0.2)",
-                }}
-              />
             </div>
           </div>
         </div>
