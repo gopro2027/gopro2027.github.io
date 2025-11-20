@@ -9,13 +9,13 @@ export default function InstagramEmbed() {
     document.body.appendChild(script);
 
     // Process embeds after script loads
-      script.onload = () => {
-          if (Object.hasOwn(window, 'instgrm')) {
-              if (window.instgrm) {
-                  window.instgrm.Embeds.process();
-              }
-          }
-    };
+    //   script.onload = () => {
+    //       if (Object.hasOwn(window, 'instgrm')) {
+    //           if (window.instgrm) {
+    //               window.instgrm.Embeds.process();
+    //           }
+    //       }
+    // };
 
     return () => {
       document.body.removeChild(script);
