@@ -521,10 +521,10 @@ export default function Home() {
                   overflow: "hidden",
                 }}
               >
-                <Image
+                <img
                   src="/assets/bluecar.jpg"
                   alt="Description of my image"
-                  fill
+                  
                   style={{ objectFit: "cover" }}
                 />
               </div>
@@ -714,10 +714,10 @@ export default function Home() {
                   overflow: "hidden",
                 }}
               >
-                <Image
+                <img
                   src="/assets/controller_img.jpg"
                   alt="Description of my image"
-                  fill
+                  
                   style={{ objectFit: "cover" }}
                 />
               </div>
