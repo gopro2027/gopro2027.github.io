@@ -23,7 +23,7 @@ export default function InstagramEmbed() {
   }, []);
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-50 p-4">
+    <div className="flex justify-center items-center">
       <blockquote
         className="instagram-media"
         data-instgrm-captioned
