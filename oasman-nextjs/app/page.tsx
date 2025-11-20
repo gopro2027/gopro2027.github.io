@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import { Github } from "lucide-react"
 import InstagramEmbed from "./InstagramEmbed"
+import Image from "next/image"
 
 export default function Home() {
   const [scrollY, setScrollY] = useState(0)
@@ -296,13 +297,13 @@ export default function Home() {
             >
               {[
                 {
-                  name: "Airlift",
+                  name: "Competitor #1",
                   price: "$1500+",
                   items: ["Locked ecosystem", "Non-repairable", "Wired controller"],
                   featured: false,
                 },
                 {
-                  name: "Airtek",
+                  name: "Competitor #2",
                   price: "$1000",
                   items: ["Proprietary parts only", "Limited customization", "Wired controller"],
                   featured: false,
@@ -385,7 +386,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Controller Section */}
+      {/* Unique Features Section - Controller */}
       <section
         style={{
           position: "relative",
@@ -482,6 +483,244 @@ export default function Home() {
               width: "100%"
             }}>
               <InstagramEmbed />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Unique Features Section - AI Features */}
+      <section
+        style={{
+          position: "relative",
+          paddingLeft: "1rem",
+          paddingRight: "1rem",
+          paddingTop: "4rem",
+          paddingBottom: "4rem",
+          borderTop: "1px solid rgba(188, 160, 130, 0.15)",
+          overflow: "hidden",
+        }}
+      >
+        <div style={{ maxWidth: "80rem", marginLeft: "auto", marginRight: "auto", position: "relative", zIndex: 10 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4rem", alignItems: "center" }}>
+            <div style={{ 
+              display: "flex", 
+              justifyContent: "center", 
+              alignItems: "center", 
+              minHeight: "32rem",
+              width: "100%"
+            }}>
+              <div
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  minHeight: "24rem",
+                  backgroundColor: "rgba(188, 160, 130, 0.1)",
+                  border: "2px solid rgba(188, 160, 130, 0.25)",
+                  borderRadius: "0.125rem",
+                  position: "relative",
+                  overflow: "hidden",
+                }}
+              >
+                <Image
+                  src="/assets/bluecar.jpg"
+                  alt="Description of my image"
+                  fill
+                  style={{ objectFit: "cover" }}
+                />
+              </div>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+                <div style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem" }}>
+                  <span
+                    style={{
+                      fontSize: "0.75rem",
+                      fontWeight: 900,
+                      letterSpacing: "0.1em",
+                      color: "#8b6946",
+                      textTransform: "uppercase",
+                    }}
+                  >
+                    Advanced Algorithms
+                  </span>
+                </div>
+                <h2
+                  style={{
+                    fontSize: "3rem",
+                    fontWeight: 900,
+                    lineHeight: 1.2,
+                    letterSpacing: "-0.02em",
+                    color: "#f5f0eb",
+                  }}
+                >
+                  <span style={{ color: "#8b6946" }}>Smart</span>
+                  <br />
+                  <span style={{ color: "#bca082" }}>Suspension</span>
+                </h2>
+                <p style={{ fontSize: "1.125rem", color: "#9d8b7a", fontWeight: 300 }}>
+                  Advanced Machine Learning algorithms that learn your air systems flow to optimize for smooth quick accurate presets.
+                </p>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "0.75rem",
+                  paddingTop: "1rem",
+                  borderTop: "1px solid rgba(188, 160, 130, 0.15)",
+                }}
+              >
+                {["No initial calibration required", "Automatically learns your specific air system", "Accurate preset heights"].map((feature, i) => (
+                  <div
+                    key={i}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "0.75rem",
+                      fontSize: "0.875rem",
+                      cursor: "pointer",
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: "0.5rem",
+                        height: "0.5rem",
+                        borderRadius: "9999px",
+                        backgroundColor: "#8b6946",
+                        transition: "transform 300ms",
+                      }}
+                      onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.5)")}
+                      onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
+                    />
+                    <span
+                      style={{ color: "#9d8b7a", transition: "color 300ms" }}
+                      onMouseEnter={(e) => (e.currentTarget.style.color = "#f5f0eb")}
+                      onMouseLeave={(e) => (e.currentTarget.style.color = "#9d8b7a")}
+                    >
+                      {feature}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Unique Features Section - Product Image */}
+      <section
+        style={{
+          position: "relative",
+          paddingLeft: "1rem",
+          paddingRight: "1rem",
+          paddingTop: "4rem",
+          paddingBottom: "4rem",
+          borderTop: "1px solid rgba(188, 160, 130, 0.15)",
+          overflow: "hidden",
+        }}
+      >
+        <div style={{ maxWidth: "80rem", marginLeft: "auto", marginRight: "auto", position: "relative", zIndex: 10 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4rem", alignItems: "center" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+                <div style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem" }}>
+                  <span
+                    style={{
+                      fontSize: "0.75rem",
+                      fontWeight: 900,
+                      letterSpacing: "0.1em",
+                      color: "#8b6946",
+                      textTransform: "uppercase",
+                    }}
+                  >
+                    The 1990's called, they want their wires back
+                  </span>
+                </div>
+                <h2
+                  style={{
+                    fontSize: "3rem",
+                    fontWeight: 900,
+                    lineHeight: 1.2,
+                    letterSpacing: "-0.02em",
+                    color: "#f5f0eb",
+                  }}
+                >
+                  <span style={{ color: "#8b6946" }}>Step into the</span>
+                  <br />
+                  <span style={{ color: "#bca082" }}>Future</span>
+                </h2>
+                <p style={{ fontSize: "1.125rem", color: "#9d8b7a", fontWeight: 300 }}>
+                  OASMan is a fully wireless system. BLE technology allows a quick responsive connection between your controller and manifold, for easier install and use. Effortlessly control your vehicle from inside or out on the dedicated touch screen remote.
+                </p>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "0.75rem",
+                  paddingTop: "1rem",
+                  borderTop: "1px solid rgba(188, 160, 130, 0.15)",
+                }}
+              >
+                {["Fully wireless", "Touch screen", "Responsive"].map((feature, i) => (
+                  <div
+                    key={i}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "0.75rem",
+                      fontSize: "0.875rem",
+                      cursor: "pointer",
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: "0.5rem",
+                        height: "0.5rem",
+                        borderRadius: "9999px",
+                        backgroundColor: "#8b6946",
+                        transition: "transform 300ms",
+                      }}
+                      onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.5)")}
+                      onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
+                    />
+                    <span
+                      style={{ color: "#9d8b7a", transition: "color 300ms" }}
+                      onMouseEnter={(e) => (e.currentTarget.style.color = "#f5f0eb")}
+                      onMouseLeave={(e) => (e.currentTarget.style.color = "#9d8b7a")}
+                    >
+                      {feature}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div style={{ 
+              display: "flex", 
+              justifyContent: "center", 
+              alignItems: "center", 
+              minHeight: "32rem",
+              width: "100%"
+            }}>
+              <div
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  minHeight: "24rem",
+                  backgroundColor: "rgba(188, 160, 130, 0.1)",
+                  border: "2px solid rgba(188, 160, 130, 0.25)",
+                  borderRadius: "0.125rem",
+                  position: "relative",
+                  overflow: "hidden",
+                }}
+              >
+                <Image
+                  src="/assets/controller_img.jpg"
+                  alt="Description of my image"
+                  fill
+                  style={{ objectFit: "cover" }}
+                />
+              </div>
             </div>
           </div>
         </div>
