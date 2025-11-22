@@ -399,8 +399,8 @@ export default function Home() {
         }}
       >
         <div style={{ maxWidth: "80rem", marginLeft: "auto", marginRight: "auto", position: "relative", zIndex: 10 }}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4rem", alignItems: "center" }}>
-            <div style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
+          <div className="features-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4rem", alignItems: "center" }}>
+            <div className="features-text" style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
               <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
                 <div style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem" }}>
                   
@@ -475,7 +475,7 @@ export default function Home() {
                 ))}
               </div>
             </div>
-            <div style={{ 
+            <div className="features-media" style={{ 
               display: "flex", 
               justifyContent: "center", 
               alignItems: "center", 
@@ -501,19 +501,17 @@ export default function Home() {
         }}
       >
         <div style={{ maxWidth: "80rem", marginLeft: "auto", marginRight: "auto", position: "relative", zIndex: 10 }}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4rem", alignItems: "center" }}>
-            <div style={{ 
+          <div className="features-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4rem", alignItems: "center" }}>
+            <div className="features-media" style={{ 
               display: "flex", 
               justifyContent: "center", 
               alignItems: "center", 
-              minHeight: "32rem",
               width: "100%"
             }}>
               <div
                 style={{
                   width: "100%",
-                  height: "100%",
-                  minHeight: "24rem",
+                  aspectRatio: "4 / 3",
                   backgroundColor: "rgba(188, 160, 130, 0.1)",
                   border: "2px solid rgba(188, 160, 130, 0.25)",
                   borderRadius: "0.125rem",
@@ -524,12 +522,16 @@ export default function Home() {
                 <img
                   src="/assets/bluecar.jpg"
                   alt="Description of my image"
-                  
-                  style={{ objectFit: "cover" }}
+                  style={{ 
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    display: "block"
+                  }}
                 />
               </div>
             </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
+            <div className="features-text" style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
               <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
                 <div style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem" }}>
                   <span
@@ -620,8 +622,8 @@ export default function Home() {
         }}
       >
         <div style={{ maxWidth: "80rem", marginLeft: "auto", marginRight: "auto", position: "relative", zIndex: 10 }}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4rem", alignItems: "center" }}>
-            <div style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
+          <div className="features-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4rem", alignItems: "center" }}>
+            <div className="features-text" style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
               <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
                 <div style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem" }}>
                   <span
@@ -695,18 +697,16 @@ export default function Home() {
                 ))}
               </div>
             </div>
-            <div style={{ 
+            <div className="features-media" style={{ 
               display: "flex", 
               justifyContent: "center", 
               alignItems: "center", 
-              minHeight: "32rem",
               width: "100%"
             }}>
               <div
                 style={{
                   width: "100%",
-                  height: "100%",
-                  minHeight: "24rem",
+                  aspectRatio: "4 / 3",
                   backgroundColor: "rgba(188, 160, 130, 0.1)",
                   border: "2px solid rgba(188, 160, 130, 0.25)",
                   borderRadius: "0.125rem",
@@ -717,8 +717,12 @@ export default function Home() {
                 <img
                   src="/assets/controller_img.jpg"
                   alt="Description of my image"
-                  
-                  style={{ objectFit: "cover" }}
+                  style={{ 
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    display: "block"
+                  }}
                 />
               </div>
             </div>
@@ -1010,6 +1014,18 @@ export default function Home() {
         @keyframes pulse {
           0%, 100% { opacity: 1; }
           50% { opacity: 0.5; }
+        }
+        @media (max-width: 768px) {
+          .features-grid {
+            grid-template-columns: 1fr !important;
+            gap: 2rem !important;
+          }
+          .features-text {
+            order: 1 !important;
+          }
+          .features-media {
+            order: 2 !important;
+          }
         }
       `}</style>
     </div>
