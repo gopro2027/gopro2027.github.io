@@ -6,15 +6,15 @@ function generate_manifest(dirName, name, version, firmwareFileName) {
     //partitions.bin is the same
     //boot_app0.bin is the samew
 
-    // var dependenciesDir = "https://oasman.com/oasman/firmware/manifold_dependencies/"
-    // var firmwareDir = "https://oasman.com/oasman/firmware/manifold/"
+    // var dependenciesDir = "https://oasman.co/oasman/firmware/manifold_dependencies/"
+    // var firmwareDir = "https://oasman.co/oasman/firmware/manifold/"
     // if (type == "controller") {
-    //     dependenciesDir = "https://oasman.com/oasman/firmware/controller_dependencies/"
-    //     firmwareDir = "https://oasman.com/oasman/firmware/controller/"
+    //     dependenciesDir = "https://oasman.co/oasman/firmware/controller_dependencies/"
+    //     firmwareDir = "https://oasman.co/oasman/firmware/controller/"
     // }
 
-    var dependenciesDir = "https://oasman.com/oasman/firmware/" + dirName + "_dependencies/";
-    var firmwareDir = "https://oasman.com/oasman/firmware/" + dirName + "/";
+    var dependenciesDir = "https://oasman.co/oasman/firmware/" + dirName + "_dependencies/";
+    var firmwareDir = "https://oasman.co/oasman/firmware/" + dirName + "/";
 
     var manifest = {
         "name": name,
