@@ -118,6 +118,7 @@ export default function Home() {
 
       {/* Hero Section */}
       <section
+        className="hero-section"
         style={{
           position: "relative",
           paddingLeft: "1rem",
@@ -131,6 +132,7 @@ export default function Home() {
           <div style={{ display: "flex", flexDirection: "column", gap: "3rem" }}>
             <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
               <div
+                className="hero-badge"
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
@@ -190,6 +192,7 @@ export default function Home() {
 
             {/* Hero stats */}
             <div
+              className="hero-stats"
               style={{
                 display: "grid",
                 gridTemplateColumns: "repeat(3, 1fr)",
@@ -271,6 +274,7 @@ export default function Home() {
 
       {/* Why OASMan Section */}
       <section
+        className="comparison-section"
         style={{
           position: "relative",
           paddingLeft: "1rem",
@@ -293,6 +297,7 @@ export default function Home() {
             </div>
 
             <div
+              className="comparison-grid"
               style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "1.5rem" }}
             >
               {[
@@ -732,6 +737,7 @@ export default function Home() {
 
       {/* Features Section */}
       <section
+        className="features-list-section"
         style={{
           position: "relative",
           paddingLeft: "1rem",
@@ -754,7 +760,7 @@ export default function Home() {
           >
             Endless Customization
           </h2>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1.5rem" }}>
+          <div className="features-list-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1.5rem" }}>
             {[
               { title: "Fully Wireless", desc: "Use our dedicated touch screen controller, your phone, or any video game controller wirelessly." },
               { title: "Your Rules", desc: "Customize how you want, use the parts you want." },
@@ -810,6 +816,7 @@ export default function Home() {
 
       {/* CTA Section */}
       <section
+        className="cta-section"
         style={{
           position: "relative",
           paddingLeft: "1rem",
@@ -821,6 +828,7 @@ export default function Home() {
         }}
       >
         <div
+          className="cta-content"
           style={{
             maxWidth: "48rem",
             marginLeft: "auto",
@@ -859,6 +867,7 @@ export default function Home() {
             Join the community of DIY builders who've ditched overpriced systems and embraced open-source innovation.
           </p>
           <div
+            className="cta-buttons"
             style={{
               display: "flex",
               flexDirection: "column",
@@ -1016,15 +1025,137 @@ export default function Home() {
           50% { opacity: 0.5; }
         }
         @media (max-width: 768px) {
+          /* Features grid stacking */
           .features-grid {
             grid-template-columns: 1fr !important;
             gap: 2rem !important;
           }
           .features-text {
             order: 1 !important;
+            text-align: center !important;
           }
           .features-media {
             order: 2 !important;
+          }
+          
+          /* Section padding */
+          section {
+            padding-left: 1rem !important;
+            padding-right: 1rem !important;
+            padding-top: 3rem !important;
+            padding-bottom: 3rem !important;
+          }
+          
+          /* Hero section */
+          .hero-section {
+            padding-top: 4rem !important;
+            padding-bottom: 4rem !important;
+          }
+          
+          /* Headings */
+          h1 {
+            font-size: 2rem !important;
+            text-align: center !important;
+            max-width: 100% !important;
+          }
+          
+          h2 {
+            font-size: 2rem !important;
+            text-align: center !important;
+          }
+          
+          /* Hero badge */
+          .hero-badge {
+            margin: 0 auto !important;
+          }
+          
+          /* Hero description */
+          .hero-section p {
+            text-align: center !important;
+            max-width: 100% !important;
+            font-size: 1rem !important;
+          }
+          
+          /* Hero stats grid */
+          .hero-stats {
+            grid-template-columns: 1fr !important;
+            gap: 1rem !important;
+            text-align: center !important;
+          }
+          
+          /* Hero stats items */
+          .hero-stats > div {
+            border-left: none !important;
+            border-top: 2px solid rgba(188, 160, 130, 0.15) !important;
+            padding-left: 1rem !important;
+            padding-top: 1rem !important;
+          }
+          
+          /* Hero CTA button */
+          .hero-section button {
+            margin: 0 auto !important;
+          }
+          
+          /* Comparison section */
+          .comparison-section > div > div > div:first-child {
+            text-align: center !important;
+          }
+          
+          .comparison-section > div > div > div:first-child h2,
+          .comparison-section > div > div > div:first-child p {
+            max-width: 100% !important;
+          }
+          
+          .comparison-grid {
+            grid-template-columns: 1fr !important;
+            gap: 1.5rem !important;
+          }
+          
+          /* Features list section */
+          .features-list-grid {
+            grid-template-columns: 1fr !important;
+            gap: 1rem !important;
+          }
+          
+          /* CTA section */
+          .cta-content {
+            padding: 2rem 1rem !important;
+          }
+          
+          .cta-buttons {
+            flex-direction: column !important;
+            gap: 1rem !important;
+          }
+          
+          .cta-buttons button {
+            width: 100% !important;
+            margin: 0 !important;
+          }
+          
+          /* Footer */
+          footer > div > div:first-child {
+            grid-template-columns: 1fr !important;
+            gap: 2rem !important;
+            text-align: center !important;
+          }
+          
+          /* Navigation */
+          nav > div {
+            padding-left: 1rem !important;
+            padding-right: 1rem !important;
+          }
+          
+          /* Text content in features sections */
+          .features-text > div:first-child {
+            text-align: center !important;
+          }
+          
+          .features-text > div:first-child > div:first-child {
+            justify-content: center !important;
+          }
+          
+          .features-text > div:last-child {
+            text-align: left !important;
           }
         }
       `}</style>
