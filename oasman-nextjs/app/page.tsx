@@ -102,7 +102,7 @@ export default function Home() {
                 color: "#bca082",
               }}
             >
-              OAS-MAN
+              OAS-MAN (Open Air Suspension Management)
             </span>
           </div>
           <a
@@ -408,7 +408,7 @@ export default function Home() {
             <div className="features-text" style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
               <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
                 <div style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem" }}>
-                  
+
                   <span
                     style={{
                       fontSize: "0.75rem",
@@ -480,10 +480,10 @@ export default function Home() {
                 ))}
               </div>
             </div>
-            <div className="features-media" style={{ 
-              display: "flex", 
-              justifyContent: "center", 
-              alignItems: "center", 
+            <div className="features-media" style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
               minHeight: "32rem",
               width: "100%"
             }}>
@@ -507,10 +507,10 @@ export default function Home() {
       >
         <div style={{ maxWidth: "80rem", marginLeft: "auto", marginRight: "auto", position: "relative", zIndex: 10 }}>
           <div className="features-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4rem", alignItems: "center" }}>
-            <div className="features-media" style={{ 
-              display: "flex", 
-              justifyContent: "center", 
-              alignItems: "center", 
+            <div className="features-media" style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
               width: "100%"
             }}>
               <div
@@ -527,7 +527,7 @@ export default function Home() {
                 <img
                   src="/assets/bluecar.jpg"
                   alt="Description of my image"
-                  style={{ 
+                  style={{
                     width: "100%",
                     height: "100%",
                     objectFit: "cover",
@@ -702,10 +702,10 @@ export default function Home() {
                 ))}
               </div>
             </div>
-            <div className="features-media" style={{ 
-              display: "flex", 
-              justifyContent: "center", 
-              alignItems: "center", 
+            <div className="features-media" style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
               width: "100%"
             }}>
               <div
@@ -722,7 +722,7 @@ export default function Home() {
                 <img
                   src="/assets/controller_img.jpg"
                   alt="Description of my image"
-                  style={{ 
+                  style={{
                     width: "100%",
                     height: "100%",
                     objectFit: "cover",
@@ -1055,23 +1055,23 @@ export default function Home() {
           /* Headings */
           h1 {
             font-size: 2rem !important;
-            text-align: center !important;
+            text-align: left !important;
             max-width: 100% !important;
           }
           
           h2 {
             font-size: 2rem !important;
-            text-align: center !important;
+            text-align: left !important;
           }
           
           /* Hero badge */
           .hero-badge {
-            margin: 0 auto !important;
+            margin: 0 !important;
           }
           
           /* Hero description */
           .hero-section p {
-            text-align: center !important;
+            text-align: left !important;
             max-width: 100% !important;
             font-size: 1rem !important;
           }
@@ -1080,7 +1080,7 @@ export default function Home() {
           .hero-stats {
             grid-template-columns: 1fr !important;
             gap: 1rem !important;
-            text-align: center !important;
+            text-align: left !important;
           }
           
           /* Hero stats items */
@@ -1093,12 +1093,12 @@ export default function Home() {
           
           /* Hero CTA button */
           .hero-section button {
-            margin: 0 auto !important;
+            margin: 0 !important;
           }
           
           /* Comparison section */
           .comparison-section > div > div > div:first-child {
-            text-align: center !important;
+            text-align: left !important;
           }
           
           .comparison-section > div > div > div:first-child h2,
@@ -1147,11 +1147,11 @@ export default function Home() {
           
           /* Text content in features sections */
           .features-text > div:first-child {
-            text-align: center !important;
+            text-align: left !important;
           }
           
           .features-text > div:first-child > div:first-child {
-            justify-content: center !important;
+            justify-content: flex-start !important;
           }
           
           .features-text > div:last-child {
