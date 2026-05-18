@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import { Github } from "lucide-react"
 import InstagramEmbed from "./InstagramEmbed"
+import PrintfulHatEmbed from "./PrintfulHatEmbed"
 import Image from "next/image"
 
 export default function Home() {
@@ -933,6 +934,8 @@ export default function Home() {
         </div>
       </section>
 
+      <PrintfulHatEmbed />
+
       {/* Footer */}
       <footer
         style={{
@@ -972,7 +975,14 @@ export default function Home() {
             {[
               { title: "Project", links: [["GitHub", "https://github.com/gopro2027/ArduinoAirSuspensionController"], ["Documentation", "https://oasman.dev/docs"]] },
               { title: "Community", links: [["Discord", "https://discord.gg/pUf7FmHKpg"], ["Support", "https://www.patreon.com/c/oasman"]] },
-              { title: "Links", links: [["OASMan.dev", "https://oasman.dev"], ["Software Update", "https://oasman.dev/flash"]] },
+              {
+                title: "Links",
+                links: [
+                  ["OASMan.dev", "https://oasman.dev"],
+                  ["Software Update", "https://oasman.dev/flash"],
+                  ["Merch (Hat)", "#merch"],
+                ],
+              },
             ].map((col, i) => (
               <div key={i} style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
                 <h4
@@ -1156,6 +1166,33 @@ export default function Home() {
           
           .features-text > div:last-child {
             text-align: left !important;
+          }
+
+          .printful-hat-section h2 {
+            font-size: 2rem !important;
+          }
+
+          .printful-hat-card {
+            grid-template-columns: 1fr !important;
+            padding: 1.5rem !important;
+          }
+
+          .printful-hat-header {
+            text-align: left !important;
+          }
+
+          .printful-hat-header p:last-of-type {
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+          }
+
+          .printful-hat-actions {
+            flex-direction: column !important;
+          }
+
+          .printful-hat-actions a {
+            width: 100% !important;
+            text-align: center !important;
           }
         }
       `}</style>
