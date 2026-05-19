@@ -6,7 +6,7 @@ const PRODUCT_URL = "https://oasman.printful.me/product/oasman-corduroy-hat"
 const STORE_URL = "https://oasman.printful.me"
 const PRODUCT_IMAGE =
   "https://cdn.printful.me/t/quick-stores/variants/w339/152936746a0b53e415d51__825"
-const PRICE = "$26.00"
+const PRICE = "$25.00"
 
 const buttonPrimary: CSSProperties = {
   background: "linear-gradient(to right, #8b6946, #bca082)",
