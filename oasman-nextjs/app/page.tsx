@@ -289,8 +289,8 @@ export default function Home() {
         <div style={{ maxWidth: "80rem", marginLeft: "auto", marginRight: "auto", position: "relative", zIndex: 10 }}>
           <div style={{ display: "flex", flexDirection: "column", gap: "4rem" }}>
             <div>
-              <h2 style={{ fontSize: "3.75rem", fontWeight: 900, letterSpacing: "-0.02em", color: "#f5f0eb" }}>
-                Why OASMan Wins
+              <h2 style={{ fontSize: "3.75rem", fontWeight: 900, letterSpacing: "-0.02em", color: "#bca082" }}>
+                Revolutionary, Not Evolutionary
               </h2>
               <p style={{ color: "#9d8b7a", fontWeight: 300, maxWidth: "42rem" }}>
                 Built by enthusiasts, for enthusiasts. No corporate nonsense.
