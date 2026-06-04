@@ -1220,7 +1220,6 @@ export default function Home() {
                 {aiTabs[activeTab].body}
               </p>
             </div>
-            <AILearningVisual />
           </div>
 
           {/* Open source callout */}
