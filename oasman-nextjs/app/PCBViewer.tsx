@@ -72,6 +72,83 @@ export default function PCBViewer() {
     let disposed = false
     let frameId = 0
 
+    // ─── Instant placeholder: an angled blue PCB-like board ───
+    // Shown immediately so the viewer isn't empty while the (sometimes slow)
+    // OBJ/MTL model loads. Built in the same ~3 unit scale the real model is
+    // fit to, then swapped out once the real model is ready. Tracks its own
+    // geometries/materials so they can be disposed on swap/cleanup.
+    const placeholder = new THREE.Group()
+    const placeholderResources: Array<THREE.BufferGeometry | THREE.Material> = []
+    const trackGeo = <T extends THREE.BufferGeometry>(g: T) => {
+      placeholderResources.push(g)
+      return g
+    }
+    const trackMat = <T extends THREE.Material>(m: T) => {
+      placeholderResources.push(m)
+      return m
+    }
+
+    // Board substrate (blue solder mask).
+    const boardMat = trackMat(
+      new THREE.MeshStandardMaterial({
+        color: 0x1e40af,
+        metalness: 0.15,
+        roughness: 0.55,
+      })
+    )
+    const board = new THREE.Mesh(trackGeo(new THREE.BoxGeometry(3.0, 2.0, 0.12)), boardMat)
+    placeholder.add(board)
+
+    // Gold-ish copper pads / traces material.
+    const copperMat = trackMat(
+      new THREE.MeshStandardMaterial({
+        color: 0xd9a441,
+        metalness: 0.85,
+        roughness: 0.35,
+      })
+    )
+    // A large IC chip.
+    const chipMat = trackMat(
+      new THREE.MeshStandardMaterial({
+        color: 0x111827,
+        metalness: 0.3,
+        roughness: 0.5,
+      })
+    )
+    const bigChip = new THREE.Mesh(trackGeo(new THREE.BoxGeometry(0.8, 0.8, 0.12)), chipMat)
+    bigChip.position.set(-0.4, 0.1, 0.12)
+    placeholder.add(bigChip)
+
+    // A couple of smaller components.
+    const smallChip = new THREE.Mesh(trackGeo(new THREE.BoxGeometry(0.45, 0.3, 0.1)), chipMat)
+    smallChip.position.set(0.75, 0.45, 0.11)
+    placeholder.add(smallChip)
+
+    const connector = new THREE.Mesh(trackGeo(new THREE.BoxGeometry(0.6, 0.22, 0.18)), copperMat)
+    connector.position.set(0.6, -0.6, 0.15)
+    placeholder.add(connector)
+
+    // Scattered copper pads.
+    const padGeo = trackGeo(new THREE.BoxGeometry(0.16, 0.16, 0.04))
+    const padSpots: Array<[number, number]> = [
+      [-1.2, 0.7],
+      [-1.2, 0.4],
+      [-1.2, 0.1],
+      [1.25, -0.3],
+      [1.25, 0.0],
+      [0.0, -0.7],
+      [-0.3, -0.7],
+    ]
+    for (const [px, py] of padSpots) {
+      const pad = new THREE.Mesh(padGeo, copperMat)
+      pad.position.set(px, py, 0.085)
+      placeholder.add(pad)
+    }
+
+    // Sit at a pleasing angle (matches the model's diagonal resting pose).
+    placeholder.rotation.set(-0.45, 0.55, 0.18)
+    group.add(placeholder)
+
     // ─── Load model (MTL then OBJ) ───
     const mtlLoader = new MTLLoader()
     mtlLoader.load(
@@ -93,6 +170,9 @@ export default function PCBViewer() {
             const maxDim = Math.max(size.x, size.y, size.z) || 1
             obj.position.sub(center)
             group.scale.setScalar(3.0 / maxDim)
+            // Swap the placeholder for the real model.
+            group.remove(placeholder)
+            placeholderResources.forEach((r) => r.dispose())
             group.add(obj)
           },
           undefined,
