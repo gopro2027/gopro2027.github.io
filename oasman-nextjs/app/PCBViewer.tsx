@@ -120,7 +120,7 @@ export default function PCBViewer() {
       frameId = requestAnimationFrame(animate)
       const s = scrollRef.current
       const targetX = -0.5 * s
-      const targetY = s * Math.PI * 1.6
+      const targetY = s * Math.PI * 2.4
       const targetZ = 0.42 * s
       group.rotation.x += (targetX - group.rotation.x) * 0.055
       group.rotation.y += (targetY - group.rotation.y) * 0.055
