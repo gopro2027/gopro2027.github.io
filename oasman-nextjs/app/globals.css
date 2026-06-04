@@ -508,6 +508,22 @@ html {
   background: linear-gradient(180deg, #60A5FA, #2563EB);
   transform-origin: bottom;
   animation: barPulse 2.6s ease-in-out infinite;
+  /* Promote to its own compositor layer so the scaleY animation is a pure
+     GPU transform and the gradient isn't repainted every frame (mobile jank). */
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+/* Stop animating when the widget is scrolled out of view. */
+.ai-bars-paused .ai-bar {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ai-bar {
+    animation: none;
+    transform: scaleY(0.85);
+  }
 }
 
 @keyframes dashFlow {

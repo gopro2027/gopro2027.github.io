@@ -178,6 +178,20 @@ function BenchBar({
 /* ─── AI learning visualization ─── */
 function AILearningVisual() {
   const bars = [0.55, 0.7, 0.85, 0.95, 0.78, 0.9, 0.99]
+  const barsRef = useRef<HTMLDivElement>(null)
+  const [visible, setVisible] = useState(true)
+
+  useEffect(() => {
+    const el = barsRef.current
+    if (!el) return
+    const obs = new IntersectionObserver(
+      ([entry]) => setVisible(entry.isIntersecting),
+      { threshold: 0 }
+    )
+    obs.observe(el)
+    return () => obs.disconnect()
+  }, [])
+
   return (
     <div
       style={{
@@ -232,6 +246,8 @@ function AILearningVisual() {
 
       {/* Animated learning bars */}
       <div
+        ref={barsRef}
+        className={visible ? undefined : "ai-bars-paused"}
         style={{
           flex: 1,
           display: "flex",
