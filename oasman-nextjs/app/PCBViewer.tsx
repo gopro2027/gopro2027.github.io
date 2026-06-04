@@ -127,11 +127,36 @@ export default function PCBViewer() {
       group.rotation.z += (targetZ - group.rotation.z) * 0.055
       renderer.render(scene, camera)
     }
-    animate()
+
+    // ─── Only run the render loop while the viewer is on screen ───
+    // Otherwise the WebGL scene keeps rendering at 60fps off-screen, which
+    // pins the GPU and causes scroll stutter elsewhere on the page (mobile).
+    let running = false
+    const start = () => {
+      if (running || disposed) return
+      running = true
+      frameId = requestAnimationFrame(animate)
+    }
+    const stop = () => {
+      if (!running) return
+      running = false
+      cancelAnimationFrame(frameId)
+    }
+
+    const visObserver = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) start()
+        else stop()
+      },
+      { threshold: 0 }
+    )
+    visObserver.observe(mount)
 
     // ─── Cleanup ───
     return () => {
       disposed = true
+      stop()
+      visObserver.disconnect()
       cancelAnimationFrame(frameId)
       window.removeEventListener("resize", onResize)
       window.removeEventListener("scroll", onScroll)
