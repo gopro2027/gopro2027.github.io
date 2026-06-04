@@ -341,6 +341,7 @@ function ControllerMockup({
           }}
         >
           <div style={{ lineHeight: 1.4 }}>
+            <div style={{ color: "#808080", fontSize: "0.625rem" }}> OAS-Man</div>
             <div>{psi[0]} PSI</div>
             <div>{psi[2]} PSI</div>
           </div>
@@ -448,19 +449,19 @@ export default function Home() {
     {
       label: "No Calibration",
       title: "Works right out of the box.",
-      body: "No initial calibration required. OAS-MAN's algorithms adapt to your specific air system automatically — no lengthy setup, no manual tuning. Just connect and ride.",
+      body: "No initial calibration required. OAS-Man will improve preset accuracy over time as you use it.",
       icon: Zap,
     },
     {
       label: "AI Learning",
-      title: "Gets smarter the more you drive.",
+      title: "Gets better the more you use it.",
       body: "OAS-MAN automatically learns your air system's flow — your compressor, tank size, and air line layout. Every adjustment refines the next for smoother, quicker results.",
       icon: Brain,
     },
     {
       label: "Accurate Presets",
       title: "Hit your height every time.",
-      body: "Dial in your ride-height presets and OAS-MAN nails them — whether you're airing out for a show or raising up to clear a driveway. Accurate preset heights, every time.",
+      body: "Dial in your ride-height presets and OAS-MAN nails them — whether you're airing out for a show or raising up to clear a driveway. OAS-Man's machine-learning presets are accurate, every time.",
       icon: Target,
     },
   ]
@@ -473,19 +474,19 @@ export default function Home() {
   }[] = [
     {
       label: "Show",
-      desc: "Drop it to the ground with one tap. Smooth, controlled, and consistent every single time you air out.",
+      desc: "Drop it to the ground.",
       preset: 1,
       psi: [0, 0, 0, 0],
     },
     {
       label: "Street",
-      desc: "Your daily ride height for comfort and clearance. The AI keeps all four corners level on uneven roads.",
+      desc: "Your daily ride height.",
       preset: 3,
       psi: [48, 48, 52, 52],
     },
     {
-      label: "Track",
-      desc: "Air up stiff and lower your center of gravity. Maximum stability when you want to push the limits.",
+      label: "Clearance",
+      desc: "Extra height for getting over speed bumps or doing maintenence on your vehicle.",
       preset: 5,
       psi: [82, 82, 88, 88],
     },
@@ -916,7 +917,7 @@ export default function Home() {
                 }}
               >
                 {[
-                  ["Pressure", "200 PSI"],
+                  ["No soldering required", "Pre-built"],
                   ["Corners", "4"],
                   ["Open source", "100%"],
                 ].map(([k, v]) => (
@@ -1006,8 +1007,8 @@ export default function Home() {
               >
                 {[
                   ["Wireless", "BLE"],
-                  ["Gamepads", "10+"],
                   ["Presets", "5"],
+                  ["Gamepads supported", "10+"],
                 ].map(([k, v]) => (
                   <div key={k}>
                     <div
@@ -1131,13 +1132,13 @@ export default function Home() {
               className="apple-headline reveal reveal-delay-1"
               style={{ color: "var(--oasman-gold)", marginBottom: "1.25rem" }}
             >
-              Work smarter.
+              Air, simplified.
             </p>
             <p
               className="apple-body reveal reveal-delay-2"
               style={{ maxWidth: "560px", margin: "0 auto" }}
             >
-              Advanced machine-learning algorithms learn your air system&apos;s
+              Innovative machine-learning algorithms learn your air system&apos;s
               flow to optimize for smooth, quick, accurate presets —
               automatically.
             </p>
@@ -1458,20 +1459,20 @@ export default function Home() {
       >
         <div style={{ maxWidth: "980px", margin: "0 auto", textAlign: "center" }}>
           <h2 className="apple-headline reveal" style={{ marginBottom: "0.5rem" }}>
-            One tap.
+            Easy presets.
           </h2>
           <p
             className="apple-headline reveal reveal-delay-1"
             style={{ color: "var(--oasman-gold)", marginBottom: "1.25rem" }}
           >
-            Any ride height.
+            Any height.
           </p>
           <p
             className="apple-body reveal reveal-delay-2"
             style={{ maxWidth: "540px", margin: "0 auto 3.5rem" }}
           >
             Save up to five presets and load them instantly. Switch your whole
-            stance from the touch screen — or any controller you already own.
+            stance from the touch screen — or any controller you already own, using pressure or height sensors.
           </p>
 
           <div
@@ -1527,46 +1528,7 @@ export default function Home() {
               >
                 {ws.desc}
               </p>
-              <div style={{ display: "flex", gap: "1.5rem", flexWrap: "wrap" }}>
-                <div>
-                  <div
-                    style={{
-                      fontSize: "1.5rem",
-                      fontWeight: 700,
-                      color: "var(--oasman-gold)",
-                    }}
-                  >
-                    Preset {ws.preset}
-                  </div>
-                  <div
-                    style={{
-                      fontSize: "0.75rem",
-                      color: "var(--oasman-text-tertiary)",
-                    }}
-                  >
-                    Active slot
-                  </div>
-                </div>
-                <div>
-                  <div
-                    style={{
-                      fontSize: "1.5rem",
-                      fontWeight: 700,
-                      color: "var(--oasman-gold)",
-                    }}
-                  >
-                    {Math.max(...ws.psi)} PSI
-                  </div>
-                  <div
-                    style={{
-                      fontSize: "0.75rem",
-                      color: "var(--oasman-text-tertiary)",
-                    }}
-                  >
-                    Peak pressure
-                  </div>
-                </div>
-              </div>
+              
             </div>
           </div>
         </div>
@@ -1635,8 +1597,6 @@ export default function Home() {
                 {[
                   "PS3, PS4, Xbox, Wii, Switch, and more",
                   "Joystick air flow control",
-                  "Fully wireless via BLE",
-                  "Dedicated touch screen remote",
                 ].map((item) => (
                   <div
                     key={item}
@@ -1665,119 +1625,6 @@ export default function Home() {
             <div style={{ display: "flex", justifyContent: "center" }}>
               <InstagramEmbed />
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ─── Connectivity ─── */}
-      <section
-        style={{
-          background: "#111",
-          padding: "6rem 1.5rem",
-          borderTop: "1px solid rgba(255,255,255,0.06)",
-        }}
-      >
-        <div style={{ maxWidth: "980px", margin: "0 auto" }}>
-          <h2 className="apple-headline reveal" style={{ marginBottom: "0.5rem" }}>
-            Powerful connections.
-          </h2>
-          <p
-            className="apple-body reveal reveal-delay-1"
-            style={{ maxWidth: "560px", marginBottom: "1rem" }}
-          >
-            Build the garage of your dreams with unmatched versatility. OAS-MAN
-            connects over BLE, reads multiple sensors, and runs on standard
-            automotive power.
-          </p>
-          <p
-            className="reveal reveal-delay-2"
-            style={{
-              fontSize: "0.9375rem",
-              color: "var(--oasman-gold)",
-              fontWeight: 600,
-              marginBottom: "3.5rem",
-            }}
-          >
-            Fully wireless BLE — no controller wiring harness required.
-          </p>
-
-          <div
-            className="grid-3 reveal"
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(3, 1fr)",
-              gap: "1.5rem",
-            }}
-          >
-            {[
-              {
-                icon: Bluetooth,
-                title: "Wireless",
-                items: ["Bluetooth Low Energy", "BLE 4.0 / 5.0", "Low latency"],
-              },
-              {
-                icon: Gauge,
-                title: "Sensors",
-                items: ["Dual pressure inputs", "Height sensor ready", "12V logic"],
-              },
-              {
-                icon: BatteryCharging,
-                title: "Power",
-                items: ["12V automotive", "Low standby draw", "Surge protected"],
-              },
-            ].map((group) => (
-              <div
-                key={group.title}
-                style={{
-                  background: "#1c1c1e",
-                  border: "1px solid rgba(255,255,255,0.08)",
-                  borderRadius: "16px",
-                  padding: "1.75rem",
-                }}
-              >
-                <div style={{ marginBottom: "1rem" }}>
-                  <IconBadge icon={group.icon} />
-                </div>
-                <h4
-                  style={{
-                    fontSize: "1.0625rem",
-                    fontWeight: 700,
-                    color: "#f5f5f7",
-                    marginBottom: "0.875rem",
-                  }}
-                >
-                  {group.title}
-                </h4>
-                <ul
-                  style={{
-                    listStyle: "none",
-                    padding: 0,
-                    margin: 0,
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "0.5rem",
-                  }}
-                >
-                  {group.items.map((item) => (
-                    <li
-                      key={item}
-                      style={{
-                        fontSize: "0.875rem",
-                        color: "var(--oasman-text-secondary)",
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "0.5rem",
-                      }}
-                    >
-                      <span style={{ color: "var(--oasman-gold)", fontSize: "0.5rem" }}>
-                        ●
-                      </span>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
           </div>
         </div>
       </section>
@@ -1898,7 +1745,7 @@ export default function Home() {
             className="apple-headline reveal"
             style={{ textAlign: "center", marginBottom: "3rem" }}
           >
-            Our values lead the way.
+            Built for enthusiasts, not shareholders.
           </h2>
           <div
             className="grid-3"
@@ -2010,69 +1857,7 @@ export default function Home() {
             </a>
           </div>
 
-          <div
-            className="grid-3 reveal"
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(3, 1fr)",
-              gap: "1rem",
-              marginTop: "3.5rem",
-            }}
-          >
-            {[
-              {
-                icon: DollarSign,
-                title: "Under $500",
-                desc: "Total build cost including all electronics.",
-              },
-              {
-                icon: Package,
-                title: "Easy to source",
-                desc: "Parts available on Amazon, AliExpress, and more.",
-              },
-              {
-                icon: MessageCircle,
-                title: "Get help",
-                desc: "Join the Discord community or open a GitHub issue.",
-              },
-            ].map((card) => (
-              <div
-                key={card.title}
-                style={{
-                  background: "#111",
-                  border: "1px solid rgba(255,255,255,0.06)",
-                  borderRadius: "16px",
-                  padding: "1.75rem 1rem",
-                  textAlign: "center",
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    marginBottom: "0.875rem",
-                  }}
-                >
-                  <IconBadge icon={card.icon} />
-                </div>
-                <div
-                  style={{
-                    fontSize: "0.9375rem",
-                    fontWeight: 700,
-                    color: "#f5f5f7",
-                    marginBottom: "0.375rem",
-                  }}
-                >
-                  {card.title}
-                </div>
-                <div
-                  style={{ fontSize: "0.8125rem", color: "var(--oasman-text-tertiary)" }}
-                >
-                  {card.desc}
-                </div>
-              </div>
-            ))}
-          </div>
+          
         </div>
       </section>
 

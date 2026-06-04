@@ -80,17 +80,23 @@ function PCBModel({
     groupRef.current.scale.setScalar(scale)
     groupRef.current.position.set(0, 0, 0)
 
-    // Set the initial diagonal pose (more aggressive 3/4 angle)
-    groupRef.current.rotation.set(-0.5, Math.PI / 5, 0.42)
+    // Start flat, facing the camera, at the top of the page
+    groupRef.current.rotation.set(0, 0, 0)
   }, [obj])
 
-  // Scroll-driven Y rotation with smooth lerp (pivots about the centered origin)
+  // Scroll-driven rotation with smooth lerp (pivots about the centered origin).
+  // At scroll top (s = 0) the board is flat; it eases into a diagonal 3/4
+  // angle and spins as the user scrolls down.
   useFrame(() => {
     if (!groupRef.current) return
-    const base = Math.PI / 5
-    const target = base + scrollRef.current * Math.PI * 1.6
-    groupRef.current.rotation.y +=
-      (target - groupRef.current.rotation.y) * 0.055
+    const s = scrollRef.current
+    const targetX = -0.5 * s
+    const targetY = s * Math.PI * 1.6
+    const targetZ = 0.42 * s
+    const rot = groupRef.current.rotation
+    rot.x += (targetX - rot.x) * 0.055
+    rot.y += (targetY - rot.y) * 0.055
+    rot.z += (targetZ - rot.z) * 0.055
   })
 
   return (
