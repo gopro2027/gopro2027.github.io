@@ -287,8 +287,7 @@ html {
 /* ─── Local nav ─── */
 
 .local-nav {
-  position: sticky;
-  top: 0;
+  position: relative;
   z-index: 40;
   background: rgba(10, 10, 10, 0.85);
   backdrop-filter: saturate(180%) blur(20px);
