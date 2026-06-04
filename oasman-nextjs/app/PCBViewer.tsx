@@ -17,6 +17,8 @@ import { MTLLoader } from "three/examples/jsm/loaders/MTLLoader.js"
 export default function PCBViewer() {
   const mountRef = useRef<HTMLDivElement>(null)
   const scrollRef = useRef(0)
+  // Extra Y rotation (radians) accumulated from horizontal drag gestures.
+  const dragRef = useRef(0)
 
   useEffect(() => {
     const mount = mountRef.current
@@ -34,6 +36,10 @@ export default function PCBViewer() {
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true })
     renderer.setSize(width, height)
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+    // pan-y lets the browser keep handling vertical scroll natively while we
+    // capture horizontal drags to spin the model.
+    renderer.domElement.style.touchAction = "pan-y"
+    renderer.domElement.style.cursor = "grab"
     mount.appendChild(renderer.domElement)
 
     // ─── Lighting rig ───
@@ -115,12 +121,72 @@ export default function PCBViewer() {
     onScroll()
     window.addEventListener("scroll", onScroll, { passive: true })
 
+    // ─── Horizontal drag to spin ───
+    // Tracks pointer movement and decides per-gesture whether the user is
+    // dragging horizontally (spin the model) or vertically (let the page
+    // scroll). Once a vertical scroll intent is detected we bail out so we
+    // never fight the browser's scrolling.
+    const el = renderer.domElement
+    let dragging = false
+    let decided = false
+    let isHorizontal = false
+    let startX = 0
+    let startY = 0
+    let lastX = 0
+    const DRAG_SENSITIVITY = 0.01 // radians per pixel
+
+    const onPointerDown = (e: PointerEvent) => {
+      dragging = true
+      decided = false
+      isHorizontal = false
+      startX = e.clientX
+      startY = e.clientY
+      lastX = e.clientX
+    }
+
+    const onPointerMove = (e: PointerEvent) => {
+      if (!dragging) return
+      if (!decided) {
+        const dx = Math.abs(e.clientX - startX)
+        const dy = Math.abs(e.clientY - startY)
+        // Wait until there's enough movement to classify the gesture.
+        if (dx < 6 && dy < 6) return
+        decided = true
+        isHorizontal = dx > dy
+        if (isHorizontal) {
+          el.style.cursor = "grabbing"
+          el.setPointerCapture(e.pointerId)
+        } else {
+          // Vertical intent: release so the page scrolls normally.
+          dragging = false
+          return
+        }
+      }
+      if (!isHorizontal) return
+      e.preventDefault()
+      const dx = e.clientX - lastX
+      lastX = e.clientX
+      dragRef.current += dx * DRAG_SENSITIVITY
+    }
+
+    const onPointerUp = (e: PointerEvent) => {
+      dragging = false
+      decided = false
+      el.style.cursor = "grab"
+      if (el.hasPointerCapture(e.pointerId)) el.releasePointerCapture(e.pointerId)
+    }
+
+    el.addEventListener("pointerdown", onPointerDown)
+    el.addEventListener("pointermove", onPointerMove)
+    el.addEventListener("pointerup", onPointerUp)
+    el.addEventListener("pointercancel", onPointerUp)
+
     // ─── Animation loop: flat at top, eases into diagonal + spin on scroll ───
     const animate = () => {
       frameId = requestAnimationFrame(animate)
       const s = scrollRef.current
       const targetX = -0.5 * s
-      const targetY = s * Math.PI * 2.4
+      const targetY = s * Math.PI * 2.6 + dragRef.current
       const targetZ = 0.42 * s
       group.rotation.x += (targetX - group.rotation.x) * 0.055
       group.rotation.y += (targetY - group.rotation.y) * 0.055
@@ -160,6 +226,10 @@ export default function PCBViewer() {
       cancelAnimationFrame(frameId)
       window.removeEventListener("resize", onResize)
       window.removeEventListener("scroll", onScroll)
+      el.removeEventListener("pointerdown", onPointerDown)
+      el.removeEventListener("pointermove", onPointerMove)
+      el.removeEventListener("pointerup", onPointerUp)
+      el.removeEventListener("pointercancel", onPointerUp)
       scene.traverse((o) => {
         const mesh = o as THREE.Mesh
         if (mesh.geometry) mesh.geometry.dispose()
