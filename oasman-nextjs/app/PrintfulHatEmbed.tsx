@@ -9,7 +9,7 @@ const PRODUCT_IMAGE =
 const PRICE = "$25.00"
 
 const buttonPrimary: CSSProperties = {
-  background: "linear-gradient(135deg, #8b6946, #bca082)",
+  background: "linear-gradient(135deg, #2563EB, #60A5FA)",
   color: "#fff",
   fontWeight: 500,
   fontSize: "0.9375rem",
@@ -54,7 +54,7 @@ export default function PrintfulHatEmbed() {
               fontWeight: 600,
               textTransform: "uppercase",
               letterSpacing: "0.06em",
-              color: "#bca082",
+              color: "#60A5FA",
               marginBottom: "0.75rem",
             }}
           >
@@ -120,7 +120,7 @@ export default function PrintfulHatEmbed() {
                 style={{
                   fontSize: "2.5rem",
                   fontWeight: 700,
-                  color: "#bca082",
+                  color: "#60A5FA",
                   marginBottom: "0.5rem",
                   letterSpacing: "-0.02em",
                 }}
@@ -149,7 +149,7 @@ export default function PrintfulHatEmbed() {
                       width: "0.5rem",
                       height: "0.5rem",
                       borderRadius: "9999px",
-                      backgroundColor: "#bca082",
+                      backgroundColor: "#60A5FA",
                       flexShrink: 0,
                     }}
                   />
@@ -200,7 +200,7 @@ export default function PrintfulHatEmbed() {
           }}
         >
           Checkout powered by Printful.{" "}
-          <a href={STORE_URL} target="_blank" rel="noopener noreferrer" style={{ color: "#bca082" }}>
+          <a href={STORE_URL} target="_blank" rel="noopener noreferrer" style={{ color: "#60A5FA" }}>
             Click here to view the full store
           </a>
           .

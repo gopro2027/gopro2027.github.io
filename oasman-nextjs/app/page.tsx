@@ -50,7 +50,7 @@ const PCBViewer = dynamic(() => import("./PCBViewer"), {
       <span
         style={{
           fontSize: "0.8125rem",
-          color: "rgba(188,160,130,0.4)",
+          color: "rgba(96,165,250,0.4)",
           letterSpacing: "0.06em",
           textTransform: "uppercase",
         }}
@@ -166,7 +166,7 @@ function BenchBar({
           style={{
             width: animated ? `${pct}%` : "0%",
             background: accent
-              ? "linear-gradient(90deg, #8b6946, #bca082)"
+              ? "linear-gradient(90deg, #2563EB, #60A5FA)"
               : "rgba(255,255,255,0.14)",
           }}
         />
@@ -371,10 +371,10 @@ function ControllerMockup({
               flex: 1,
               padding: "0.5rem",
               borderRadius: "10px",
-              border: "1.5px solid rgba(120,170,255,0.5)",
+              border: "1.5px solid rgba(96,165,250,0.5)",
               textAlign: "center",
               fontSize: "0.75rem",
-              color: "#cdd9ff",
+              color: "#bfdbfe",
               fontWeight: 600,
             }}
           >
@@ -385,7 +385,7 @@ function ControllerMockup({
               flex: 1,
               padding: "0.5rem",
               borderRadius: "10px",
-              background: "#3a82f6",
+              background: "#3B82F6",
               textAlign: "center",
               fontSize: "0.75rem",
               color: "#fff",
@@ -426,7 +426,7 @@ function ControllerMockup({
           }}
         >
           <span>Home</span>
-          <span style={{ color: "#3a82f6", fontWeight: 600 }}>Presets</span>
+          <span style={{ color: "#3B82F6", fontWeight: 600 }}>Presets</span>
           <span>Settings</span>
         </div>
       </div>
@@ -522,7 +522,7 @@ export default function Home() {
               style={{
                 width: "28px",
                 height: "28px",
-                background: "linear-gradient(135deg, #8b6946, #bca082)",
+                background: "linear-gradient(135deg, #2563EB, #60A5FA)",
                 borderRadius: "7px",
                 display: "flex",
                 alignItems: "center",
@@ -622,7 +622,7 @@ export default function Home() {
                 fontSize: "0.8125rem",
                 fontWeight: 500,
                 color: "#fff",
-                background: "linear-gradient(135deg, #8b6946, #bca082)",
+                background: "linear-gradient(135deg, #2563EB, #60A5FA)",
                 borderRadius: "980px",
                 textDecoration: "none",
                 transition: "filter 0.2s",
@@ -1213,7 +1213,7 @@ export default function Home() {
             style={{
               marginTop: "2rem",
               background: "#1c1c1e",
-              border: "1px solid rgba(188,160,130,0.15)",
+              border: "1px solid rgba(96,165,250,0.15)",
               borderRadius: "20px",
               padding: "2rem 2.5rem",
               display: "flex",
@@ -1346,8 +1346,8 @@ export default function Home() {
                         width: "20px",
                         height: "20px",
                         borderRadius: "50%",
-                        background: "rgba(139,105,70,0.2)",
-                        border: "1px solid rgba(188,160,130,0.3)",
+                        background: "rgba(59,130,246,0.2)",
+                        border: "1px solid rgba(96,165,250,0.3)",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
@@ -1895,7 +1895,7 @@ export default function Home() {
                   style={{
                     width: "22px",
                     height: "22px",
-                    background: "linear-gradient(135deg, #8b6946, #bca082)",
+                    background: "linear-gradient(135deg, #2563EB, #60A5FA)",
                     borderRadius: "6px",
                   }}
                 />

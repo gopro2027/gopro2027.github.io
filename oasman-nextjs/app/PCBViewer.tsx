@@ -47,7 +47,7 @@ export default function PCBViewer() {
     fill.position.set(-5, 2, -2)
     scene.add(fill)
 
-    const rim = new THREE.DirectionalLight(0xbca082, 0.35)
+    const rim = new THREE.DirectionalLight(0x60A5FA, 0.35)
     rim.position.set(0, -4, -6)
     scene.add(rim)
 
@@ -55,7 +55,7 @@ export default function PCBViewer() {
     pTop.position.set(0, 5, 2)
     scene.add(pTop)
 
-    const pBottom = new THREE.PointLight(0x8b6946, 0.25, 0, 2)
+    const pBottom = new THREE.PointLight(0x2563EB, 0.25, 0, 2)
     pBottom.position.set(0, -3, 1)
     scene.add(pBottom)
 
@@ -169,7 +169,7 @@ export default function PCBViewer() {
           width: "55%",
           height: "60px",
           background:
-            "radial-gradient(ellipse at center, rgba(188,160,130,0.18), transparent 70%)",
+            "radial-gradient(ellipse at center, rgba(96,165,250,0.18), transparent 70%)",
           filter: "blur(12px)",
           zIndex: 0,
           pointerEvents: "none",
