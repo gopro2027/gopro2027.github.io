@@ -9,19 +9,17 @@ const PRODUCT_IMAGE =
 const PRICE = "$25.00"
 
 const buttonPrimary: CSSProperties = {
-  background: "linear-gradient(to right, #8b6946, #bca082)",
-  color: "#2a2219",
-  fontWeight: 900,
-  textTransform: "uppercase",
-  fontSize: "0.875rem",
-  letterSpacing: "0.05em",
-  paddingLeft: "2rem",
-  paddingRight: "2rem",
-  paddingTop: "1rem",
-  paddingBottom: "1rem",
-  borderRadius: "0.125rem",
+  background: "linear-gradient(135deg, #8b6946, #bca082)",
+  color: "#fff",
+  fontWeight: 500,
+  fontSize: "0.9375rem",
+  paddingLeft: "1.75rem",
+  paddingRight: "1.75rem",
+  paddingTop: "0.75rem",
+  paddingBottom: "0.75rem",
+  borderRadius: "980px",
   textDecoration: "none",
-  transition: "transform 300ms",
+  transition: "filter 200ms, transform 200ms",
   display: "inline-block",
   textAlign: "center",
 }
@@ -40,33 +38,34 @@ export default function PrintfulHatEmbed() {
       className="printful-hat-section"
       style={{
         position: "relative",
-        paddingLeft: "1rem",
-        paddingRight: "1rem",
-        paddingTop: "8rem",
-        paddingBottom: "8rem",
-        borderTop: "1px solid rgba(188, 160, 130, 0.15)",
+        paddingLeft: "1.5rem",
+        paddingRight: "1.5rem",
+        paddingTop: "6rem",
+        paddingBottom: "6rem",
+        borderTop: "1px solid rgba(255, 255, 255, 0.06)",
+        background: "#0a0a0a",
       }}
     >
-      <div style={{ maxWidth: "80rem", marginLeft: "auto", marginRight: "auto" }}>
+      <div style={{ maxWidth: "980px", marginLeft: "auto", marginRight: "auto" }}>
         <div className="printful-hat-header" style={{ textAlign: "center", marginBottom: "3rem" }}>
           <p
             style={{
-              fontSize: "0.75rem",
-              fontWeight: 900,
+              fontSize: "0.8rem",
+              fontWeight: 600,
               textTransform: "uppercase",
-              letterSpacing: "0.15em",
-              color: "#8b6946",
-              marginBottom: "1rem",
+              letterSpacing: "0.06em",
+              color: "#bca082",
+              marginBottom: "0.75rem",
             }}
           >
             Official Merch
           </p>
           <h2
             style={{
-              fontSize: "3rem",
-              fontWeight: 900,
-              letterSpacing: "-0.02em",
-              color: "#f5f0eb",
+              fontSize: "clamp(2.5rem, 6vw, 4rem)",
+              fontWeight: 700,
+              letterSpacing: "-0.025em",
+              color: "#f5f5f7",
               marginBottom: "1rem",
             }}
           >
@@ -83,12 +82,12 @@ export default function PrintfulHatEmbed() {
             marginRight: "auto",
             display: "grid",
             gridTemplateColumns: "1fr 1fr",
-            gap: "2rem",
+            gap: "2.5rem",
             alignItems: "center",
-            border: "2px solid rgba(188, 160, 130, 0.25)",
-            borderRadius: "0.125rem",
-            padding: "2rem",
-            backgroundColor: "rgba(42, 34, 24, 0.6)",
+            border: "1px solid rgba(255, 255, 255, 0.08)",
+            borderRadius: "20px",
+            padding: "2.5rem",
+            backgroundColor: "#1c1c1e",
           }}
         >
           <a
@@ -98,7 +97,7 @@ export default function PrintfulHatEmbed() {
             className="printful-hat-image-link"
             style={{
               display: "block",
-              borderRadius: "0.125rem",
+              borderRadius: "14px",
               overflow: "hidden",
               backgroundColor: "#f5f0eb",
             }}
@@ -120,19 +119,20 @@ export default function PrintfulHatEmbed() {
               <p
                 style={{
                   fontSize: "2.5rem",
-                  fontWeight: 900,
-                  color: "#8b6946",
+                  fontWeight: 700,
+                  color: "#bca082",
                   marginBottom: "0.5rem",
+                  letterSpacing: "-0.02em",
                 }}
               >
                 {PRICE}
               </p>
-              <p style={{ fontSize: "0.875rem", color: "#9d8b7a", lineHeight: 1.6 }}>
+              <p style={{ fontSize: "0.9375rem", color: "#a1a1a6", lineHeight: 1.6 }}>
                 A hat made of corduroy that&apos;ll serve you for ages—soft, affordable, and durable.
               </p>
             </div>
 
-            <ul style={{ display: "flex", flexDirection: "column", gap: "0.5rem", padding: 0, margin: 0, listStyle: "none" }}>
+            <ul style={{ display: "flex", flexDirection: "column", gap: "0.625rem", padding: 0, margin: 0, listStyle: "none" }}>
               {features.map((item) => (
                 <li
                   key={item}
@@ -140,8 +140,8 @@ export default function PrintfulHatEmbed() {
                     display: "flex",
                     alignItems: "center",
                     gap: "0.75rem",
-                    fontSize: "0.875rem",
-                    color: "#f5f0eb",
+                    fontSize: "0.9375rem",
+                    color: "#f5f5f7",
                   }}
                 >
                   <span
@@ -149,7 +149,7 @@ export default function PrintfulHatEmbed() {
                       width: "0.5rem",
                       height: "0.5rem",
                       borderRadius: "9999px",
-                      backgroundColor: "#8b6946",
+                      backgroundColor: "#bca082",
                       flexShrink: 0,
                     }}
                   />
@@ -172,8 +172,14 @@ export default function PrintfulHatEmbed() {
                 target="_blank"
                 rel="noopener noreferrer"
                 style={buttonPrimary}
-                onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
-                onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = "scale(1.03)"
+                  e.currentTarget.style.filter = "brightness(1.1)"
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = "scale(1)"
+                  e.currentTarget.style.filter = "brightness(1)"
+                }}
               >
                 Buy the Hat
               </a>
@@ -184,8 +190,8 @@ export default function PrintfulHatEmbed() {
         <p
           style={{
             textAlign: "center",
-            fontSize: "0.75rem",
-            color: "#9d8b7a",
+            fontSize: "0.8125rem",
+            color: "#6e6e73",
             marginTop: "1.5rem",
             maxWidth: "36rem",
             marginLeft: "auto",
@@ -194,7 +200,7 @@ export default function PrintfulHatEmbed() {
           }}
         >
           Checkout powered by Printful.{" "}
-          <a href={STORE_URL} target="_blank" rel="noopener noreferrer" style={{ color: "#8b6946" }}>
+          <a href={STORE_URL} target="_blank" rel="noopener noreferrer" style={{ color: "#bca082" }}>
             Click here to view the full store
           </a>
           .
