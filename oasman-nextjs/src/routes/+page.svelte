@@ -185,7 +185,7 @@
               Control With Any <span class="text-primary">Gaming Controller</span>
             </h2>
             <p class="text-lg text-muted-foreground">
-              OASMan's unique gaming controller support lets you manage your suspension system like never before. Use PlayStation 3, PlayStation 4, or Xbox controllers — no proprietary hardware required.
+              OASMan's unique gaming controller support lets you manage your suspension system like never before. Use PlayStation 3, PlayStation 4, or Xbox controllers, no proprietary hardware required.
             </p>
           </div>
 
@@ -214,7 +214,7 @@
           </div>
 
           <p class="text-sm text-muted-foreground italic border-l-2 border-primary pl-4">
-            "Control your system with a PS3/PS4/Xbox controller? Yep, we have that." — The possibilities are endless with OASMan.
+            "Control your system with a PS3/PS4/Xbox controller? Yep, we have that." The possibilities are endless with OASMan.
           </p>
         </div>
 

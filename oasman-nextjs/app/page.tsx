@@ -32,7 +32,7 @@ import {
 import InstagramEmbed from "./InstagramEmbed"
 import PrintfulHatEmbed from "./PrintfulHatEmbed"
 
-// Three.js uses browser APIs — must be client-only
+// Three.js uses browser APIs, so this must be client-only
 const PCBViewer = dynamic(() => import("./PCBViewer"), {
   ssr: false,
   loading: () => (
@@ -471,13 +471,13 @@ export default function Home() {
     {
       label: "AI Learning",
       title: "Gets better the more you use it.",
-      body: "OAS-MAN automatically learns your air system's flow — your compressor, tank size, and air line layout. Every adjustment refines the next for smoother, quicker results.",
+      body: "OAS-MAN automatically learns your air system's flow: your compressor, tank size, and air line layout. Every adjustment refines the next for smoother, quicker results.",
       icon: Brain,
     },
     {
       label: "Accurate Presets",
       title: "Hit your height every time.",
-      body: "Dial in your ride-height presets and OAS-MAN nails them — whether you're airing out for a show or raising up to clear a driveway. OAS-Man's machine-learning presets are accurate, every time.",
+      body: "Dial in your ride-height presets and OAS-MAN nails them, whether you're airing out for a show or raising up to clear a driveway. OAS-Man's machine-learning presets are accurate, every time.",
       icon: Target,
     },
   ]
@@ -1061,7 +1061,7 @@ export default function Home() {
               textAlign: "center",
             }}
           >
-            Built by enthusiasts, for enthusiasts — with no corporate nonsense.
+            Built by enthusiasts, for enthusiasts, with no corporate nonsense.
             OAS-MAN pairs proven open-source hardware with AI-powered presets,
             wireless control, and affordable, off-the-shelf parts. Revolutionary,
             not evolutionary.
@@ -1124,7 +1124,7 @@ export default function Home() {
               }}
             >
               Estimated build cost varies based on parts sourced. OAS-MAN
-              electronics only — air bags, compressor, and tank sold separately.
+              electronics only; air bags, compressor, and tank sold separately.
             </p>
           </div>
         </div>
@@ -1155,7 +1155,7 @@ export default function Home() {
               style={{ maxWidth: "560px", margin: "0 auto" }}
             >
               Innovative machine-learning algorithms learn your air system&apos;s
-              flow to optimize for smooth, quick, accurate presets —
+              flow to optimize for smooth, quick, accurate presets,
               automatically.
             </p>
           </div>
@@ -1257,7 +1257,7 @@ export default function Home() {
                 }}
               >
                 Every line of OAS-MAN&apos;s firmware is public. Audit it, modify
-                it, improve it — no proprietary firmware that bricks when the
+                it, improve it. No proprietary firmware that bricks when the
                 company goes under.
               </p>
             </div>
@@ -1338,7 +1338,7 @@ export default function Home() {
               >
                 OAS-MAN is a fully wireless system. BLE technology delivers a
                 quick, responsive connection between your controller and
-                manifold — easier to install and easier to use. Control your
+                manifold, making it easier to install and easier to use. Control your
                 vehicle from inside or out on the dedicated touch screen remote.
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
@@ -1488,7 +1488,7 @@ export default function Home() {
             style={{ maxWidth: "540px", margin: "0 auto 3.5rem" }}
           >
             Save up to five presets and load them instantly. Switch your whole
-            stance from the touch screen — or any controller you already own, using pressure or height sensors.
+            stance from the touch screen, or any controller you already own, using pressure or height sensors.
           </p>
 
           <div
@@ -1659,7 +1659,7 @@ export default function Home() {
               Endless customization.
             </h2>
             <p className="apple-body reveal reveal-delay-1" style={{ maxWidth: "520px" }}>
-              Built for every build — restomods, street cars, and track machines.
+              Built for every build: restomods, street cars, and track machines.
               OAS-MAN adapts to how you drive.
             </p>
           </div>
@@ -1676,7 +1676,7 @@ export default function Home() {
               {
                 icon: Wifi,
                 title: "Fully Wireless",
-                desc: "Touch screen, phone, or any gaming controller — no wires needed.",
+                desc: "Touch screen, phone, or any gaming controller, no wires needed.",
               },
               {
                 icon: SlidersHorizontal,
@@ -1706,7 +1706,7 @@ export default function Home() {
               {
                 icon: Car,
                 title: "Any Build Works",
-                desc: "Restomods, street cars, track builds — all supported.",
+                desc: "Restomods, street cars, track builds, all supported.",
               },
               {
                 icon: Brain,
@@ -1775,12 +1775,12 @@ export default function Home() {
               {
                 icon: Leaf,
                 title: "Open source, forever.",
-                desc: "We're committed to keeping OAS-MAN fully open source — forever. No paywalls, no gated firmware. Protected by GNU GPL v3",
+                desc: "We're committed to keeping OAS-MAN fully open source, forever. No paywalls, no gated firmware. Protected by GNU GPL v3",
               },
               {
                 icon: Users,
                 title: "Community first.",
-                desc: "Discord and GitHub — the worldwide OAS-MAN community is what makes this project thrive. Everyone builds together.",
+                desc: "Discord and GitHub: the worldwide OAS-MAN community is what makes this project thrive. Everyone builds together.",
               },
               {
                 icon: HeartHandshake,

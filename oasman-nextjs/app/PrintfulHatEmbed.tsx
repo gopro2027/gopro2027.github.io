@@ -128,7 +128,7 @@ export default function PrintfulHatEmbed() {
                 {PRICE}
               </p>
               <p style={{ fontSize: "0.9375rem", color: "#a1a1a6", lineHeight: 1.6 }}>
-                A hat made of corduroy that&apos;ll serve you for ages—soft, affordable, and durable.
+                A hat made of corduroy that&apos;ll serve you for ages: soft, affordable, and durable.
               </p>
             </div>
 
