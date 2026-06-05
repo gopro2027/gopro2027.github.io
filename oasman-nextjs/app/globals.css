@@ -591,6 +591,232 @@ html {
   box-shadow: 0 0 16px rgba(226, 116, 43, 0.6);
 }
 
+/* ─── Controller emulator (LVGL replica) ─── */
+
+.ctrl-frame {
+  position: relative;
+  width: clamp(260px, 88vw, 312px);
+  aspect-ratio: 3 / 4;
+  border-radius: 30px;
+  background: linear-gradient(155deg, #2c2c30, #131315);
+  padding: 12px;
+  box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.85),
+    0 0 0 1px rgba(255, 255, 255, 0.06) inset;
+  animation: floatY 6s ease-in-out infinite;
+  user-select: none;
+}
+
+.ctrl-screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 18px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(180deg, #1d2330 0%, #15171c 55%, #121212 100%);
+}
+
+.ctrl-statusbar {
+  height: 22px;
+  flex-shrink: 0;
+  background: #0d0d0d;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px;
+  position: relative;
+}
+
+.ctrl-status-handle {
+  position: absolute;
+  left: 50%;
+  top: 7px;
+  transform: translateX(-50%);
+  width: 30px;
+  height: 4px;
+  border-radius: 2px;
+  background: #4a4a4a;
+}
+
+.ctrl-content {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+}
+
+.ctrl-navbar {
+  height: 46px;
+  flex-shrink: 0;
+  background: #121212;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+}
+
+.ctrl-tab {
+  position: relative;
+  flex: 1;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding-top: 4px;
+}
+
+.ctrl-tab-underline {
+  position: absolute;
+  bottom: 4px;
+  width: 18px;
+  height: 3px;
+  border-radius: 2px;
+}
+
+/* Pill buttons (Home) */
+.ctrl-pill {
+  width: 22%;
+  max-width: 56px;
+  aspect-ratio: 54 / 90;
+  background: #121212;
+  border-radius: 999px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+.ctrl-pill-half {
+  flex: 1;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: none;
+  transition: background 0.12s ease;
+}
+
+.ctrl-pill-half:active {
+  background: rgba(59, 130, 246, 0.5);
+}
+
+.ctrl-pill-divider {
+  height: 1px;
+  margin: 0 18%;
+  background: #2563EB;
+}
+
+/* Preset buttons (Presets) */
+.ctrl-preset-btn {
+  width: 15%;
+  max-width: 38px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 2px solid;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease,
+    color 0.25s ease;
+}
+
+/* Toast */
+.ctrl-toast {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(15, 18, 24, 0.95);
+  border: 1px solid;
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  z-index: 20;
+  white-space: nowrap;
+  box-shadow: 0 8px 20px -6px rgba(0, 0, 0, 0.7);
+  animation: ctrlToastIn 0.2s ease;
+}
+
+@keyframes ctrlToastIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -6px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+/* Switch */
+.ctrl-switch {
+  position: relative;
+  width: 40px;
+  height: 22px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.2s ease;
+}
+
+.ctrl-switch-knob {
+  position: absolute;
+  top: 2px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #fff;
+  transition: left 0.2s ease;
+}
+
+/* Range slider */
+.ctrl-range {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  border-radius: 2px;
+  background: #2a313a;
+  outline: none;
+}
+
+.ctrl-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #60A5FA;
+  cursor: pointer;
+}
+
+.ctrl-range::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border: none;
+  border-radius: 50%;
+  background: #60A5FA;
+  cursor: pointer;
+}
+
+.ctrl-settings-list::-webkit-scrollbar {
+  width: 4px;
+}
+
+.ctrl-settings-list::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 2px;
+}
+
 /* ─── Section heading helper ─── */
 
 .section-eyebrow-row {
