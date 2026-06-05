@@ -50,7 +50,7 @@ const PCBViewer = dynamic(() => import("./PCBViewer"), {
       <span
         style={{
           fontSize: "0.8125rem",
-          color: "rgba(96,165,250,0.4)",
+          color: "rgba(122,74,43,0.55)",
           letterSpacing: "0.06em",
           textTransform: "uppercase",
         }}
@@ -166,8 +166,8 @@ function BenchBar({
           style={{
             width: animated ? `${pct}%` : "0%",
             background: accent
-              ? "linear-gradient(90deg, #2563EB, #60A5FA)"
-              : "rgba(255,255,255,0.14)",
+              ? "linear-gradient(90deg, #c1352a, #e2742b)"
+              : "rgba(74,48,26,0.1)",
           }}
         />
       </div>
@@ -181,8 +181,8 @@ function AILearningVisual() {
   return (
     <div
       style={{
-        background: "radial-gradient(circle at 50% 0%, #16181d, #0a0a0c)",
-        border: "1px solid rgba(255,255,255,0.08)",
+        background: "radial-gradient(circle at 50% 0%, #f6efdc, #efe7d1)",
+        border: "1px solid rgba(74,48,26,0.12)",
         borderRadius: "16px",
         padding: "1.5rem",
         height: "100%",
@@ -266,7 +266,7 @@ function AILearningVisual() {
         style={{
           marginTop: "1.5rem",
           paddingTop: "1.25rem",
-          borderTop: "1px solid rgba(255,255,255,0.08)",
+          borderTop: "1px solid rgba(74,48,26,0.12)",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "flex-end",
@@ -277,7 +277,7 @@ function AILearningVisual() {
             style={{
               fontSize: "2rem",
               fontWeight: 700,
-              color: "#f5f5f7",
+              color: "#2a1c10",
               lineHeight: 1,
             }}
           >
@@ -371,10 +371,10 @@ function ControllerMockup({
               flex: 1,
               padding: "0.5rem",
               borderRadius: "10px",
-              border: "1.5px solid rgba(96,165,250,0.5)",
+              border: "1.5px solid rgba(226,116,43,0.5)",
               textAlign: "center",
               fontSize: "0.75rem",
-              color: "#bfdbfe",
+              color: "#f0c89a",
               fontWeight: 600,
             }}
           >
@@ -385,7 +385,7 @@ function ControllerMockup({
               flex: 1,
               padding: "0.5rem",
               borderRadius: "10px",
-              background: "#3B82F6",
+              background: "#e2742b",
               textAlign: "center",
               fontSize: "0.75rem",
               color: "#fff",
@@ -421,12 +421,12 @@ function ControllerMockup({
             justifyContent: "space-around",
             fontSize: "0.5625rem",
             color: "#6b7585",
-            borderTop: "1px solid rgba(255,255,255,0.06)",
+            borderTop: "1px solid rgba(255,255,255,0.1)",
             paddingTop: "0.625rem",
           }}
         >
           <span>Home</span>
-          <span style={{ color: "#3B82F6", fontWeight: 600 }}>Presets</span>
+          <span style={{ color: "#e2742b", fontWeight: 600 }}>Presets</span>
           <span>Settings</span>
         </div>
       </div>
@@ -495,7 +495,7 @@ export default function Home() {
   const ws = workspaces[activeWorkspace]
 
   return (
-    <div style={{ backgroundColor: "#000", color: "#f5f5f7", minHeight: "100vh" }}>
+    <div style={{ backgroundColor: "#e9ddc1", color: "#2a1c10", minHeight: "100vh" }}>
       {/* ─── Global Nav ─── */}
       <nav className="global-nav">
         <div
@@ -522,7 +522,7 @@ export default function Home() {
               style={{
                 width: "28px",
                 height: "28px",
-                background: "linear-gradient(135deg, #2563EB, #60A5FA)",
+                background: "linear-gradient(135deg, #c1352a, #e8a33d)",
                 borderRadius: "7px",
                 display: "flex",
                 alignItems: "center",
@@ -556,7 +556,7 @@ export default function Home() {
                 textDecoration: "none",
                 transition: "color 0.2s",
               }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = "#f5f5f7")}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "#2a1c10")}
               onMouseLeave={(e) =>
                 (e.currentTarget.style.color = "var(--oasman-text-secondary)")
               }
@@ -568,7 +568,7 @@ export default function Home() {
               target="_blank"
               rel="noopener noreferrer"
               style={{ color: "var(--oasman-text-secondary)", transition: "color 0.2s", display: "flex" }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = "#f5f5f7")}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "#2a1c10")}
               onMouseLeave={(e) =>
                 (e.currentTarget.style.color = "var(--oasman-text-secondary)")
               }
@@ -603,7 +603,7 @@ export default function Home() {
                   transition: "color 0.2s",
                   whiteSpace: "nowrap",
                 }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = "#f5f5f7")}
+                onMouseEnter={(e) => (e.currentTarget.style.color = "#2a1c10")}
                 onMouseLeave={(e) =>
                   (e.currentTarget.style.color = "var(--oasman-text-secondary)")
                 }
@@ -622,7 +622,7 @@ export default function Home() {
                 fontSize: "0.8125rem",
                 fontWeight: 500,
                 color: "#fff",
-                background: "linear-gradient(135deg, #2563EB, #60A5FA)",
+                background: "linear-gradient(135deg, #c1352a, #e8a33d)",
                 borderRadius: "980px",
                 textDecoration: "none",
                 transition: "filter 0.2s",
@@ -642,7 +642,7 @@ export default function Home() {
         id="overview"
         style={{
           position: "relative",
-          background: "linear-gradient(180deg, #000 0%, #0a0a0a 100%)",
+          background: "linear-gradient(180deg, #e9ddc1 0%, #e3d5b5 100%)",
           paddingTop: "5rem",
           paddingBottom: "0",
           textAlign: "center",
@@ -672,7 +672,7 @@ export default function Home() {
             position: "absolute",
             inset: 0,
             background:
-              "linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.35) 45%, rgba(10,10,10,0.85) 100%)",
+              "linear-gradient(180deg, rgba(233,221,193,0.55) 0%, rgba(233,221,193,0.42) 45%, rgba(227,213,181,0.92) 100%)",
             zIndex: 0,
             pointerEvents: "none",
           }}
@@ -698,7 +698,7 @@ export default function Home() {
               letterSpacing: "-0.03em",
               lineHeight: 1.02,
               marginBottom: "1rem",
-              color: "#f5f5f7",
+              color: "#2a1c10",
             }}
           >
             OAS-MAN
@@ -711,7 +711,7 @@ export default function Home() {
               fontSize: "clamp(1.375rem, 3vw, 2rem)",
               fontWeight: 400,
               lineHeight: 1.15,
-              color: "#a1a1a6",
+              color: "#5e4b37",
             }}
           >
             DIY Air Suspension,
@@ -722,7 +722,7 @@ export default function Home() {
             className="reveal reveal-delay-3"
             style={{
               fontSize: "1.0625rem",
-              color: "#8a8a8f",
+              color: "#6e5b45",
               maxWidth: "480px",
               margin: "0 auto 2.5rem",
               lineHeight: 1.6,
@@ -786,9 +786,9 @@ export default function Home() {
       {/* ─── Hero stat strip ─── */}
       <section
         style={{
-          background: "#0a0a0a",
+          background: "#e3d5b5",
           padding: "3rem 1.5rem",
-          borderBottom: "1px solid rgba(255,255,255,0.06)",
+          borderBottom: "1px solid rgba(74,48,26,0.1)",
         }}
       >
         <div
@@ -832,7 +832,7 @@ export default function Home() {
       </section>
 
       {/* ─── "Supercharged by" ─── */}
-      <section id="specs" style={{ background: "#111", padding: "6rem 1.5rem" }}>
+      <section id="specs" style={{ background: "#efe7d1", padding: "6rem 1.5rem" }}>
         <div style={{ maxWidth: "980px", margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: "4rem" }}>
             <h2 className="apple-headline reveal" style={{ marginBottom: "0.75rem" }}>
@@ -869,7 +869,7 @@ export default function Home() {
                   fontSize: "1.75rem",
                   fontWeight: 700,
                   letterSpacing: "-0.02em",
-                  color: "#f5f5f7",
+                  color: "#2a1c10",
                   marginBottom: "1.5rem",
                   lineHeight: 1.1,
                 }}
@@ -909,7 +909,7 @@ export default function Home() {
               </ul>
               <div
                 style={{
-                  borderTop: "1px solid rgba(255,255,255,0.08)",
+                  borderTop: "1px solid rgba(74,48,26,0.12)",
                   paddingTop: "1.25rem",
                   display: "flex",
                   flexWrap: "wrap",
@@ -958,7 +958,7 @@ export default function Home() {
                   fontSize: "1.75rem",
                   fontWeight: 700,
                   letterSpacing: "-0.02em",
-                  color: "#f5f5f7",
+                  color: "#2a1c10",
                   marginBottom: "1.5rem",
                   lineHeight: 1.1,
                 }}
@@ -998,7 +998,7 @@ export default function Home() {
               </ul>
               <div
                 style={{
-                  borderTop: "1px solid rgba(255,255,255,0.08)",
+                  borderTop: "1px solid rgba(74,48,26,0.12)",
                   paddingTop: "1.25rem",
                   display: "flex",
                   flexWrap: "wrap",
@@ -1056,9 +1056,9 @@ export default function Home() {
       {/* ─── Price comparison ─── */}
       <section
         style={{
-          background: "#000",
+          background: "#e9ddc1",
           padding: "6rem 1.5rem",
-          borderTop: "1px solid rgba(255,255,255,0.06)",
+          borderTop: "1px solid rgba(74,48,26,0.1)",
         }}
       >
         <div style={{ maxWidth: "680px", margin: "0 auto" }}>
@@ -1118,9 +1118,9 @@ export default function Home() {
       <section
         id="features"
         style={{
-          background: "#0a0a0a",
+          background: "#e3d5b5",
           padding: "6rem 1.5rem",
-          borderTop: "1px solid rgba(255,255,255,0.06)",
+          borderTop: "1px solid rgba(74,48,26,0.1)",
         }}
       >
         <div style={{ maxWidth: "980px", margin: "0 auto" }}>
@@ -1168,8 +1168,8 @@ export default function Home() {
           <div
             className="ai-card reveal"
             style={{
-              background: "#1c1c1e",
-              border: "1px solid rgba(255,255,255,0.08)",
+              background: "#f6efdc",
+              border: "1px solid rgba(74,48,26,0.12)",
               borderRadius: "20px",
               padding: "2.5rem",
               display: "grid",
@@ -1187,7 +1187,7 @@ export default function Home() {
                   fontSize: "1.5rem",
                   fontWeight: 700,
                   letterSpacing: "-0.02em",
-                  color: "#f5f5f7",
+                  color: "#2a1c10",
                   marginBottom: "0.75rem",
                   lineHeight: 1.2,
                 }}
@@ -1212,8 +1212,8 @@ export default function Home() {
             className="reveal"
             style={{
               marginTop: "2rem",
-              background: "#1c1c1e",
-              border: "1px solid rgba(96,165,250,0.15)",
+              background: "#f6efdc",
+              border: "1px solid rgba(226,116,43,0.22)",
               borderRadius: "20px",
               padding: "2rem 2.5rem",
               display: "flex",
@@ -1227,7 +1227,7 @@ export default function Home() {
                 style={{
                   fontSize: "1.125rem",
                   fontWeight: 700,
-                  color: "#f5f5f7",
+                  color: "#2a1c10",
                   marginBottom: "0.375rem",
                 }}
               >
@@ -1252,9 +1252,9 @@ export default function Home() {
       {/* ─── Design / Wireless (real controller photo) ─── */}
       <section
         style={{
-          background: "#111",
+          background: "#efe7d1",
           padding: "6rem 1.5rem",
-          borderTop: "1px solid rgba(255,255,255,0.06)",
+          borderTop: "1px solid rgba(74,48,26,0.1)",
         }}
       >
         <div style={{ maxWidth: "980px", margin: "0 auto" }}>
@@ -1285,8 +1285,8 @@ export default function Home() {
               style={{
                 borderRadius: "20px",
                 overflow: "hidden",
-                background: "#0a0a0a",
-                border: "1px solid rgba(255,255,255,0.06)",
+                background: "#e3d5b5",
+                border: "1px solid rgba(74,48,26,0.1)",
               }}
             >
               <img
@@ -1305,7 +1305,7 @@ export default function Home() {
                   fontSize: "1.75rem",
                   fontWeight: 700,
                   letterSpacing: "-0.02em",
-                  color: "#f5f5f7",
+                  color: "#2a1c10",
                   marginBottom: "1rem",
                   lineHeight: 1.15,
                 }}
@@ -1346,8 +1346,8 @@ export default function Home() {
                         width: "20px",
                         height: "20px",
                         borderRadius: "50%",
-                        background: "rgba(59,130,246,0.2)",
-                        border: "1px solid rgba(96,165,250,0.3)",
+                        background: "rgba(226,116,43,0.2)",
+                        border: "1px solid rgba(226,116,43,0.35)",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
@@ -1369,7 +1369,7 @@ export default function Home() {
           <div
             className="callout-grid reveal"
             style={{
-              background: "#1c1c1e",
+              background: "#f6efdc",
               borderRadius: "20px",
               padding: "2.5rem",
               display: "grid",
@@ -1384,7 +1384,7 @@ export default function Home() {
                   fontSize: "1.375rem",
                   fontWeight: 700,
                   letterSpacing: "-0.02em",
-                  color: "#f5f5f7",
+                  color: "#2a1c10",
                   marginBottom: "0.75rem",
                 }}
               >
@@ -1418,7 +1418,7 @@ export default function Home() {
                 <div
                   key={label}
                   style={{
-                    background: "#2a2a2e",
+                    background: "#f6efdc",
                     borderRadius: "12px",
                     padding: "1rem",
                     textAlign: "center",
@@ -1452,9 +1452,9 @@ export default function Home() {
       {/* ─── Presets / Controller UI mockup ─── */}
       <section
         style={{
-          background: "#000",
+          background: "#e9ddc1",
           padding: "6rem 1.5rem",
-          borderTop: "1px solid rgba(255,255,255,0.06)",
+          borderTop: "1px solid rgba(74,48,26,0.1)",
         }}
       >
         <div style={{ maxWidth: "980px", margin: "0 auto", textAlign: "center" }}>
@@ -1512,7 +1512,7 @@ export default function Home() {
                   fontSize: "1.5rem",
                   fontWeight: 700,
                   letterSpacing: "-0.02em",
-                  color: "#f5f5f7",
+                  color: "#2a1c10",
                   marginBottom: "0.75rem",
                 }}
               >
@@ -1537,9 +1537,9 @@ export default function Home() {
       {/* ─── Gaming controllers ─── */}
       <section
         style={{
-          background: "#0a0a0a",
+          background: "#e3d5b5",
           padding: "6rem 1.5rem",
-          borderTop: "1px solid rgba(255,255,255,0.06)",
+          borderTop: "1px solid rgba(74,48,26,0.1)",
         }}
       >
         <div style={{ maxWidth: "980px", margin: "0 auto" }}>
@@ -1565,7 +1565,7 @@ export default function Home() {
                   fontSize: "clamp(2rem, 4vw, 3rem)",
                   fontWeight: 700,
                   letterSpacing: "-0.025em",
-                  color: "#f5f5f7",
+                  color: "#2a1c10",
                   marginBottom: "1rem",
                   lineHeight: 1.1,
                 }}
@@ -1587,7 +1587,7 @@ export default function Home() {
               </p>
               <div
                 style={{
-                  borderTop: "1px solid rgba(255,255,255,0.08)",
+                  borderTop: "1px solid rgba(74,48,26,0.12)",
                   paddingTop: "1.5rem",
                   display: "flex",
                   flexDirection: "column",
@@ -1632,9 +1632,9 @@ export default function Home() {
       {/* ─── Endless Customization ─── */}
       <section
         style={{
-          background: "#000",
+          background: "#e9ddc1",
           padding: "6rem 1.5rem",
-          borderTop: "1px solid rgba(255,255,255,0.06)",
+          borderTop: "1px solid rgba(74,48,26,0.1)",
         }}
       >
         <div style={{ maxWidth: "980px", margin: "0 auto" }}>
@@ -1711,7 +1711,7 @@ export default function Home() {
                   style={{
                     fontSize: "1.0625rem",
                     fontWeight: 700,
-                    color: "#f5f5f7",
+                    color: "#2a1c10",
                     marginBottom: "0.5rem",
                   }}
                 >
@@ -1735,9 +1735,9 @@ export default function Home() {
       {/* ─── Values ─── */}
       <section
         style={{
-          background: "#0a0a0a",
+          background: "#e3d5b5",
           padding: "5rem 1.5rem",
-          borderTop: "1px solid rgba(255,255,255,0.06)",
+          borderTop: "1px solid rgba(74,48,26,0.1)",
         }}
       >
         <div style={{ maxWidth: "980px", margin: "0 auto" }}>
@@ -1776,8 +1776,8 @@ export default function Home() {
                 key={v.title}
                 className="reveal"
                 style={{
-                  background: "#1c1c1e",
-                  border: "1px solid rgba(255,255,255,0.06)",
+                  background: "#f6efdc",
+                  border: "1px solid rgba(74,48,26,0.1)",
                   borderRadius: "18px",
                   padding: "2rem",
                 }}
@@ -1789,7 +1789,7 @@ export default function Home() {
                   style={{
                     fontSize: "1.0625rem",
                     fontWeight: 700,
-                    color: "#f5f5f7",
+                    color: "#2a1c10",
                     marginBottom: "0.625rem",
                   }}
                 >
@@ -1814,9 +1814,9 @@ export default function Home() {
       <section
         id="community"
         style={{
-          background: "#000",
+          background: "#e9ddc1",
           padding: "6rem 1.5rem",
-          borderTop: "1px solid rgba(255,255,255,0.06)",
+          borderTop: "1px solid rgba(74,48,26,0.1)",
         }}
       >
         <div style={{ maxWidth: "620px", margin: "0 auto", textAlign: "center" }}>
@@ -1867,8 +1867,8 @@ export default function Home() {
       {/* ─── Footer ─── */}
       <footer
         style={{
-          background: "#111",
-          borderTop: "1px solid rgba(255,255,255,0.06)",
+          background: "#efe7d1",
+          borderTop: "1px solid rgba(74,48,26,0.1)",
           padding: "3rem 1.5rem",
         }}
       >
@@ -1895,7 +1895,7 @@ export default function Home() {
                   style={{
                     width: "22px",
                     height: "22px",
-                    background: "linear-gradient(135deg, #2563EB, #60A5FA)",
+                    background: "linear-gradient(135deg, #c1352a, #e8a33d)",
                     borderRadius: "6px",
                   }}
                 />
@@ -2000,7 +2000,7 @@ export default function Home() {
 
           <div
             style={{
-              borderTop: "1px solid rgba(255,255,255,0.06)",
+              borderTop: "1px solid rgba(74,48,26,0.1)",
               paddingTop: "1.5rem",
               display: "flex",
               justifyContent: "space-between",
