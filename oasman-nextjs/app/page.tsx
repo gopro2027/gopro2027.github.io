@@ -375,22 +375,20 @@ export default function Home() {
               textDecoration: "none",
             }}
           >
-            <div
+            <img
+              src="/assets/oasman_logo.jpg"
+              alt="OAS-MAN logo"
+              width={30}
+              height={30}
               style={{
-                width: "28px",
-                height: "28px",
-                background: "linear-gradient(135deg, #d35f1c, #f1a14e)",
-                borderRadius: "7px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
+                width: "30px",
+                height: "30px",
+                objectFit: "contain",
+                borderRadius: "8px",
+                mixBlendMode: "multiply",
                 flexShrink: 0,
               }}
-            >
-              <span style={{ color: "#fff", fontWeight: 800, fontSize: "0.7rem" }}>
-                O
-              </span>
-            </div>
+            />
             <span
               style={{
                 fontWeight: 700,
@@ -409,13 +407,14 @@ export default function Home() {
               rel="noopener noreferrer"
               style={{
                 fontSize: "0.8125rem",
-                color: "var(--oasman-text-secondary)",
+                fontWeight: 600,
+                color: "var(--oasman-gold)",
                 textDecoration: "none",
                 transition: "color 0.2s",
               }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = "#3e2c23")}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "#e76f2e")}
               onMouseLeave={(e) =>
-                (e.currentTarget.style.color = "var(--oasman-text-secondary)")
+                (e.currentTarget.style.color = "var(--oasman-gold)")
               }
             >
               Docs
@@ -469,7 +468,7 @@ export default function Home() {
               </a>
             ))}
             <a
-              href="https://github.com/gopro2027/ArduinoAirSuspensionController"
+              href="https://oasman.dev/docs"
               target="_blank"
               rel="noopener noreferrer"
               style={{
@@ -488,7 +487,7 @@ export default function Home() {
               onMouseEnter={(e) => (e.currentTarget.style.filter = "brightness(1.1)")}
               onMouseLeave={(e) => (e.currentTarget.style.filter = "brightness(1)")}
             >
-              Start Building
+              Get Started
             </a>
           </div>
         </div>
@@ -544,6 +543,19 @@ export default function Home() {
             zIndex: 1,
           }}
         >
+          <img
+            src="/assets/oasman_logo.jpg"
+            alt="OAS-MAN logo"
+            className="reveal"
+            style={{
+              width: "clamp(104px, 16vw, 148px)",
+              height: "auto",
+              display: "block",
+              margin: "0 auto 1.5rem",
+              borderRadius: "22px",
+              mixBlendMode: "multiply",
+            }}
+          />
           <p className="apple-eyebrow reveal" style={{ marginBottom: "1rem" }}>
             Open Source · DIY · Affordable
           </p>
@@ -604,22 +616,22 @@ export default function Home() {
             }}
           >
             <a
-              href="https://github.com/gopro2027/ArduinoAirSuspensionController"
+              href="https://oasman.dev/docs"
               target="_blank"
               rel="noopener noreferrer"
               className="btn-primary"
             >
-              <Github size={16} />
-              Start Building
+              View Build Instructions
+              <ChevronRight size={15} />
             </a>
             <a
-              href="https://oasman.dev/docs"
+              href="https://github.com/gopro2027/ArduinoAirSuspensionController"
               target="_blank"
               rel="noopener noreferrer"
               className="btn-secondary"
             >
-              Read Docs
-              <ChevronRight size={15} />
+              <Github size={16} />
+              View on GitHub
             </a>
           </div>
 
@@ -1726,22 +1738,22 @@ export default function Home() {
             }}
           >
             <a
-              href="https://github.com/gopro2027/ArduinoAirSuspensionController"
+              href="https://oasman.dev/docs"
               target="_blank"
               rel="noopener noreferrer"
               className="btn-primary"
             >
-              <Github size={16} />
-              View on GitHub
+              View Build Instructions
+              <ChevronRight size={15} />
             </a>
             <a
-              href="https://oasman.dev/docs"
+              href="https://github.com/gopro2027/ArduinoAirSuspensionController"
               target="_blank"
               rel="noopener noreferrer"
               className="btn-secondary"
             >
-              Read Docs
-              <ChevronRight size={15} />
+              <Github size={16} />
+              View on GitHub
             </a>
           </div>
 
@@ -1779,12 +1791,17 @@ export default function Home() {
                   marginBottom: "0.875rem",
                 }}
               >
-                <div
+                <img
+                  src="/assets/oasman_logo.jpg"
+                  alt="OAS-MAN logo"
+                  width={24}
+                  height={24}
                   style={{
-                    width: "22px",
-                    height: "22px",
-                    background: "linear-gradient(135deg, #d35f1c, #f1a14e)",
+                    width: "24px",
+                    height: "24px",
+                    objectFit: "contain",
                     borderRadius: "6px",
+                    mixBlendMode: "multiply",
                   }}
                 />
                 <span
