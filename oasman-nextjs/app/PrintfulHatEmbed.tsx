@@ -9,8 +9,8 @@ const PRODUCT_IMAGE =
 const PRICE = "$25.00"
 
 const buttonPrimary: CSSProperties = {
-  background: "linear-gradient(135deg, #2563EB, #60A5FA)",
-  color: "#fff",
+  background: "linear-gradient(135deg, #d35f1c 0%, #e76f2e 55%, #f1a14e 100%)",
+  color: "#fff8ee",
   fontWeight: 500,
   fontSize: "0.9375rem",
   paddingLeft: "1.75rem",
@@ -42,8 +42,8 @@ export default function PrintfulHatEmbed() {
         paddingRight: "1.5rem",
         paddingTop: "6rem",
         paddingBottom: "6rem",
-        borderTop: "1px solid rgba(255, 255, 255, 0.06)",
-        background: "#0a0a0a",
+        borderTop: "1px solid rgba(74, 48, 26, 0.1)",
+        background: "#ecddc4",
       }}
     >
       <div style={{ maxWidth: "980px", marginLeft: "auto", marginRight: "auto" }}>
@@ -54,7 +54,7 @@ export default function PrintfulHatEmbed() {
               fontWeight: 600,
               textTransform: "uppercase",
               letterSpacing: "0.06em",
-              color: "#60A5FA",
+              color: "#d35f1c",
               marginBottom: "0.75rem",
             }}
           >
@@ -65,7 +65,7 @@ export default function PrintfulHatEmbed() {
               fontSize: "clamp(2.5rem, 6vw, 4rem)",
               fontWeight: 700,
               letterSpacing: "-0.025em",
-              color: "#f5f5f7",
+              color: "#3e2c23",
               marginBottom: "1rem",
             }}
           >
@@ -84,10 +84,11 @@ export default function PrintfulHatEmbed() {
             gridTemplateColumns: "1fr 1fr",
             gap: "2.5rem",
             alignItems: "center",
-            border: "1px solid rgba(255, 255, 255, 0.08)",
+            border: "1px solid rgba(74, 48, 26, 0.12)",
             borderRadius: "20px",
             padding: "2.5rem",
-            backgroundColor: "#1c1c1e",
+            backgroundColor: "#fdf8ee",
+            boxShadow: "0 1px 3px rgba(74, 48, 26, 0.08)",
           }}
         >
           <a
@@ -120,14 +121,14 @@ export default function PrintfulHatEmbed() {
                 style={{
                   fontSize: "2.5rem",
                   fontWeight: 700,
-                  color: "#60A5FA",
+                  color: "#d35f1c",
                   marginBottom: "0.5rem",
                   letterSpacing: "-0.02em",
                 }}
               >
                 {PRICE}
               </p>
-              <p style={{ fontSize: "0.9375rem", color: "#a1a1a6", lineHeight: 1.6 }}>
+              <p style={{ fontSize: "0.9375rem", color: "#6b5444", lineHeight: 1.6 }}>
                 A hat made of corduroy that&apos;ll serve you for ages: soft, affordable, and durable.
               </p>
             </div>
@@ -141,7 +142,7 @@ export default function PrintfulHatEmbed() {
                     alignItems: "center",
                     gap: "0.75rem",
                     fontSize: "0.9375rem",
-                    color: "#f5f5f7",
+                    color: "#3e2c23",
                   }}
                 >
                   <span
@@ -149,7 +150,7 @@ export default function PrintfulHatEmbed() {
                       width: "0.5rem",
                       height: "0.5rem",
                       borderRadius: "9999px",
-                      backgroundColor: "#60A5FA",
+                      backgroundColor: "#e76f2e",
                       flexShrink: 0,
                     }}
                   />
@@ -191,7 +192,7 @@ export default function PrintfulHatEmbed() {
           style={{
             textAlign: "center",
             fontSize: "0.8125rem",
-            color: "#6e6e73",
+            color: "#9a8472",
             marginTop: "1.5rem",
             maxWidth: "36rem",
             marginLeft: "auto",
@@ -200,7 +201,7 @@ export default function PrintfulHatEmbed() {
           }}
         >
           Checkout powered by Printful.{" "}
-          <a href={STORE_URL} target="_blank" rel="noopener noreferrer" style={{ color: "#60A5FA" }}>
+          <a href={STORE_URL} target="_blank" rel="noopener noreferrer" style={{ color: "#d35f1c" }}>
             Click here to view the full store
           </a>
           .

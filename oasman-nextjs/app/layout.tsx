@@ -5,6 +5,11 @@ export const metadata = {
   title: "OASMan - Open Source Air Suspension Management",
   description:
     "DIY air suspension system for under $500. Fully customizable, open source, with gaming controller support.",
+  icons: {
+    icon: "/assets/oasman_logo.jpg",
+    shortcut: "/assets/oasman_logo.jpg",
+    apple: "/assets/oasman_logo.jpg",
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

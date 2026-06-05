@@ -16,9 +16,9 @@ import {
    ───────────────────────────────────────────────────────────── */
 
 const THEME = {
-  light: "#60A5FA",
-  medium: "#3B82F6",
-  dark: "#2563EB",
+  light: "#4db8e2",
+  medium: "#2fa4d7",
+  dark: "#1c84b3",
   greyVeryDark: "#121212",
   greyDark: "#1F1F1F",
 }

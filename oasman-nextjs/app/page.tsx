@@ -51,7 +51,7 @@ const PCBViewer = dynamic(() => import("./PCBViewer"), {
       <span
         style={{
           fontSize: "0.8125rem",
-          color: "rgba(96,165,250,0.4)",
+          color: "rgba(62,44,35,0.55)",
           letterSpacing: "0.06em",
           textTransform: "uppercase",
         }}
@@ -167,8 +167,8 @@ function BenchBar({
           style={{
             width: animated ? `${pct}%` : "0%",
             background: accent
-              ? "linear-gradient(90deg, #2563EB, #60A5FA)"
-              : "rgba(255,255,255,0.14)",
+              ? "linear-gradient(90deg, #d35f1c, #e76f2e)"
+              : "rgba(74,48,26,0.1)",
           }}
         />
       </div>
@@ -182,8 +182,8 @@ function AILearningVisual() {
   return (
     <div
       style={{
-        background: "radial-gradient(circle at 50% 0%, #16181d, #0a0a0c)",
-        border: "1px solid rgba(255,255,255,0.08)",
+        background: "radial-gradient(circle at 50% 0%, #fdf8ee, #f9f1e2)",
+        border: "1px solid rgba(74,48,26,0.12)",
         borderRadius: "16px",
         padding: "1.5rem",
         height: "100%",
@@ -267,7 +267,7 @@ function AILearningVisual() {
         style={{
           marginTop: "1.5rem",
           paddingTop: "1.25rem",
-          borderTop: "1px solid rgba(255,255,255,0.08)",
+          borderTop: "1px solid rgba(74,48,26,0.12)",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "flex-end",
@@ -278,7 +278,7 @@ function AILearningVisual() {
             style={{
               fontSize: "2rem",
               fontWeight: 700,
-              color: "#f5f5f7",
+              color: "#3e2c23",
               lineHeight: 1,
             }}
           >
@@ -352,7 +352,7 @@ export default function Home() {
   ]
 
   return (
-    <div style={{ backgroundColor: "#000", color: "#f5f5f7", minHeight: "100vh" }}>
+    <div style={{ backgroundColor: "#f5e9d8", color: "#3e2c23", minHeight: "100vh" }}>
       {/* ─── Global Nav ─── */}
       <nav className="global-nav">
         <div
@@ -375,22 +375,20 @@ export default function Home() {
               textDecoration: "none",
             }}
           >
-            <div
+            <img
+              src="/assets/oasman_logo.jpg"
+              alt="OAS-MAN logo"
+              width={30}
+              height={30}
               style={{
-                width: "28px",
-                height: "28px",
-                background: "linear-gradient(135deg, #2563EB, #60A5FA)",
-                borderRadius: "7px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
+                width: "30px",
+                height: "30px",
+                objectFit: "contain",
+                borderRadius: "8px",
+                mixBlendMode: "multiply",
                 flexShrink: 0,
               }}
-            >
-              <span style={{ color: "#fff", fontWeight: 800, fontSize: "0.7rem" }}>
-                O
-              </span>
-            </div>
+            />
             <span
               style={{
                 fontWeight: 700,
@@ -404,18 +402,34 @@ export default function Home() {
           </a>
           <div style={{ display: "flex", alignItems: "center", gap: "1.5rem" }}>
             <a
-              href="https://oasman.dev/docs"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="#demo"
               style={{
                 fontSize: "0.8125rem",
                 color: "var(--oasman-text-secondary)",
                 textDecoration: "none",
                 transition: "color 0.2s",
               }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = "#f5f5f7")}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "#3e2c23")}
               onMouseLeave={(e) =>
                 (e.currentTarget.style.color = "var(--oasman-text-secondary)")
+              }
+            >
+              Live Demo
+            </a>
+            <a
+              href="https://oasman.dev/docs"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                fontSize: "0.8125rem",
+                fontWeight: 600,
+                color: "var(--oasman-gold)",
+                textDecoration: "none",
+                transition: "color 0.2s",
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "#e76f2e")}
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.color = "var(--oasman-gold)")
               }
             >
               Docs
@@ -425,7 +439,7 @@ export default function Home() {
               target="_blank"
               rel="noopener noreferrer"
               style={{ color: "var(--oasman-text-secondary)", transition: "color 0.2s", display: "flex" }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = "#f5f5f7")}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "#3e2c23")}
               onMouseLeave={(e) =>
                 (e.currentTarget.style.color = "var(--oasman-text-secondary)")
               }
@@ -460,7 +474,7 @@ export default function Home() {
                   transition: "color 0.2s",
                   whiteSpace: "nowrap",
                 }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = "#f5f5f7")}
+                onMouseEnter={(e) => (e.currentTarget.style.color = "#3e2c23")}
                 onMouseLeave={(e) =>
                   (e.currentTarget.style.color = "var(--oasman-text-secondary)")
                 }
@@ -469,7 +483,7 @@ export default function Home() {
               </a>
             ))}
             <a
-              href="https://github.com/gopro2027/ArduinoAirSuspensionController"
+              href="https://oasman.dev/docs"
               target="_blank"
               rel="noopener noreferrer"
               style={{
@@ -479,7 +493,7 @@ export default function Home() {
                 fontSize: "0.8125rem",
                 fontWeight: 500,
                 color: "#fff",
-                background: "linear-gradient(135deg, #2563EB, #60A5FA)",
+                background: "linear-gradient(135deg, #d35f1c, #f1a14e)",
                 borderRadius: "980px",
                 textDecoration: "none",
                 transition: "filter 0.2s",
@@ -488,7 +502,7 @@ export default function Home() {
               onMouseEnter={(e) => (e.currentTarget.style.filter = "brightness(1.1)")}
               onMouseLeave={(e) => (e.currentTarget.style.filter = "brightness(1)")}
             >
-              Start Building
+              Get Started
             </a>
           </div>
         </div>
@@ -499,7 +513,7 @@ export default function Home() {
         id="overview"
         style={{
           position: "relative",
-          background: "linear-gradient(180deg, #000 0%, #0a0a0a 100%)",
+          background: "linear-gradient(180deg, #f5e9d8 0%, #ecddc4 100%)",
           paddingTop: "5rem",
           paddingBottom: "0",
           textAlign: "center",
@@ -529,7 +543,7 @@ export default function Home() {
             position: "absolute",
             inset: 0,
             background:
-              "linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.35) 45%, rgba(10,10,10,0.85) 100%)",
+              "linear-gradient(180deg, rgba(245,233,216,0.55) 0%, rgba(245,233,216,0.42) 45%, rgba(236,221,196,0.92) 100%)",
             zIndex: 0,
             pointerEvents: "none",
           }}
@@ -555,7 +569,7 @@ export default function Home() {
               letterSpacing: "-0.03em",
               lineHeight: 1.02,
               marginBottom: "1rem",
-              color: "#f5f5f7",
+              color: "#3e2c23",
             }}
           >
             OAS-MAN
@@ -568,7 +582,7 @@ export default function Home() {
               fontSize: "clamp(1.375rem, 3vw, 2rem)",
               fontWeight: 400,
               lineHeight: 1.15,
-              color: "#a1a1a6",
+              color: "#6b5444",
             }}
           >
             DIY Air Suspension,
@@ -579,7 +593,7 @@ export default function Home() {
             className="reveal reveal-delay-3"
             style={{
               fontSize: "1.0625rem",
-              color: "#8a8a8f",
+              color: "#6b5444",
               maxWidth: "480px",
               margin: "0 auto 2.5rem",
               lineHeight: 1.6,
@@ -604,22 +618,22 @@ export default function Home() {
             }}
           >
             <a
-              href="https://github.com/gopro2027/ArduinoAirSuspensionController"
+              href="https://oasman.dev/docs"
               target="_blank"
               rel="noopener noreferrer"
               className="btn-primary"
             >
-              <Github size={16} />
-              Start Building
+              View Build Instructions
+              <ChevronRight size={15} />
             </a>
             <a
-              href="https://oasman.dev/docs"
+              href="https://github.com/gopro2027/ArduinoAirSuspensionController"
               target="_blank"
               rel="noopener noreferrer"
               className="btn-secondary"
             >
-              Read Docs
-              <ChevronRight size={15} />
+              <Github size={16} />
+              View on GitHub
             </a>
           </div>
 
@@ -643,9 +657,9 @@ export default function Home() {
       {/* ─── Hero stat strip ─── */}
       <section
         style={{
-          background: "#0a0a0a",
+          background: "#ecddc4",
           padding: "3rem 1.5rem",
-          borderBottom: "1px solid rgba(255,255,255,0.06)",
+          borderBottom: "1px solid rgba(74,48,26,0.1)",
         }}
       >
         <div
@@ -689,7 +703,7 @@ export default function Home() {
       </section>
 
       {/* ─── "Supercharged by" ─── */}
-      <section id="specs" style={{ background: "#111", padding: "6rem 1.5rem" }}>
+      <section id="specs" style={{ background: "#f9f1e2", padding: "6rem 1.5rem" }}>
         <div style={{ maxWidth: "980px", margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: "4rem" }}>
             <h2 className="apple-headline reveal" style={{ marginBottom: "0.75rem" }}>
@@ -726,7 +740,7 @@ export default function Home() {
                   fontSize: "1.75rem",
                   fontWeight: 700,
                   letterSpacing: "-0.02em",
-                  color: "#f5f5f7",
+                  color: "#3e2c23",
                   marginBottom: "1.5rem",
                   lineHeight: 1.1,
                 }}
@@ -766,7 +780,7 @@ export default function Home() {
               </ul>
               <div
                 style={{
-                  borderTop: "1px solid rgba(255,255,255,0.08)",
+                  borderTop: "1px solid rgba(74,48,26,0.12)",
                   paddingTop: "1.25rem",
                   display: "flex",
                   flexWrap: "wrap",
@@ -815,7 +829,7 @@ export default function Home() {
                   fontSize: "1.75rem",
                   fontWeight: 700,
                   letterSpacing: "-0.02em",
-                  color: "#f5f5f7",
+                  color: "#3e2c23",
                   marginBottom: "1.5rem",
                   lineHeight: 1.1,
                 }}
@@ -855,7 +869,7 @@ export default function Home() {
               </ul>
               <div
                 style={{
-                  borderTop: "1px solid rgba(255,255,255,0.08)",
+                  borderTop: "1px solid rgba(74,48,26,0.12)",
                   paddingTop: "1.25rem",
                   display: "flex",
                   flexWrap: "wrap",
@@ -913,9 +927,9 @@ export default function Home() {
       {/* ─── Price comparison ─── */}
       <section
         style={{
-          background: "#000",
+          background: "#f5e9d8",
           padding: "6rem 1.5rem",
-          borderTop: "1px solid rgba(255,255,255,0.06)",
+          borderTop: "1px solid rgba(74,48,26,0.1)",
         }}
       >
         <div style={{ maxWidth: "680px", margin: "0 auto" }}>
@@ -975,9 +989,9 @@ export default function Home() {
       <section
         id="features"
         style={{
-          background: "#0a0a0a",
+          background: "#ecddc4",
           padding: "6rem 1.5rem",
-          borderTop: "1px solid rgba(255,255,255,0.06)",
+          borderTop: "1px solid rgba(74,48,26,0.1)",
         }}
       >
         <div style={{ maxWidth: "980px", margin: "0 auto" }}>
@@ -1025,8 +1039,8 @@ export default function Home() {
           <div
             className="ai-card reveal"
             style={{
-              background: "#1c1c1e",
-              border: "1px solid rgba(255,255,255,0.08)",
+              background: "#fdf8ee",
+              border: "1px solid rgba(74,48,26,0.12)",
               borderRadius: "20px",
               padding: "2.5rem",
               display: "grid",
@@ -1044,7 +1058,7 @@ export default function Home() {
                   fontSize: "1.5rem",
                   fontWeight: 700,
                   letterSpacing: "-0.02em",
-                  color: "#f5f5f7",
+                  color: "#3e2c23",
                   marginBottom: "0.75rem",
                   lineHeight: 1.2,
                 }}
@@ -1069,8 +1083,8 @@ export default function Home() {
             className="reveal"
             style={{
               marginTop: "2rem",
-              background: "#1c1c1e",
-              border: "1px solid rgba(96,165,250,0.15)",
+              background: "#fdf8ee",
+              border: "1px solid rgba(231,111,46,0.22)",
               borderRadius: "20px",
               padding: "2rem 2.5rem",
               display: "flex",
@@ -1084,7 +1098,7 @@ export default function Home() {
                 style={{
                   fontSize: "1.125rem",
                   fontWeight: 700,
-                  color: "#f5f5f7",
+                  color: "#3e2c23",
                   marginBottom: "0.375rem",
                 }}
               >
@@ -1109,9 +1123,9 @@ export default function Home() {
       {/* ─── Design / Wireless (real controller photo) ─── */}
       <section
         style={{
-          background: "#111",
+          background: "#f9f1e2",
           padding: "6rem 1.5rem",
-          borderTop: "1px solid rgba(255,255,255,0.06)",
+          borderTop: "1px solid rgba(74,48,26,0.1)",
         }}
       >
         <div style={{ maxWidth: "980px", margin: "0 auto" }}>
@@ -1142,8 +1156,8 @@ export default function Home() {
               style={{
                 borderRadius: "20px",
                 overflow: "hidden",
-                background: "#0a0a0a",
-                border: "1px solid rgba(255,255,255,0.06)",
+                background: "#ecddc4",
+                border: "1px solid rgba(74,48,26,0.1)",
               }}
             >
               <img
@@ -1162,7 +1176,7 @@ export default function Home() {
                   fontSize: "1.75rem",
                   fontWeight: 700,
                   letterSpacing: "-0.02em",
-                  color: "#f5f5f7",
+                  color: "#3e2c23",
                   marginBottom: "1rem",
                   lineHeight: 1.15,
                 }}
@@ -1203,8 +1217,8 @@ export default function Home() {
                         width: "20px",
                         height: "20px",
                         borderRadius: "50%",
-                        background: "rgba(59,130,246,0.2)",
-                        border: "1px solid rgba(96,165,250,0.3)",
+                        background: "rgba(231,111,46,0.2)",
+                        border: "1px solid rgba(231,111,46,0.35)",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
@@ -1226,7 +1240,7 @@ export default function Home() {
           <div
             className="callout-grid reveal"
             style={{
-              background: "#1c1c1e",
+              background: "#fdf8ee",
               borderRadius: "20px",
               padding: "2.5rem",
               display: "grid",
@@ -1241,7 +1255,7 @@ export default function Home() {
                   fontSize: "1.375rem",
                   fontWeight: 700,
                   letterSpacing: "-0.02em",
-                  color: "#f5f5f7",
+                  color: "#3e2c23",
                   marginBottom: "0.75rem",
                 }}
               >
@@ -1275,7 +1289,7 @@ export default function Home() {
                 <div
                   key={label}
                   style={{
-                    background: "#2a2a2e",
+                    background: "#fdf8ee",
                     borderRadius: "12px",
                     padding: "1rem",
                     textAlign: "center",
@@ -1308,10 +1322,11 @@ export default function Home() {
 
       {/* ─── Interactive controller emulator ─── */}
       <section
+        id="demo"
         style={{
-          background: "#000",
+          background: "#f5e9d8",
           padding: "6rem 1.5rem",
-          borderTop: "1px solid rgba(255,255,255,0.06)",
+          borderTop: "1px solid rgba(74,48,26,0.1)",
         }}
       >
         <div style={{ maxWidth: "980px", margin: "0 auto", textAlign: "center" }}>
@@ -1355,8 +1370,8 @@ export default function Home() {
                   fontSize: "1.5rem",
                   fontWeight: 700,
                   letterSpacing: "-0.02em",
-                  color: "#f5f5f7",
-                  marginBottom: "1rem",
+                  color: "#3e2c23",
+                  marginBottom: "0.75rem",
                 }}
               >
                 Three tabs. Full control.
@@ -1398,7 +1413,7 @@ export default function Home() {
                         style={{
                           fontSize: "1rem",
                           fontWeight: 700,
-                          color: "#f5f5f7",
+                          color: "#3e2c23",
                           marginBottom: "0.2rem",
                         }}
                       >
@@ -1425,9 +1440,9 @@ export default function Home() {
       {/* ─── Gaming controllers ─── */}
       <section
         style={{
-          background: "#0a0a0a",
+          background: "#ecddc4",
           padding: "6rem 1.5rem",
-          borderTop: "1px solid rgba(255,255,255,0.06)",
+          borderTop: "1px solid rgba(74,48,26,0.1)",
         }}
       >
         <div style={{ maxWidth: "980px", margin: "0 auto" }}>
@@ -1453,7 +1468,7 @@ export default function Home() {
                   fontSize: "clamp(2rem, 4vw, 3rem)",
                   fontWeight: 700,
                   letterSpacing: "-0.025em",
-                  color: "#f5f5f7",
+                  color: "#3e2c23",
                   marginBottom: "1rem",
                   lineHeight: 1.1,
                 }}
@@ -1475,7 +1490,7 @@ export default function Home() {
               </p>
               <div
                 style={{
-                  borderTop: "1px solid rgba(255,255,255,0.08)",
+                  borderTop: "1px solid rgba(74,48,26,0.12)",
                   paddingTop: "1.5rem",
                   display: "flex",
                   flexDirection: "column",
@@ -1520,9 +1535,9 @@ export default function Home() {
       {/* ─── Endless Customization ─── */}
       <section
         style={{
-          background: "#000",
+          background: "#f5e9d8",
           padding: "6rem 1.5rem",
-          borderTop: "1px solid rgba(255,255,255,0.06)",
+          borderTop: "1px solid rgba(74,48,26,0.1)",
         }}
       >
         <div style={{ maxWidth: "980px", margin: "0 auto" }}>
@@ -1599,7 +1614,7 @@ export default function Home() {
                   style={{
                     fontSize: "1.0625rem",
                     fontWeight: 700,
-                    color: "#f5f5f7",
+                    color: "#3e2c23",
                     marginBottom: "0.5rem",
                   }}
                 >
@@ -1623,9 +1638,9 @@ export default function Home() {
       {/* ─── Values ─── */}
       <section
         style={{
-          background: "#0a0a0a",
+          background: "#ecddc4",
           padding: "5rem 1.5rem",
-          borderTop: "1px solid rgba(255,255,255,0.06)",
+          borderTop: "1px solid rgba(74,48,26,0.1)",
         }}
       >
         <div style={{ maxWidth: "980px", margin: "0 auto" }}>
@@ -1664,8 +1679,8 @@ export default function Home() {
                 key={v.title}
                 className="reveal"
                 style={{
-                  background: "#1c1c1e",
-                  border: "1px solid rgba(255,255,255,0.06)",
+                  background: "#fdf8ee",
+                  border: "1px solid rgba(74,48,26,0.1)",
                   borderRadius: "18px",
                   padding: "2rem",
                 }}
@@ -1677,7 +1692,7 @@ export default function Home() {
                   style={{
                     fontSize: "1.0625rem",
                     fontWeight: 700,
-                    color: "#f5f5f7",
+                    color: "#3e2c23",
                     marginBottom: "0.625rem",
                   }}
                 >
@@ -1702,9 +1717,9 @@ export default function Home() {
       <section
         id="community"
         style={{
-          background: "#000",
+          background: "#f5e9d8",
           padding: "6rem 1.5rem",
-          borderTop: "1px solid rgba(255,255,255,0.06)",
+          borderTop: "1px solid rgba(74,48,26,0.1)",
         }}
       >
         <div style={{ maxWidth: "620px", margin: "0 auto", textAlign: "center" }}>
@@ -1726,22 +1741,22 @@ export default function Home() {
             }}
           >
             <a
-              href="https://github.com/gopro2027/ArduinoAirSuspensionController"
+              href="https://oasman.dev/docs"
               target="_blank"
               rel="noopener noreferrer"
               className="btn-primary"
             >
-              <Github size={16} />
-              View on GitHub
+              View Build Instructions
+              <ChevronRight size={15} />
             </a>
             <a
-              href="https://oasman.dev/docs"
+              href="https://github.com/gopro2027/ArduinoAirSuspensionController"
               target="_blank"
               rel="noopener noreferrer"
               className="btn-secondary"
             >
-              Read Docs
-              <ChevronRight size={15} />
+              <Github size={16} />
+              View on GitHub
             </a>
           </div>
 
@@ -1755,8 +1770,8 @@ export default function Home() {
       {/* ─── Footer ─── */}
       <footer
         style={{
-          background: "#111",
-          borderTop: "1px solid rgba(255,255,255,0.06)",
+          background: "#f9f1e2",
+          borderTop: "1px solid rgba(74,48,26,0.1)",
           padding: "3rem 1.5rem",
         }}
       >
@@ -1779,12 +1794,17 @@ export default function Home() {
                   marginBottom: "0.875rem",
                 }}
               >
-                <div
+                <img
+                  src="/assets/oasman_logo.jpg"
+                  alt="OAS-MAN logo"
+                  width={24}
+                  height={24}
                   style={{
-                    width: "22px",
-                    height: "22px",
-                    background: "linear-gradient(135deg, #2563EB, #60A5FA)",
+                    width: "24px",
+                    height: "24px",
+                    objectFit: "contain",
                     borderRadius: "6px",
+                    mixBlendMode: "multiply",
                   }}
                 />
                 <span
@@ -1888,7 +1908,7 @@ export default function Home() {
 
           <div
             style={{
-              borderTop: "1px solid rgba(255,255,255,0.06)",
+              borderTop: "1px solid rgba(74,48,26,0.1)",
               paddingTop: "1.5rem",
               display: "flex",
               justifyContent: "space-between",
