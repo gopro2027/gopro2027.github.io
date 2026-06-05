@@ -543,19 +543,6 @@ export default function Home() {
             zIndex: 1,
           }}
         >
-          <img
-            src="/assets/oasman_logo.jpg"
-            alt="OAS-MAN logo"
-            className="reveal"
-            style={{
-              width: "clamp(104px, 16vw, 148px)",
-              height: "auto",
-              display: "block",
-              margin: "0 auto 1.5rem",
-              borderRadius: "22px",
-              mixBlendMode: "multiply",
-            }}
-          />
           <p className="apple-eyebrow reveal" style={{ marginBottom: "1rem" }}>
             Open Source · DIY · Affordable
           </p>
