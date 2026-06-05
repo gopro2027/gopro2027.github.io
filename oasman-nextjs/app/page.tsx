@@ -402,6 +402,21 @@ export default function Home() {
           </a>
           <div style={{ display: "flex", alignItems: "center", gap: "1.5rem" }}>
             <a
+              href="#demo"
+              style={{
+                fontSize: "0.8125rem",
+                color: "var(--oasman-text-secondary)",
+                textDecoration: "none",
+                transition: "color 0.2s",
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "#3e2c23")}
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.color = "var(--oasman-text-secondary)")
+              }
+            >
+              Live Demo
+            </a>
+            <a
               href="https://oasman.dev/docs"
               target="_blank"
               rel="noopener noreferrer"
@@ -1307,6 +1322,7 @@ export default function Home() {
 
       {/* ─── Interactive controller emulator ─── */}
       <section
+        id="demo"
         style={{
           background: "#f5e9d8",
           padding: "6rem 1.5rem",
