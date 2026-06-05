@@ -38,31 +38,31 @@
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
 
-  /* OASMan brand — Retro 80's Toyota theme */
-  /* Sunset stripe accents (brown -> gold -> orange -> red) */
-  --retro-brown: #7a4a2b;
-  --retro-gold: #d8932e;
-  --retro-amber: #e8a33d;
-  --retro-orange: #e2742b;
-  --retro-red: #c1352a;
-  --retro-sunset: linear-gradient(90deg, #7a4a2b 0%, #d8932e 33%, #e2742b 66%, #c1352a 100%);
+  /* OASMan brand — Retro 80's Toyota (Color Hunt palette) */
+  /* Palette: blue #2fa4d7, cream #f5e9d8, brown #3e2c23, orange #e76f2e */
+  --retro-blue: #2fa4d7;
+  --retro-brown: #3e2c23;
+  --retro-orange: #e76f2e;
+  --retro-orange-deep: #d35f1c;
+  --retro-orange-light: #f1a14e;
+  --retro-sunset: linear-gradient(90deg, #3e2c23 0%, #e76f2e 40%, #f1a14e 70%, #2fa4d7 100%);
 
-  /* Sandy backgrounds */
-  --sand-base: #e9ddc1;
-  --sand-alt: #e3d5b5;
-  --sand-light: #efe7d1;
-  --sand-cream: #f6efdc;
+  /* Cream backgrounds */
+  --sand-base: #f5e9d8;
+  --sand-alt: #ecddc4;
+  --sand-light: #f9f1e2;
+  --sand-cream: #fdf8ee;
 
-  /* Primary accent (burnt orange) + deep accent */
-  --oasman-gold: #be4420;
-  --oasman-brown: #7a4a2b;
+  /* Primary accent (orange) + deep accent */
+  --oasman-gold: #d35f1c;
+  --oasman-brown: #3e2c23;
   --oasman-dark: var(--sand-alt);
   --oasman-section-dark: var(--sand-light);
   --oasman-section-mid: var(--sand-light);
-  --oasman-text-primary: #2a1c10;
-  --oasman-text-secondary: #5e4b37;
-  --oasman-text-tertiary: #8a7559;
-  --oasman-divider: rgba(74, 48, 26, 0.12);
+  --oasman-text-primary: #3e2c23;
+  --oasman-text-secondary: #6b5444;
+  --oasman-text-tertiary: #9a8472;
+  --oasman-divider: rgba(62, 44, 35, 0.12);
 }
 
 .dark {
@@ -272,7 +272,7 @@ html {
   position: relative;
   overflow: hidden;
   background: var(--oasman-section-mid);
-  border: 1px solid rgba(226, 116, 43, 0.18);
+  border: 1px solid rgba(231, 111, 46, 0.18);
 }
 
 .shimmer-placeholder::after {
@@ -282,7 +282,7 @@ html {
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(226, 116, 43, 0.1) 50%,
+    rgba(231, 111, 46, 0.1) 50%,
     transparent 100%
   );
   animation: shimmer 2.5s infinite;
@@ -340,7 +340,7 @@ html {
   border-radius: 980px;
   font-size: 0.9375rem;
   font-weight: 600;
-  background: linear-gradient(135deg, #c1352a 0%, #e2742b 55%, #e8a33d 100%);
+  background: linear-gradient(135deg, #d35f1c 0%, #e76f2e 55%, #f1a14e 100%);
   color: #fff8ee;
   border: none;
   cursor: pointer;
@@ -363,15 +363,15 @@ html {
   font-size: 0.9375rem;
   font-weight: 500;
   background: transparent;
-  color: var(--oasman-gold);
-  border: 1px solid var(--retro-orange);
+  color: var(--retro-blue);
+  border: 1px solid var(--retro-blue);
   cursor: pointer;
   transition: background 0.2s ease, transform 0.2s ease;
   text-decoration: none;
 }
 
 .btn-secondary:hover {
-  background: rgba(226, 116, 43, 0.12);
+  background: rgba(47, 164, 215, 0.12);
   transform: scale(1.02);
 }
 
@@ -388,8 +388,8 @@ html {
 
 .chip-card:hover {
   transform: translateY(-4px);
-  border-color: rgba(226, 116, 43, 0.45);
-  box-shadow: 0 10px 24px -12px rgba(122, 74, 43, 0.35);
+  border-color: rgba(231, 111, 46, 0.45);
+  box-shadow: 0 10px 24px -12px rgba(62, 44, 35, 0.35);
 }
 
 /* ─── Tab switcher ─── */
@@ -408,8 +408,8 @@ html {
 }
 
 .tab-btn.active {
-  background: rgba(226, 116, 43, 0.15);
-  border-color: rgba(226, 116, 43, 0.45);
+  background: rgba(231, 111, 46, 0.15);
+  border-color: rgba(231, 111, 46, 0.45);
   color: var(--oasman-gold);
 }
 
@@ -425,9 +425,9 @@ html {
 }
 
 .feature-card:hover {
-  border-color: rgba(226, 116, 43, 0.45);
+  border-color: rgba(231, 111, 46, 0.45);
   transform: translateY(-3px);
-  box-shadow: 0 10px 24px -12px rgba(122, 74, 43, 0.35);
+  box-shadow: 0 10px 24px -12px rgba(62, 44, 35, 0.35);
 }
 
 /* ─── Bench bar ─── */
@@ -442,7 +442,7 @@ html {
 .bench-bar-fill {
   height: 100%;
   border-radius: 5px;
-  background: linear-gradient(90deg, #c1352a, #e2742b);
+  background: linear-gradient(90deg, #d35f1c, #e76f2e);
   transition: width 1.1s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -453,8 +453,8 @@ html {
   align-items: center;
   justify-content: center;
   border-radius: 14px;
-  background: linear-gradient(135deg, rgba(226, 116, 43, 0.22), rgba(216, 147, 46, 0.12));
-  border: 1px solid rgba(226, 116, 43, 0.3);
+  background: linear-gradient(135deg, rgba(231, 111, 46, 0.22), rgba(241, 161, 78, 0.12));
+  border: 1px solid rgba(231, 111, 46, 0.3);
   color: var(--oasman-gold);
   flex-shrink: 0;
 }
@@ -472,7 +472,7 @@ html {
 }
 
 .icon-badge-solid {
-  background: linear-gradient(135deg, #c1352a, #e2742b);
+  background: linear-gradient(135deg, #d35f1c, #e76f2e);
   border: none;
   color: #fff8ee;
 }
@@ -489,8 +489,8 @@ html {
   max-width: 120vw;
   background: radial-gradient(
     ellipse at center,
-    rgba(226, 116, 43, 0.22) 0%,
-    rgba(216, 147, 46, 0.1) 35%,
+    rgba(231, 111, 46, 0.22) 0%,
+    rgba(241, 161, 78, 0.1) 35%,
     transparent 70%
   );
   pointer-events: none;
@@ -530,7 +530,7 @@ html {
 .ai-bar {
   width: 100%;
   border-radius: 6px 6px 2px 2px;
-  background: linear-gradient(180deg, #e8a33d, #c1352a);
+  background: linear-gradient(180deg, #f1a14e, #d35f1c);
   transform-origin: bottom;
   animation: barPulse 2.6s ease-in-out infinite;
 }
@@ -579,16 +579,16 @@ html {
   justify-content: center;
   font-size: 0.8rem;
   font-weight: 600;
-  border: 1.5px solid rgba(226, 116, 43, 0.5);
-  color: #f0c89a;
+  border: 1.5px solid rgba(47, 164, 215, 0.5);
+  color: #bfe3f4;
   transition: all 0.3s ease;
 }
 
 .preset-pill.active {
-  background: #e2742b;
-  border-color: #e2742b;
+  background: #2fa4d7;
+  border-color: #2fa4d7;
   color: #fff8ee;
-  box-shadow: 0 0 16px rgba(226, 116, 43, 0.6);
+  box-shadow: 0 0 16px rgba(47, 164, 215, 0.6);
 }
 
 /* ─── Controller emulator (LVGL replica) ─── */
@@ -905,8 +905,8 @@ html {
 }
 
 @keyframes glow {
-  0%, 100% { text-shadow: 0 0 10px rgba(226, 116, 43, 0.4); }
-  50% { text-shadow: 0 0 24px rgba(226, 116, 43, 0.7); }
+  0%, 100% { text-shadow: 0 0 10px rgba(231, 111, 46, 0.4); }
+  50% { text-shadow: 0 0 24px rgba(231, 111, 46, 0.7); }
 }
 
 @keyframes slideInAccent {

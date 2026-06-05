@@ -51,7 +51,7 @@ const PCBViewer = dynamic(() => import("./PCBViewer"), {
       <span
         style={{
           fontSize: "0.8125rem",
-          color: "rgba(122,74,43,0.55)",
+          color: "rgba(62,44,35,0.55)",
           letterSpacing: "0.06em",
           textTransform: "uppercase",
         }}
@@ -167,7 +167,7 @@ function BenchBar({
           style={{
             width: animated ? `${pct}%` : "0%",
             background: accent
-              ? "linear-gradient(90deg, #c1352a, #e2742b)"
+              ? "linear-gradient(90deg, #d35f1c, #e76f2e)"
               : "rgba(74,48,26,0.1)",
           }}
         />
@@ -182,7 +182,7 @@ function AILearningVisual() {
   return (
     <div
       style={{
-        background: "radial-gradient(circle at 50% 0%, #f6efdc, #efe7d1)",
+        background: "radial-gradient(circle at 50% 0%, #fdf8ee, #f9f1e2)",
         border: "1px solid rgba(74,48,26,0.12)",
         borderRadius: "16px",
         padding: "1.5rem",
@@ -278,7 +278,7 @@ function AILearningVisual() {
             style={{
               fontSize: "2rem",
               fontWeight: 700,
-              color: "#2a1c10",
+              color: "#3e2c23",
               lineHeight: 1,
             }}
           >
@@ -352,7 +352,7 @@ export default function Home() {
   ]
 
   return (
-    <div style={{ backgroundColor: "#e9ddc1", color: "#2a1c10", minHeight: "100vh" }}>
+    <div style={{ backgroundColor: "#f5e9d8", color: "#3e2c23", minHeight: "100vh" }}>
       {/* ─── Global Nav ─── */}
       <nav className="global-nav">
         <div
@@ -379,7 +379,7 @@ export default function Home() {
               style={{
                 width: "28px",
                 height: "28px",
-                background: "linear-gradient(135deg, #c1352a, #e8a33d)",
+                background: "linear-gradient(135deg, #d35f1c, #f1a14e)",
                 borderRadius: "7px",
                 display: "flex",
                 alignItems: "center",
@@ -413,7 +413,7 @@ export default function Home() {
                 textDecoration: "none",
                 transition: "color 0.2s",
               }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = "#2a1c10")}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "#3e2c23")}
               onMouseLeave={(e) =>
                 (e.currentTarget.style.color = "var(--oasman-text-secondary)")
               }
@@ -425,7 +425,7 @@ export default function Home() {
               target="_blank"
               rel="noopener noreferrer"
               style={{ color: "var(--oasman-text-secondary)", transition: "color 0.2s", display: "flex" }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = "#2a1c10")}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "#3e2c23")}
               onMouseLeave={(e) =>
                 (e.currentTarget.style.color = "var(--oasman-text-secondary)")
               }
@@ -460,7 +460,7 @@ export default function Home() {
                   transition: "color 0.2s",
                   whiteSpace: "nowrap",
                 }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = "#2a1c10")}
+                onMouseEnter={(e) => (e.currentTarget.style.color = "#3e2c23")}
                 onMouseLeave={(e) =>
                   (e.currentTarget.style.color = "var(--oasman-text-secondary)")
                 }
@@ -479,7 +479,7 @@ export default function Home() {
                 fontSize: "0.8125rem",
                 fontWeight: 500,
                 color: "#fff",
-                background: "linear-gradient(135deg, #c1352a, #e8a33d)",
+                background: "linear-gradient(135deg, #d35f1c, #f1a14e)",
                 borderRadius: "980px",
                 textDecoration: "none",
                 transition: "filter 0.2s",
@@ -499,7 +499,7 @@ export default function Home() {
         id="overview"
         style={{
           position: "relative",
-          background: "linear-gradient(180deg, #e9ddc1 0%, #e3d5b5 100%)",
+          background: "linear-gradient(180deg, #f5e9d8 0%, #ecddc4 100%)",
           paddingTop: "5rem",
           paddingBottom: "0",
           textAlign: "center",
@@ -529,7 +529,7 @@ export default function Home() {
             position: "absolute",
             inset: 0,
             background:
-              "linear-gradient(180deg, rgba(233,221,193,0.55) 0%, rgba(233,221,193,0.42) 45%, rgba(227,213,181,0.92) 100%)",
+              "linear-gradient(180deg, rgba(245,233,216,0.55) 0%, rgba(245,233,216,0.42) 45%, rgba(236,221,196,0.92) 100%)",
             zIndex: 0,
             pointerEvents: "none",
           }}
@@ -555,7 +555,7 @@ export default function Home() {
               letterSpacing: "-0.03em",
               lineHeight: 1.02,
               marginBottom: "1rem",
-              color: "#2a1c10",
+              color: "#3e2c23",
             }}
           >
             OAS-MAN
@@ -568,7 +568,7 @@ export default function Home() {
               fontSize: "clamp(1.375rem, 3vw, 2rem)",
               fontWeight: 400,
               lineHeight: 1.15,
-              color: "#5e4b37",
+              color: "#6b5444",
             }}
           >
             DIY Air Suspension,
@@ -579,7 +579,7 @@ export default function Home() {
             className="reveal reveal-delay-3"
             style={{
               fontSize: "1.0625rem",
-              color: "#6e5b45",
+              color: "#6b5444",
               maxWidth: "480px",
               margin: "0 auto 2.5rem",
               lineHeight: 1.6,
@@ -643,7 +643,7 @@ export default function Home() {
       {/* ─── Hero stat strip ─── */}
       <section
         style={{
-          background: "#e3d5b5",
+          background: "#ecddc4",
           padding: "3rem 1.5rem",
           borderBottom: "1px solid rgba(74,48,26,0.1)",
         }}
@@ -689,7 +689,7 @@ export default function Home() {
       </section>
 
       {/* ─── "Supercharged by" ─── */}
-      <section id="specs" style={{ background: "#efe7d1", padding: "6rem 1.5rem" }}>
+      <section id="specs" style={{ background: "#f9f1e2", padding: "6rem 1.5rem" }}>
         <div style={{ maxWidth: "980px", margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: "4rem" }}>
             <h2 className="apple-headline reveal" style={{ marginBottom: "0.75rem" }}>
@@ -726,7 +726,7 @@ export default function Home() {
                   fontSize: "1.75rem",
                   fontWeight: 700,
                   letterSpacing: "-0.02em",
-                  color: "#2a1c10",
+                  color: "#3e2c23",
                   marginBottom: "1.5rem",
                   lineHeight: 1.1,
                 }}
@@ -815,7 +815,7 @@ export default function Home() {
                   fontSize: "1.75rem",
                   fontWeight: 700,
                   letterSpacing: "-0.02em",
-                  color: "#2a1c10",
+                  color: "#3e2c23",
                   marginBottom: "1.5rem",
                   lineHeight: 1.1,
                 }}
@@ -913,7 +913,7 @@ export default function Home() {
       {/* ─── Price comparison ─── */}
       <section
         style={{
-          background: "#e9ddc1",
+          background: "#f5e9d8",
           padding: "6rem 1.5rem",
           borderTop: "1px solid rgba(74,48,26,0.1)",
         }}
@@ -975,7 +975,7 @@ export default function Home() {
       <section
         id="features"
         style={{
-          background: "#e3d5b5",
+          background: "#ecddc4",
           padding: "6rem 1.5rem",
           borderTop: "1px solid rgba(74,48,26,0.1)",
         }}
@@ -1025,7 +1025,7 @@ export default function Home() {
           <div
             className="ai-card reveal"
             style={{
-              background: "#f6efdc",
+              background: "#fdf8ee",
               border: "1px solid rgba(74,48,26,0.12)",
               borderRadius: "20px",
               padding: "2.5rem",
@@ -1044,7 +1044,7 @@ export default function Home() {
                   fontSize: "1.5rem",
                   fontWeight: 700,
                   letterSpacing: "-0.02em",
-                  color: "#2a1c10",
+                  color: "#3e2c23",
                   marginBottom: "0.75rem",
                   lineHeight: 1.2,
                 }}
@@ -1069,8 +1069,8 @@ export default function Home() {
             className="reveal"
             style={{
               marginTop: "2rem",
-              background: "#f6efdc",
-              border: "1px solid rgba(226,116,43,0.22)",
+              background: "#fdf8ee",
+              border: "1px solid rgba(231,111,46,0.22)",
               borderRadius: "20px",
               padding: "2rem 2.5rem",
               display: "flex",
@@ -1084,7 +1084,7 @@ export default function Home() {
                 style={{
                   fontSize: "1.125rem",
                   fontWeight: 700,
-                  color: "#2a1c10",
+                  color: "#3e2c23",
                   marginBottom: "0.375rem",
                 }}
               >
@@ -1109,7 +1109,7 @@ export default function Home() {
       {/* ─── Design / Wireless (real controller photo) ─── */}
       <section
         style={{
-          background: "#efe7d1",
+          background: "#f9f1e2",
           padding: "6rem 1.5rem",
           borderTop: "1px solid rgba(74,48,26,0.1)",
         }}
@@ -1142,7 +1142,7 @@ export default function Home() {
               style={{
                 borderRadius: "20px",
                 overflow: "hidden",
-                background: "#e3d5b5",
+                background: "#ecddc4",
                 border: "1px solid rgba(74,48,26,0.1)",
               }}
             >
@@ -1162,7 +1162,7 @@ export default function Home() {
                   fontSize: "1.75rem",
                   fontWeight: 700,
                   letterSpacing: "-0.02em",
-                  color: "#2a1c10",
+                  color: "#3e2c23",
                   marginBottom: "1rem",
                   lineHeight: 1.15,
                 }}
@@ -1203,8 +1203,8 @@ export default function Home() {
                         width: "20px",
                         height: "20px",
                         borderRadius: "50%",
-                        background: "rgba(226,116,43,0.2)",
-                        border: "1px solid rgba(226,116,43,0.35)",
+                        background: "rgba(231,111,46,0.2)",
+                        border: "1px solid rgba(231,111,46,0.35)",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
@@ -1226,7 +1226,7 @@ export default function Home() {
           <div
             className="callout-grid reveal"
             style={{
-              background: "#f6efdc",
+              background: "#fdf8ee",
               borderRadius: "20px",
               padding: "2.5rem",
               display: "grid",
@@ -1241,7 +1241,7 @@ export default function Home() {
                   fontSize: "1.375rem",
                   fontWeight: 700,
                   letterSpacing: "-0.02em",
-                  color: "#2a1c10",
+                  color: "#3e2c23",
                   marginBottom: "0.75rem",
                 }}
               >
@@ -1275,7 +1275,7 @@ export default function Home() {
                 <div
                   key={label}
                   style={{
-                    background: "#f6efdc",
+                    background: "#fdf8ee",
                     borderRadius: "12px",
                     padding: "1rem",
                     textAlign: "center",
@@ -1309,7 +1309,7 @@ export default function Home() {
       {/* ─── Interactive controller emulator ─── */}
       <section
         style={{
-          background: "#e9ddc1",
+          background: "#f5e9d8",
           padding: "6rem 1.5rem",
           borderTop: "1px solid rgba(74,48,26,0.1)",
         }}
@@ -1355,7 +1355,7 @@ export default function Home() {
                   fontSize: "1.5rem",
                   fontWeight: 700,
                   letterSpacing: "-0.02em",
-                  color: "#2a1c10",
+                  color: "#3e2c23",
                   marginBottom: "0.75rem",
                 }}
               >
@@ -1398,7 +1398,7 @@ export default function Home() {
                         style={{
                           fontSize: "1rem",
                           fontWeight: 700,
-                          color: "#2a1c10",
+                          color: "#3e2c23",
                           marginBottom: "0.2rem",
                         }}
                       >
@@ -1425,7 +1425,7 @@ export default function Home() {
       {/* ─── Gaming controllers ─── */}
       <section
         style={{
-          background: "#e3d5b5",
+          background: "#ecddc4",
           padding: "6rem 1.5rem",
           borderTop: "1px solid rgba(74,48,26,0.1)",
         }}
@@ -1453,7 +1453,7 @@ export default function Home() {
                   fontSize: "clamp(2rem, 4vw, 3rem)",
                   fontWeight: 700,
                   letterSpacing: "-0.025em",
-                  color: "#2a1c10",
+                  color: "#3e2c23",
                   marginBottom: "1rem",
                   lineHeight: 1.1,
                 }}
@@ -1520,7 +1520,7 @@ export default function Home() {
       {/* ─── Endless Customization ─── */}
       <section
         style={{
-          background: "#e9ddc1",
+          background: "#f5e9d8",
           padding: "6rem 1.5rem",
           borderTop: "1px solid rgba(74,48,26,0.1)",
         }}
@@ -1599,7 +1599,7 @@ export default function Home() {
                   style={{
                     fontSize: "1.0625rem",
                     fontWeight: 700,
-                    color: "#2a1c10",
+                    color: "#3e2c23",
                     marginBottom: "0.5rem",
                   }}
                 >
@@ -1623,7 +1623,7 @@ export default function Home() {
       {/* ─── Values ─── */}
       <section
         style={{
-          background: "#e3d5b5",
+          background: "#ecddc4",
           padding: "5rem 1.5rem",
           borderTop: "1px solid rgba(74,48,26,0.1)",
         }}
@@ -1664,7 +1664,7 @@ export default function Home() {
                 key={v.title}
                 className="reveal"
                 style={{
-                  background: "#f6efdc",
+                  background: "#fdf8ee",
                   border: "1px solid rgba(74,48,26,0.1)",
                   borderRadius: "18px",
                   padding: "2rem",
@@ -1677,7 +1677,7 @@ export default function Home() {
                   style={{
                     fontSize: "1.0625rem",
                     fontWeight: 700,
-                    color: "#2a1c10",
+                    color: "#3e2c23",
                     marginBottom: "0.625rem",
                   }}
                 >
@@ -1702,7 +1702,7 @@ export default function Home() {
       <section
         id="community"
         style={{
-          background: "#e9ddc1",
+          background: "#f5e9d8",
           padding: "6rem 1.5rem",
           borderTop: "1px solid rgba(74,48,26,0.1)",
         }}
@@ -1755,7 +1755,7 @@ export default function Home() {
       {/* ─── Footer ─── */}
       <footer
         style={{
-          background: "#efe7d1",
+          background: "#f9f1e2",
           borderTop: "1px solid rgba(74,48,26,0.1)",
           padding: "3rem 1.5rem",
         }}
@@ -1783,7 +1783,7 @@ export default function Home() {
                   style={{
                     width: "22px",
                     height: "22px",
-                    background: "linear-gradient(135deg, #c1352a, #e8a33d)",
+                    background: "linear-gradient(135deg, #d35f1c, #f1a14e)",
                     borderRadius: "6px",
                   }}
                 />

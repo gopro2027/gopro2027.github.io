@@ -9,7 +9,7 @@ const PRODUCT_IMAGE =
 const PRICE = "$25.00"
 
 const buttonPrimary: CSSProperties = {
-  background: "linear-gradient(135deg, #c1352a 0%, #e2742b 55%, #e8a33d 100%)",
+  background: "linear-gradient(135deg, #d35f1c 0%, #e76f2e 55%, #f1a14e 100%)",
   color: "#fff8ee",
   fontWeight: 500,
   fontSize: "0.9375rem",
@@ -43,7 +43,7 @@ export default function PrintfulHatEmbed() {
         paddingTop: "6rem",
         paddingBottom: "6rem",
         borderTop: "1px solid rgba(74, 48, 26, 0.1)",
-        background: "#e3d5b5",
+        background: "#ecddc4",
       }}
     >
       <div style={{ maxWidth: "980px", marginLeft: "auto", marginRight: "auto" }}>
@@ -54,7 +54,7 @@ export default function PrintfulHatEmbed() {
               fontWeight: 600,
               textTransform: "uppercase",
               letterSpacing: "0.06em",
-              color: "#be4420",
+              color: "#d35f1c",
               marginBottom: "0.75rem",
             }}
           >
@@ -65,7 +65,7 @@ export default function PrintfulHatEmbed() {
               fontSize: "clamp(2.5rem, 6vw, 4rem)",
               fontWeight: 700,
               letterSpacing: "-0.025em",
-              color: "#2a1c10",
+              color: "#3e2c23",
               marginBottom: "1rem",
             }}
           >
@@ -87,7 +87,7 @@ export default function PrintfulHatEmbed() {
             border: "1px solid rgba(74, 48, 26, 0.12)",
             borderRadius: "20px",
             padding: "2.5rem",
-            backgroundColor: "#f6efdc",
+            backgroundColor: "#fdf8ee",
             boxShadow: "0 1px 3px rgba(74, 48, 26, 0.08)",
           }}
         >
@@ -121,14 +121,14 @@ export default function PrintfulHatEmbed() {
                 style={{
                   fontSize: "2.5rem",
                   fontWeight: 700,
-                  color: "#be4420",
+                  color: "#d35f1c",
                   marginBottom: "0.5rem",
                   letterSpacing: "-0.02em",
                 }}
               >
                 {PRICE}
               </p>
-              <p style={{ fontSize: "0.9375rem", color: "#5e4b37", lineHeight: 1.6 }}>
+              <p style={{ fontSize: "0.9375rem", color: "#6b5444", lineHeight: 1.6 }}>
                 A hat made of corduroy that&apos;ll serve you for ages: soft, affordable, and durable.
               </p>
             </div>
@@ -142,7 +142,7 @@ export default function PrintfulHatEmbed() {
                     alignItems: "center",
                     gap: "0.75rem",
                     fontSize: "0.9375rem",
-                    color: "#2a1c10",
+                    color: "#3e2c23",
                   }}
                 >
                   <span
@@ -150,7 +150,7 @@ export default function PrintfulHatEmbed() {
                       width: "0.5rem",
                       height: "0.5rem",
                       borderRadius: "9999px",
-                      backgroundColor: "#e2742b",
+                      backgroundColor: "#e76f2e",
                       flexShrink: 0,
                     }}
                   />
@@ -192,7 +192,7 @@ export default function PrintfulHatEmbed() {
           style={{
             textAlign: "center",
             fontSize: "0.8125rem",
-            color: "#8a7559",
+            color: "#9a8472",
             marginTop: "1.5rem",
             maxWidth: "36rem",
             marginLeft: "auto",
@@ -201,7 +201,7 @@ export default function PrintfulHatEmbed() {
           }}
         >
           Checkout powered by Printful.{" "}
-          <a href={STORE_URL} target="_blank" rel="noopener noreferrer" style={{ color: "#be4420" }}>
+          <a href={STORE_URL} target="_blank" rel="noopener noreferrer" style={{ color: "#d35f1c" }}>
             Click here to view the full store
           </a>
           .
