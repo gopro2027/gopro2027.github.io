@@ -234,64 +234,96 @@ function HomeTab({
   )
 }
 
-/* ─── Side-profile car (body rides up/down over fixed wheels) ─── */
+/* ─── Side-profile sports car (body rides up/down over fixed wheels) ─── */
 function CarGraphic({ preset }: { preset: number }) {
-  // preset 3 = neutral; 1 = lowest (slammed), 5 = tallest
-  const lift = (3 - preset) * 6 // px in viewBox units
+  // preset 1 = slammed (lowest), 3 = neutral, 5 = tallest.
+  // Positive translateY moves the body down (lower suspension).
+  const lift = (3 - preset) * 4 + 4 // viewBox units
+
+  const wheels = [62, 178]
+  const wheelY = 82
 
   return (
     <svg
-      viewBox="0 0 240 100"
+      viewBox="0 0 240 110"
       width="100%"
       style={{ display: "block", maxHeight: "100%" }}
     >
       <defs>
         <linearGradient id="ctrl-car-body" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#2a2d33" />
-          <stop offset="45%" stopColor="#101113" />
-          <stop offset="100%" stopColor="#050506" />
+          <stop offset="0%" stopColor="#3a3e46" />
+          <stop offset="40%" stopColor="#15171c" />
+          <stop offset="100%" stopColor="#070708" />
         </linearGradient>
       </defs>
 
+      {/* Ground shadow */}
+      <ellipse cx="120" cy="96" rx="96" ry="4" fill="#000" opacity="0.4" />
+
       {/* Wheels (fixed) */}
-      {[58, 182].map((cx) => (
+      {wheels.map((cx) => (
         <g key={cx}>
-          <circle cx={cx} cy={78} r={17} fill="#0c0c0e" stroke="#3a3d44" strokeWidth="2" />
-          <circle cx={cx} cy={78} r={7} fill="#1a1d22" stroke="#4a4e57" strokeWidth="1.5" />
+          <circle cx={cx} cy={wheelY} r={13.5} fill="#0b0b0d" stroke="#2c2f36" strokeWidth="1.5" />
+          <circle cx={cx} cy={wheelY} r={9.5} fill="#1c2027" stroke="#4a4f59" strokeWidth="1.5" />
+          <circle cx={cx} cy={wheelY} r={3} fill="#5a606b" />
         </g>
       ))}
 
       {/* Body (translates vertically with preset) */}
-      <g style={{ transform: `translateY(${lift}px)`, transition: "transform 0.45s ease-in-out" }}>
+      <g
+        style={{
+          transform: `translateY(${lift}px)`,
+          transition: "transform 0.45s ease-in-out",
+        }}
+      >
         <path
-          d="M 16 64
-             L 34 48
-             C 52 33, 88 30, 104 27
-             L 126 16
-             L 150 16
-             C 172 18, 188 30, 206 40
-             L 226 46
-             L 228 64
-             L 204 64
-             A 18 18 0 0 0 160 64
-             L 80 64
-             A 18 18 0 0 0 36 64
+          d="M 20 80
+             L 17 70
+             C 17 65, 20 63, 28 62
+             C 50 59, 78 57, 100 54
+             C 110 53, 116 46, 124 41
+             L 132 39
+             C 142 38, 160 38, 172 42
+             C 186 46, 198 51, 210 56
+             L 222 60
+             C 227 61, 229 64, 227 70
+             L 226 80
+             L 198 80
+             A 20 20 0 0 0 158 80
+             L 82 80
+             A 20 20 0 0 0 42 80
              Z"
           fill="url(#ctrl-car-body)"
         />
-        {/* windows */}
+
+        {/* Greenhouse / windows */}
         <path
-          d="M 60 47 C 74 36, 96 34, 108 31 L 124 22 L 140 22 L 138 31 L 96 33 C 80 38, 70 44, 64 49 Z"
-          fill="#11151c"
-          opacity="0.9"
+          d="M 112 53
+             C 117 48, 122 45, 129 43
+             L 134 42
+             C 146 41, 160 41, 169 44
+             C 175 46, 179 49, 183 52
+             Z"
+          fill="#0e1218"
+          opacity="0.95"
         />
-        {/* edge highlight */}
+
+        {/* Door / panel seam */}
         <path
-          d="M 34 48 C 52 33, 88 30, 104 27 L 126 16 L 150 16 C 172 18, 188 30, 206 40"
+          d="M 130 55 L 128 78"
+          stroke="#000"
+          strokeWidth="1"
+          opacity="0.5"
+        />
+
+        {/* Top edge highlight */}
+        <path
+          d="M 28 62 C 50 59, 78 57, 100 54 C 110 53, 116 46, 124 41 L 132 39 C 142 38, 160 38, 172 42 C 186 46, 198 51, 210 56"
           fill="none"
-          stroke="#7b8493"
-          strokeWidth="1.2"
-          opacity="0.7"
+          stroke="#8a93a3"
+          strokeWidth="1.1"
+          strokeLinecap="round"
+          opacity="0.65"
         />
       </g>
     </svg>
