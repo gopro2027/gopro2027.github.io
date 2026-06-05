@@ -896,6 +896,30 @@ html {
   }
 }
 
+/* ─── Demo section layout ─── */
+
+@media (max-width: 768px) {
+  .demo-layout {
+    grid-template-columns: 1fr !important;
+  }
+
+  .demo-description {
+    grid-column: 1 !important;
+    order: 2;
+    text-align: left !important;
+    max-width: none !important;
+    margin: 1.5rem 0 !important;
+  }
+
+  .demo-controller {
+    order: 1;
+  }
+
+  .demo-bullets {
+    order: 3;
+  }
+}
+
 /* ─── Legacy keyframes kept for compatibility ─── */
 
 @keyframes colorBurst {

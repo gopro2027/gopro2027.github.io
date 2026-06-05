@@ -1342,17 +1342,8 @@ export default function Home() {
           >
             Right in your browser.
           </p>
-          <p
-            className="apple-body reveal reveal-delay-2"
-            style={{ maxWidth: "560px", margin: "0 auto 3.5rem" }}
-          >
-            This is a working replica of the OAS-MAN touch screen remote. Air
-            each corner up or down on Home, save and load up to five height
-            presets, and browse every setting, exactly like the real firmware.
-          </p>
-
           <div
-            className="two-col-grid reveal"
+            className="demo-layout reveal"
             style={{
               display: "grid",
               gridTemplateColumns: "1fr 1fr",
@@ -1361,10 +1352,24 @@ export default function Home() {
               textAlign: "left",
             }}
           >
-            <div style={{ display: "flex", justifyContent: "center" }}>
+            {/* Description — spans both cols on desktop (above), reordered on mobile */}
+            <p
+              className="apple-body demo-description"
+              style={{
+                gridColumn: "1 / -1",
+                textAlign: "center",
+                maxWidth: "560px",
+                margin: "0 auto 0.5rem",
+              }}
+            >
+              This is a working replica of the OAS-MAN touch screen remote. Air
+              each corner up or down on Home, save and load up to five height
+              presets, and browse every setting, exactly like the real firmware.
+            </p>
+            <div className="demo-controller" style={{ display: "flex", justifyContent: "center" }}>
               <ControllerEmulator />
             </div>
-            <div>
+            <div className="demo-bullets">
               <h3
                 style={{
                   fontSize: "1.5rem",
