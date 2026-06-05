@@ -6,9 +6,9 @@ export const metadata = {
   description:
     "DIY air suspension system for under $500. Fully customizable, open source, with gaming controller support.",
   icons: {
-    icon: "/assets/oasman_logo.jpg",
-    shortcut: "/assets/oasman_logo.jpg",
-    apple: "/assets/oasman_logo.jpg",
+    icon: "/assets/favicon.ico",
+    shortcut: "/assets/favicon.ico",
+    apple: "/assets/favicon.ico",
   },
 }
 
