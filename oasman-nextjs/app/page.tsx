@@ -31,6 +31,7 @@ import {
 } from "lucide-react"
 import InstagramEmbed from "./InstagramEmbed"
 import PrintfulHatEmbed from "./PrintfulHatEmbed"
+import ControllerEmulator from "./ControllerEmulator"
 
 // Three.js uses browser APIs, so this must be client-only
 const PCBViewer = dynamic(() => import("./PCBViewer"), {
@@ -319,126 +320,10 @@ function AILearningVisual() {
   )
 }
 
-/* ─── Controller UI mockup ─── */
-function ControllerMockup({
-  preset,
-  psi,
-}: {
-  preset: number
-  psi: [number, number, number, number]
-}) {
-  return (
-    <div className="device-frame">
-      <div className="device-screen">
-        {/* Top: corner PSI readouts */}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            fontSize: "0.6875rem",
-            color: "#e8edf5",
-            fontWeight: 600,
-          }}
-        >
-          <div style={{ lineHeight: 1.4 }}>
-            <div style={{ color: "#808080", fontSize: "0.625rem" }}> OAS-Man</div>
-            <div>{psi[0]} PSI</div>
-            <div>{psi[2]} PSI</div>
-          </div>
-          <div style={{ textAlign: "right", lineHeight: 1.4 }}>
-            <div style={{ color: "#5fd35f", fontSize: "0.625rem" }}>80%</div>
-            <div>{psi[1]} PSI</div>
-            <div>{psi[3]} PSI</div>
-          </div>
-        </div>
-
-        {/* Car silhouette */}
-        <div
-          style={{
-            flex: 1,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <Car size={86} strokeWidth={1} color="#aeb8c8" />
-        </div>
-
-        {/* Save / Load */}
-        <div style={{ display: "flex", gap: "0.5rem", marginBottom: "0.75rem" }}>
-          <div
-            style={{
-              flex: 1,
-              padding: "0.5rem",
-              borderRadius: "10px",
-              border: "1.5px solid rgba(96,165,250,0.5)",
-              textAlign: "center",
-              fontSize: "0.75rem",
-              color: "#bfdbfe",
-              fontWeight: 600,
-            }}
-          >
-            Save
-          </div>
-          <div
-            style={{
-              flex: 1,
-              padding: "0.5rem",
-              borderRadius: "10px",
-              background: "#3B82F6",
-              textAlign: "center",
-              fontSize: "0.75rem",
-              color: "#fff",
-              fontWeight: 600,
-            }}
-          >
-            Load
-          </div>
-        </div>
-
-        {/* Preset pills */}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            marginBottom: "0.75rem",
-          }}
-        >
-          {[1, 2, 3, 4, 5].map((n) => (
-            <div
-              key={n}
-              className={`preset-pill${preset === n ? " active" : ""}`}
-            >
-              {n}
-            </div>
-          ))}
-        </div>
-
-        {/* Bottom nav */}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-around",
-            fontSize: "0.5625rem",
-            color: "#6b7585",
-            borderTop: "1px solid rgba(255,255,255,0.06)",
-            paddingTop: "0.625rem",
-          }}
-        >
-          <span>Home</span>
-          <span style={{ color: "#3B82F6", fontWeight: 600 }}>Presets</span>
-          <span>Settings</span>
-        </div>
-      </div>
-    </div>
-  )
-}
-
 export default function Home() {
   useReveal()
 
   const [activeTab, setActiveTab] = useState(0)
-  const [activeWorkspace, setActiveWorkspace] = useState(1)
 
   const aiTabs: {
     label: string
@@ -465,34 +350,6 @@ export default function Home() {
       icon: Target,
     },
   ]
-
-  const workspaces: {
-    label: string
-    desc: string
-    preset: number
-    psi: [number, number, number, number]
-  }[] = [
-    {
-      label: "Show",
-      desc: "Drop it to the ground.",
-      preset: 1,
-      psi: [0, 0, 0, 0],
-    },
-    {
-      label: "Street",
-      desc: "Your daily ride height.",
-      preset: 3,
-      psi: [48, 48, 52, 52],
-    },
-    {
-      label: "Clearance",
-      desc: "Extra height for getting over speed bumps or doing maintenence on your vehicle.",
-      preset: 5,
-      psi: [82, 82, 88, 88],
-    },
-  ]
-
-  const ws = workspaces[activeWorkspace]
 
   return (
     <div style={{ backgroundColor: "#000", color: "#f5f5f7", minHeight: "100vh" }}>
@@ -1449,7 +1306,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ─── Presets / Controller UI mockup ─── */}
+      {/* ─── Interactive controller emulator ─── */}
       <section
         style={{
           background: "#000",
@@ -1458,21 +1315,25 @@ export default function Home() {
         }}
       >
         <div style={{ maxWidth: "980px", margin: "0 auto", textAlign: "center" }}>
+          <p className="apple-eyebrow reveal" style={{ marginBottom: "0.75rem" }}>
+            Live demo
+          </p>
           <h2 className="apple-headline reveal" style={{ marginBottom: "0.5rem" }}>
-            Easy presets.
+            Try the controller.
           </h2>
           <p
             className="apple-headline reveal reveal-delay-1"
             style={{ color: "var(--oasman-gold)", marginBottom: "1.25rem" }}
           >
-            Any height.
+            Right in your browser.
           </p>
           <p
             className="apple-body reveal reveal-delay-2"
-            style={{ maxWidth: "540px", margin: "0 auto 3.5rem" }}
+            style={{ maxWidth: "560px", margin: "0 auto 3.5rem" }}
           >
-            Save up to five presets and load them instantly. Switch your whole
-            stance from the touch screen, or any controller you already own, using pressure or height sensors.
+            This is a working replica of the OAS-MAN touch screen remote. Air
+            each corner up or down on Home, save and load up to five height
+            presets, and browse every setting, exactly like the real firmware.
           </p>
 
           <div
@@ -1486,49 +1347,76 @@ export default function Home() {
             }}
           >
             <div style={{ display: "flex", justifyContent: "center" }}>
-              <ControllerMockup preset={ws.preset} psi={ws.psi} />
+              <ControllerEmulator />
             </div>
             <div>
-              <div
-                style={{
-                  display: "flex",
-                  gap: "0.5rem",
-                  flexWrap: "wrap",
-                  marginBottom: "1.5rem",
-                }}
-              >
-                {workspaces.map((w, i) => (
-                  <button
-                    key={w.label}
-                    className={`tab-btn${activeWorkspace === i ? " active" : ""}`}
-                    onClick={() => setActiveWorkspace(i)}
-                  >
-                    {w.label}
-                  </button>
-                ))}
-              </div>
               <h3
                 style={{
                   fontSize: "1.5rem",
                   fontWeight: 700,
                   letterSpacing: "-0.02em",
                   color: "#f5f5f7",
-                  marginBottom: "0.75rem",
+                  marginBottom: "1rem",
                 }}
               >
-                {ws.label} Mode
+                Three tabs. Full control.
               </h3>
-              <p
+              <div
                 style={{
-                  fontSize: "1rem",
-                  color: "var(--oasman-text-secondary)",
-                  lineHeight: 1.65,
-                  marginBottom: "1.5rem",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "1.25rem",
                 }}
               >
-                {ws.desc}
-              </p>
-              
+                {[
+                  {
+                    title: "Home",
+                    desc: "Hold any pill to air a corner, an axle, or the whole front/rear up or down in real time.",
+                  },
+                  {
+                    title: "Presets",
+                    desc: "Tap 1-5 to set your stance, then Save or Load. Watch the car rise and drop to each height.",
+                  },
+                  {
+                    title: "Settings",
+                    desc: "Browse all ten configuration sections, from AI learning to theme colors and Wi-Fi updates.",
+                  },
+                ].map((item) => (
+                  <div key={item.title} style={{ display: "flex", gap: "0.75rem" }}>
+                    <span
+                      style={{
+                        width: "8px",
+                        height: "8px",
+                        borderRadius: "50%",
+                        background: "var(--oasman-gold)",
+                        marginTop: "0.5rem",
+                        flexShrink: 0,
+                      }}
+                    />
+                    <div>
+                      <div
+                        style={{
+                          fontSize: "1rem",
+                          fontWeight: 700,
+                          color: "#f5f5f7",
+                          marginBottom: "0.2rem",
+                        }}
+                      >
+                        {item.title}
+                      </div>
+                      <p
+                        style={{
+                          fontSize: "0.9375rem",
+                          color: "var(--oasman-text-secondary)",
+                          lineHeight: 1.6,
+                        }}
+                      >
+                        {item.desc}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
