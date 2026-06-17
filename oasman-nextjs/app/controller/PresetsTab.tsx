@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Button, Card, StatusPill, THEME } from "./controls"
+import { Button, Card, PressureGrid, THEME } from "./controls"
 import {
   buildAirupQuick,
   buildSaveCurrent,
@@ -28,18 +28,13 @@ export default function PresetsTab({
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
       <Card title={`Preset ${selected}`}>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(5.5rem, 1fr))",
-            gap: "0.6rem",
-            marginBottom: "1rem",
-          }}
-        >
-          <StatusPill label="Front Driver" value={preset ? `${preset.fd} PSI` : "—"} />
-          <StatusPill label="Front Pass." value={preset ? `${preset.fp} PSI` : "—"} />
-          <StatusPill label="Rear Driver" value={preset ? `${preset.rd} PSI` : "—"} />
-          <StatusPill label="Rear Pass." value={preset ? `${preset.rp} PSI` : "—"} />
+        <div style={{ marginBottom: "1rem" }}>
+          <PressureGrid
+            lf={preset ? `${preset.fd} PSI` : "—"}
+            rf={preset ? `${preset.fp} PSI` : "—"}
+            lr={preset ? `${preset.rd} PSI` : "—"}
+            rr={preset ? `${preset.rp} PSI` : "—"}
+          />
         </div>
 
         <div style={{ display: "flex", gap: "0.6rem", flexWrap: "wrap" }}>

@@ -1,7 +1,7 @@
 "use client"
 
 import { useCallback, useRef } from "react"
-import { HoldButton, StatusPill, THEME } from "./controls"
+import { HoldButton, PressureGrid, THEME } from "./controls"
 import { Solenoid } from "./protocol"
 import type { OasmanBle } from "./useOasmanBle"
 
@@ -62,19 +62,13 @@ export default function HomeTab({
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(5.5rem, 1fr))",
-          gap: "0.6rem",
-        }}
-      >
-        <StatusPill label="Tank" value={`${tank} PSI`} tone="warn" />
-        <StatusPill label="Front Driver" value={`${fd} PSI`} />
-        <StatusPill label="Front Pass." value={`${fp} PSI`} />
-        <StatusPill label="Rear Driver" value={`${rd} PSI`} />
-        <StatusPill label="Rear Pass." value={`${rp} PSI`} />
-      </div>
+      <PressureGrid
+        lf={`${fd} PSI`}
+        rf={`${fp} PSI`}
+        lr={`${rd} PSI`}
+        rr={`${rp} PSI`}
+        tank={`${tank} PSI`}
+      />
 
       <div style={{ display: "flex", flexDirection: "column", gap: "0.9rem" }}>
         {[FRONT, REAR].map((row, i) => (

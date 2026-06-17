@@ -274,16 +274,67 @@ function UnsupportedNotice() {
         style={{
           color: THEME.textDim,
           fontSize: "0.85rem",
-          maxWidth: "26rem",
+          maxWidth: "28rem",
           margin: "0 auto",
           lineHeight: 1.55,
         }}
       >
         This controller uses the Web Bluetooth API, which works in Chrome, Edge, and
         Opera on desktop, and Chrome on Android, over a secure (HTTPS) connection. It
-        is not supported on iOS, Safari, or Firefox. Please open this page in a
-        supported browser to connect to your manifold.
+        is not supported by Safari or Firefox, and Apple does not allow it in any
+        browser on iOS.
       </p>
+
+      <div
+        style={{
+          maxWidth: "28rem",
+          margin: "1rem auto 0",
+          padding: "0.8rem 1rem",
+          background: THEME.panelAlt,
+          border: `1px solid ${THEME.border}`,
+          borderRadius: "10px",
+          textAlign: "left",
+        }}
+      >
+        <p
+          style={{
+            color: THEME.text,
+            fontSize: "0.82rem",
+            fontWeight: 600,
+            margin: "0 0 0.35rem",
+          }}
+        >
+          On iPhone or iPad?
+        </p>
+        <p
+          style={{
+            color: THEME.textDim,
+            fontSize: "0.82rem",
+            lineHeight: 1.55,
+            margin: 0,
+          }}
+        >
+          Install a Web Bluetooth&ndash;capable browser such as{" "}
+          <a
+            href="https://apps.apple.com/app/bluefy-web-ble-browser/id1492822055"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: THEME.accent, fontWeight: 600 }}
+          >
+            Bluefy
+          </a>{" "}
+          or{" "}
+          <a
+            href="https://apps.apple.com/app/webble/id1193531073"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: THEME.accent, fontWeight: 600 }}
+          >
+            WebBLE
+          </a>
+          , then open this page inside that app to connect to your manifold.
+        </p>
+      </div>
     </div>
   )
 }

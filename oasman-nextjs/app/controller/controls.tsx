@@ -281,6 +281,50 @@ export function StatusPill({
 }
 
 /**
+ * Fixed-orientation pressure readout grid:
+ *
+ *   LF  TANK  RF
+ *   LR        RR
+ *
+ * Pass already-formatted strings. `tank` is optional (center top cell is
+ * blank when omitted, e.g. for preset pressures).
+ */
+export function PressureGrid({
+  lf,
+  rf,
+  lr,
+  rr,
+  tank,
+}: {
+  lf: string
+  rf: string
+  lr: string
+  rr: string
+  tank?: string
+}) {
+  return (
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(3, 1fr)",
+        gap: "0.6rem",
+      }}
+    >
+      <StatusPill label="LF" value={lf} />
+      {tank !== undefined ? (
+        <StatusPill label="Tank" value={tank} tone="warn" />
+      ) : (
+        <div />
+      )}
+      <StatusPill label="RF" value={rf} />
+      <StatusPill label="LR" value={lr} />
+      <div />
+      <StatusPill label="RR" value={rr} />
+    </div>
+  )
+}
+
+/**
  * Press-and-hold button. Fires onPress when held, onRelease when released
  * or the pointer leaves. Used for valve air up/down.
  */
