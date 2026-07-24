@@ -59,14 +59,16 @@ export default function HomeTab({
   )
 
   const { fd, fp, rd, rp, tank } = ble.pressures
+  // In level sensor mode the corner values are height percentages, not PSI.
+  const unit = ble.config?.heightSensorMode ? "%" : "PSI"
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
       <PressureGrid
-        lf={`${fd} PSI`}
-        rf={`${fp} PSI`}
-        lr={`${rd} PSI`}
-        rr={`${rp} PSI`}
+        lf={`${fd} ${unit}`}
+        rf={`${fp} ${unit}`}
+        lr={`${rd} ${unit}`}
+        rr={`${rp} ${unit}`}
         tank={`${tank} PSI`}
       />
 

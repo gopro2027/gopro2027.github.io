@@ -19,16 +19,18 @@ export default function PresetsTab({
   const [selected, setSelected] = useState(3)
   const index0 = selected - 1
   const preset = ble.presets[index0]
+  // In level sensor mode the corner values are height percentages, not PSI.
+  const unit = ble.config?.heightSensorMode ? "%" : "PSI"
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
       <Card title={`Preset ${selected}`}>
         <div style={{ marginBottom: "1rem" }}>
           <PressureGrid
-            lf={preset ? `${preset.fd} PSI` : "—"}
-            rf={preset ? `${preset.fp} PSI` : "—"}
-            lr={preset ? `${preset.rd} PSI` : "—"}
-            rr={preset ? `${preset.rp} PSI` : "—"}
+            lf={preset ? `${preset.fd} ${unit}` : "—"}
+            rf={preset ? `${preset.fp} ${unit}` : "—"}
+            lr={preset ? `${preset.rd} ${unit}` : "—"}
+            rr={preset ? `${preset.rp} ${unit}` : "—"}
           />
         </div>
 
