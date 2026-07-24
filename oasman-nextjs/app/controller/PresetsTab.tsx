@@ -2,12 +2,7 @@
 
 import { useState } from "react"
 import { Button, Card, PressureGrid, THEME } from "./controls"
-import {
-  buildAirupQuick,
-  buildSaveCurrent,
-  buildSimple,
-  Cmd,
-} from "./protocol"
+import { buildAirupQuick, buildSaveCurrent } from "./protocol"
 import type { OasmanBle } from "./useOasmanBle"
 
 /* Presets tab: load/save the five height profiles + global air up / out. */
@@ -91,26 +86,6 @@ export default function PresetsTab({
           )
         })}
       </div>
-
-      <Card title="Global">
-        <div style={{ display: "flex", gap: "0.6rem", flexWrap: "wrap" }}>
-          <Button
-            disabled={disabled}
-            onClick={() => ble.sendRest(buildSimple(Cmd.AIRUP))}
-            style={{ flex: 1, minWidth: "7rem" }}
-          >
-            Air up all
-          </Button>
-          <Button
-            variant="danger"
-            disabled={disabled}
-            onClick={() => ble.sendRest(buildSimple(Cmd.AIROUT))}
-            style={{ flex: 1, minWidth: "7rem" }}
-          >
-            Air out all
-          </Button>
-        </div>
-      </Card>
     </div>
   )
 }

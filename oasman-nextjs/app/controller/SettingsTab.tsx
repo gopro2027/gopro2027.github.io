@@ -13,16 +13,19 @@ import {
   Toggle,
 } from "./controls"
 import {
+  AuxMode,
   Bp32,
   buildAux,
   buildBp32,
   buildBroadcastName,
+  buildCalibrateHeightSensors,
   buildCompressor,
   buildConfigWrite,
   buildRf,
   buildSimple,
   buildStartWeb,
   Cmd,
+  HeightCalibration,
   Rf,
   type ConfigValues,
 } from "./protocol"
@@ -30,8 +33,12 @@ import type { OasmanBle } from "./useOasmanBle"
 
 /* Settings tab: full-parity, editable manifold configuration + action commands. */
 
-const TIME_UNITS = ["Seconds", "Minutes", "Hours", "Days"]
-const INVERT_WHEELS = ["Front Pass.", "Rear Pass.", "Front Driver", "Rear Driver"]
+const TIME_UNITS = ["Deciseconds", "Seconds", "Minutes", "Hours"]
+const AUX_MODES = [
+  { label: "Off", value: AuxMode.NONE },
+  { label: "Timed pulse on startup", value: AuxMode.STARTUP_TIMED },
+  { label: "Timed pulse on shutdown", value: AuxMode.SHUTDOWN_TIMED },
+]
 
 export default function SettingsTab({
   ble,
@@ -128,21 +135,48 @@ export default function SettingsTab({
                 </Button>
               </div>
             </Row>
-            {INVERT_WHEELS.map((label, i) => (
-              <ToggleRow
-                key={label}
-                label={`Invert ${label}`}
-                on={(draft.heightSensorInvertBits & (1 << i)) !== 0}
-                onChange={(v) =>
-                  patch({
-                    heightSensorInvertBits: v
-                      ? draft.heightSensorInvertBits | (1 << i)
-                      : draft.heightSensorInvertBits & ~(1 << i),
-                  })
-                }
-                disabled={disabled}
-              />
-            ))}
+            <ToggleRow
+              label="Sensorless levelling"
+              on={draft.sensorlessLeveling}
+              onChange={(v) => patch({ sensorlessLeveling: v })}
+              disabled={disabled}
+            />
+            {draft.heightSensorMode && (
+              <div style={{ paddingTop: "0.6rem" }}>
+                <p style={{ fontSize: "0.72rem", color: THEME.textDim, margin: "0 0 0.5rem" }}>
+                  Height sensor calibration: air the vehicle to each position, then
+                  capture it. Do min and max before min ride height.
+                </p>
+                <div style={{ display: "flex", gap: "0.6rem", flexWrap: "wrap" }}>
+                  <Button
+                    disabled={disabled}
+                    onClick={() =>
+                      ble.sendRest(buildCalibrateHeightSensors(HeightCalibration.MIN))
+                    }
+                  >
+                    Calibrate min height
+                  </Button>
+                  <Button
+                    disabled={disabled}
+                    onClick={() =>
+                      ble.sendRest(buildCalibrateHeightSensors(HeightCalibration.MAX))
+                    }
+                  >
+                    Calibrate max height
+                  </Button>
+                  <Button
+                    disabled={disabled}
+                    onClick={() =>
+                      ble.sendRest(
+                        buildCalibrateHeightSensors(HeightCalibration.MIN_RIDE_HEIGHT)
+                      )
+                    }
+                  >
+                    Calibrate min ride height
+                  </Button>
+                </div>
+              </div>
+            )}
           </Card>
 
           <Card title="Pressure / compressor config">
@@ -197,18 +231,20 @@ export default function SettingsTab({
           </Card>
 
           <Card title="Auxiliary output">
-            <ToggleRow
-              label="Timed pulse on startup"
-              on={draft.auxStartupTimed}
-              onChange={(v) => patch({ auxStartupTimed: v })}
-              disabled={disabled}
-            />
-            <ToggleRow
-              label="Timed pulse on shutdown"
-              on={draft.auxShutdownTimed}
-              onChange={(v) => patch({ auxShutdownTimed: v })}
-              disabled={disabled}
-            />
+            <Row label="Mode">
+              <select
+                disabled={disabled}
+                value={draft.auxMode}
+                onChange={(e) => patch({ auxMode: Number(e.target.value) })}
+                style={selectStyle}
+              >
+                {AUX_MODES.map((m) => (
+                  <option key={m.value} value={m.value}>
+                    {m.label}
+                  </option>
+                ))}
+              </select>
+            </Row>
             <Row label="Duration unit">
               <select
                 disabled={disabled}

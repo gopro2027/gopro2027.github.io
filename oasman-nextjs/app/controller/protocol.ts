@@ -28,14 +28,9 @@ export const DEFAULT_PASSKEY = 202777
 export const Cmd = {
   IDLE: 0,
   STATUSREPORT: 1,
-  AIRUP: 2,
-  AIROUT: 3,
   AIRSM: 4,
-  SAVETOPROFILE: 5,
-  READPROFILE: 6,
   AIRUPQUICK: 7,
   BASEPROFILE: 8,
-  SETAIRHEIGHT: 9,
   RAISEONPRESSURESET: 11,
   REBOOT: 12,
   CALIBRATE: 13,
@@ -55,6 +50,7 @@ export const Cmd = {
   UPDATESTATUSREQUEST: 36,
   RFCOMMAND: 37,
   AUXILLARYOUTPUTCONTROL: 38,
+  CALIBRATEHEIGHTSENSORS: 39,
 } as const
 
 /** Live status flags carried in STATUSREPORT args32[3]. */
@@ -75,6 +71,7 @@ export const ConfigFlag = {
   CONFIG_HEIGHT_SENSOR_MODE: 3,
   CONFIG_SAFETY_MODE: 4,
   CONFIG_AI_STATUS_ENABLED: 5,
+  CONFIG_SENSORLESS_LEVELING: 6,
 } as const
 
 export const AuthResult = {
@@ -117,9 +114,27 @@ export const Bp32 = {
   DISCONNECT_DEVICES: 2,
 } as const
 
-/** Aux output mode bitmask (matches AuxillaryOutputMode enum positions). */
-export const AUX_STARTUP_TIMED_MASK = 1 << 1 // 2
-export const AUX_SHUTDOWN_TIMED_MASK = 1 << 2 // 4
+/** Aux output mode (single enum value in AuxillaryOutputModePayload.mode). */
+export const AuxMode = {
+  NONE: 0,
+  STARTUP_TIMED: 1,
+  SHUTDOWN_TIMED: 2,
+} as const
+
+/** Aux output time unit (AuxillaryOutputModeTimeUnit). */
+export const AuxTimeUnit = {
+  DECISECONDS: 0,
+  SECONDS: 1,
+  MINUTES: 2,
+  HOURS: 3,
+} as const
+
+/** Which per-wheel height calibration point CALIBRATEHEIGHTSENSORS captures. */
+export const HeightCalibration = {
+  MIN: 0,
+  MAX: 1,
+  MIN_RIDE_HEIGHT: 2,
+} as const
 
 /* ─── Types ─── */
 
@@ -165,6 +180,7 @@ export interface ConfigValues {
   heightSensorMode: boolean
   safetyMode: boolean
   aiEnabled: boolean
+  sensorlessLeveling: boolean
   pressureSensorMax: number
   bagVolumePercentage: number
   bagMaxPressure: number
@@ -174,10 +190,7 @@ export interface ConfigValues {
   rfButtonB: number
   rfButtonC: number
   rfButtonD: number
-  heightSensorInvertBits: number
-  auxModeByte: number
-  auxStartupTimed: boolean
-  auxShutdownTimed: boolean
+  auxMode: number
   auxTimeUnit: number
   auxPulseDuration: number
   auxIntervalCycles: number
@@ -238,14 +251,6 @@ export function buildPresetReport(profileIndex: number): Uint8Array {
   return bytes
 }
 
-/** Set a single wheel target pressure. wheel: 0=FP,1=RP,2=FD,3=RD. */
-export function buildSetAirHeight(wheel: number, psi: number): Uint8Array {
-  const { bytes, view } = newPacket(Cmd.SETAIRHEIGHT)
-  view.setInt32(a(0), wheel, true)
-  view.setInt32(a(4), psi, true)
-  return bytes
-}
-
 export function buildCompressor(on: boolean): Uint8Array {
   const { bytes, view } = newPacket(Cmd.COMPRESSORSTATUS)
   view.setInt32(a(0), on ? 1 : 0, true)
@@ -270,6 +275,13 @@ export function buildBp32(command: number, value: boolean): Uint8Array {
   const { bytes, view } = newPacket(Cmd.BP32PKT)
   view.setUint16(a(0), command, true)
   view.setUint16(a(2), value ? 1 : 0, true)
+  return bytes
+}
+
+/** Capture a per-wheel height calibration point (see HeightCalibration). */
+export function buildCalibrateHeightSensors(type: number): Uint8Array {
+  const { bytes, view } = newPacket(Cmd.CALIBRATEHEIGHTSENSORS)
+  view.setInt32(a(0), type, true)
   return bytes
 }
 
@@ -335,12 +347,7 @@ export function buildConfigWrite(c: ConfigValues): Uint8Array {
   if (c.heightSensorMode) flags |= 1 << ConfigFlag.CONFIG_HEIGHT_SENSOR_MODE
   if (c.safetyMode) flags |= 1 << ConfigFlag.CONFIG_SAFETY_MODE
   if (c.aiEnabled) flags |= 1 << ConfigFlag.CONFIG_AI_STATUS_ENABLED
-
-  let auxMode = c.auxModeByte
-  if (c.auxStartupTimed) auxMode |= AUX_STARTUP_TIMED_MASK
-  else auxMode &= ~AUX_STARTUP_TIMED_MASK
-  if (c.auxShutdownTimed) auxMode |= AUX_SHUTDOWN_TIMED_MASK
-  else auxMode &= ~AUX_SHUTDOWN_TIMED_MASK
+  if (c.sensorlessLeveling) flags |= 1 << ConfigFlag.CONFIG_SENSORLESS_LEVELING
 
   view.setUint32(a(0), c.systemShutoffTimeM >>> 0, true)
   view.setUint32(a(4), flags >>> 0, true)
@@ -354,8 +361,9 @@ export function buildConfigWrite(c: ConfigValues): Uint8Array {
   view.setUint8(a(17), c.rfButtonB & 0xff)
   view.setUint8(a(18), c.rfButtonC & 0xff)
   view.setUint8(a(19), c.rfButtonD & 0xff)
-  view.setUint8(a(20), c.heightSensorInvertBits & 0xff)
-  view.setUint8(a(24), auxMode & 0xff)
+  // args8[20] reserved (formerly heightSensorInvertBits); left as echoed rawArgs.
+  // AuxillaryOutputModePayload at args32[6]: mode / timeUnit / time / interval.
+  view.setUint8(a(24), c.auxMode & 0xff)
   view.setUint8(a(25), Math.min(3, Math.max(0, c.auxTimeUnit)))
   view.setUint8(a(26), c.auxPulseDuration & 0xff)
   view.setUint8(a(27), c.auxIntervalCycles & 0xff)
@@ -399,7 +407,6 @@ export function parseConfig(view: DataView): ConfigValues {
   for (let i = 0; i < 100 && a(i) < view.byteLength; i++) {
     rawArgs.push(view.getUint8(a(i)))
   }
-  const auxModeByte = view.getUint8(a(24))
   return {
     systemShutoffTimeM: view.getUint32(a(0), true),
     configFlagsBits: flags,
@@ -409,6 +416,7 @@ export function parseConfig(view: DataView): ConfigValues {
     heightSensorMode: bit(flags, ConfigFlag.CONFIG_HEIGHT_SENSOR_MODE),
     safetyMode: bit(flags, ConfigFlag.CONFIG_SAFETY_MODE),
     aiEnabled: bit(flags, ConfigFlag.CONFIG_AI_STATUS_ENABLED),
+    sensorlessLeveling: bit(flags, ConfigFlag.CONFIG_SENSORLESS_LEVELING),
     pressureSensorMax: view.getUint16(a(8), true),
     bagVolumePercentage: view.getUint16(a(10), true),
     bagMaxPressure: view.getUint8(a(12)),
@@ -418,10 +426,8 @@ export function parseConfig(view: DataView): ConfigValues {
     rfButtonB: view.getUint8(a(17)),
     rfButtonC: view.getUint8(a(18)),
     rfButtonD: view.getUint8(a(19)),
-    heightSensorInvertBits: view.getUint8(a(20)),
-    auxModeByte,
-    auxStartupTimed: (auxModeByte & AUX_STARTUP_TIMED_MASK) !== 0,
-    auxShutdownTimed: (auxModeByte & AUX_SHUTDOWN_TIMED_MASK) !== 0,
+    // args8[20] reserved (formerly heightSensorInvertBits).
+    auxMode: view.getUint8(a(24)),
     auxTimeUnit: Math.min(3, view.getUint8(a(25))),
     auxPulseDuration: view.getUint8(a(26)),
     auxIntervalCycles: view.getUint8(a(27)),
