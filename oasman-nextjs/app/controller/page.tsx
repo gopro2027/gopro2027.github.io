@@ -201,12 +201,6 @@ function ConnectPanel({
         size={22}
         color={connected ? THEME.good : busy ? THEME.warn : THEME.textDim}
       />
-      <div style={{ flex: 1, minWidth: "10rem" }}>
-        <div style={{ fontSize: "0.9rem", fontWeight: 600 }}>{stateLabel}</div>
-        <div style={{ fontSize: "0.72rem", color: THEME.textDim }}>
-          Chrome, Edge, or Android. Requires HTTPS.
-        </div>
-      </div>
 
       {!connected ? (
         <>
@@ -280,9 +274,8 @@ function UnsupportedNotice() {
         }}
       >
         This controller uses the Web Bluetooth API, which works in Chrome, Edge, and
-        Opera on desktop, and Chrome on Android, over a secure (HTTPS) connection. It
-        is not supported by Safari or Firefox, and Apple does not allow it in any
-        browser on iOS.
+        Opera on desktop, and Chrome on Android. It
+        is not supported by Safari or Firefox or most browsers on iOS.
       </p>
 
       <div
