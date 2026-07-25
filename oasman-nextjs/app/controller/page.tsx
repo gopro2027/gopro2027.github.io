@@ -6,6 +6,7 @@ import {
   BluetoothConnected,
   BluetoothSearching,
   Home as HomeIcon,
+  KeyRound,
   LayoutGrid,
   Settings as SettingsIcon,
   TriangleAlert,
@@ -168,6 +169,8 @@ function ConnectPanel({
   busy: boolean
   connected: boolean
 }) {
+  const [focused, setFocused] = useState(false)
+
   const stateLabel =
     ble.state === "connecting"
       ? "Connecting…"
@@ -177,11 +180,23 @@ function ConnectPanel({
       ? `Connected to ${ble.deviceName}`
       : "Not connected"
 
+  const hint =
+    ble.state === "connecting"
+      ? "Pick your manifold in the browser's Bluetooth prompt."
+      : ble.state === "authenticating"
+      ? "Checking your passkey with the manifold…"
+      : connected
+      ? "Live status is streaming. Controls below are unlocked."
+      : "Enter your manifold passkey, then connect."
+
   const Icon = connected
     ? BluetoothConnected
     : busy
     ? BluetoothSearching
     : Bluetooth
+
+  const statusColor = connected ? THEME.good : busy ? THEME.warn : THEME.textDim
+  const canConnect = !busy && passkey.length > 0
 
   return (
     <div
@@ -191,59 +206,129 @@ function ConnectPanel({
         borderRadius: "14px",
         padding: "1rem 1.1rem",
         marginBottom: "1rem",
-        display: "flex",
-        flexWrap: "wrap",
-        alignItems: "center",
-        gap: "0.8rem",
       }}
     >
-      <Icon
-        size={22}
-        color={connected ? THEME.good : busy ? THEME.warn : THEME.textDim}
-      />
+      <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+        <span
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexShrink: 0,
+            width: "2.4rem",
+            height: "2.4rem",
+            borderRadius: "12px",
+            background: `${statusColor}1f`,
+            border: `1px solid ${statusColor}40`,
+          }}
+        >
+          <Icon size={20} color={statusColor} />
+        </span>
 
-      {!connected ? (
-        <>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div
+            style={{
+              fontSize: "0.9rem",
+              fontWeight: 700,
+              letterSpacing: "-0.01em",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+            }}
+          >
+            {stateLabel}
+          </div>
+          <div style={{ fontSize: "0.75rem", color: THEME.textDim }}>{hint}</div>
+        </div>
+
+        {connected && (
+          <Button variant="danger" onClick={ble.disconnect}>
+            Disconnect
+          </Button>
+        )}
+      </div>
+
+      {!connected && (
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "0.6rem",
+            marginTop: "0.9rem",
+            paddingTop: "0.9rem",
+            borderTop: `1px solid ${THEME.border}`,
+          }}
+        >
           <label
             style={{
               display: "flex",
-              flexDirection: "column",
-              gap: "0.2rem",
-              fontSize: "0.68rem",
-              color: THEME.textDim,
+              alignItems: "center",
+              gap: "0.55rem",
+              flex: "1 1 auto",
+              minWidth: 0,
+              maxWidth: "17rem",
+              height: "2.5rem",
+              padding: "0 0.75rem",
+              background: "#0c1014",
+              border: `1px solid ${focused ? THEME.accent : THEME.border}`,
+              boxShadow: focused ? `0 0 0 3px ${THEME.accent}26` : "none",
+              borderRadius: "10px",
+              opacity: busy ? 0.55 : 1,
+              cursor: busy ? "not-allowed" : "text",
+              transition: "border-color 0.15s ease, box-shadow 0.15s ease",
             }}
           >
-            Passkey
+            <KeyRound size={15} color={focused ? THEME.accent : THEME.textDim} />
+            <span
+              style={{
+                fontSize: "0.62rem",
+                fontWeight: 600,
+                color: THEME.textDim,
+                textTransform: "uppercase",
+                letterSpacing: "0.06em",
+                paddingRight: "0.55rem",
+                borderRight: `1px solid ${THEME.border}`,
+              }}
+            >
+              Passkey
+            </span>
             <input
               type="text"
               inputMode="numeric"
+              autoComplete="off"
               value={passkey}
               onChange={(e) => setPasskey(e.target.value.replace(/[^0-9]/g, ""))}
+              onFocus={() => setFocused(true)}
+              onBlur={() => setFocused(false)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && canConnect) ble.connect(Number(passkey))
+              }}
               maxLength={6}
               disabled={busy}
+              placeholder="000000"
               style={{
-                width: "5rem",
-                background: "#0c1014",
-                border: `1px solid ${THEME.border}`,
-                borderRadius: "7px",
+                flex: 1,
+                minWidth: 0,
+                background: "transparent",
+                border: "none",
+                outline: "none",
                 color: THEME.text,
-                fontSize: "0.85rem",
-                padding: "0.4rem 0.5rem",
-                letterSpacing: "0.1em",
+                fontSize: "0.95rem",
+                fontWeight: 600,
+                fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
+                letterSpacing: "0.16em",
+                padding: 0,
               }}
             />
           </label>
           <Button
-            disabled={busy || passkey.length === 0}
+            disabled={!canConnect}
             onClick={() => ble.connect(Number(passkey))}
+            style={{ height: "2.5rem", padding: "0 1.25rem" }}
           >
             {busy ? "Working…" : "Connect"}
           </Button>
-        </>
-      ) : (
-        <Button variant="danger" onClick={ble.disconnect}>
-          Disconnect
-        </Button>
+        </div>
       )}
     </div>
   )
