@@ -220,6 +220,26 @@ export default function SettingsTab({
               max={600}
               disabled={disabled}
             />
+            {!draft.heightSensorMode && (
+              <>
+                <NumberRow
+                  label="Bag Stretch Below PSI"
+                  value={draft.bagStretchBelowPressure}
+                  onChange={(v) => patch({ bagStretchBelowPressure: v })}
+                  min={0}
+                  max={255}
+                  disabled={disabled}
+                />
+                <NumberRow
+                  label="Bag Stretch PSI (0 = off)"
+                  value={draft.bagStretchPressure}
+                  onChange={(v) => patch({ bagStretchPressure: v })}
+                  min={0}
+                  max={255}
+                  disabled={disabled}
+                />
+              </>
+            )}
             <NumberRow
               label="Shutoff Time (minutes)"
               value={draft.systemShutoffTimeM}

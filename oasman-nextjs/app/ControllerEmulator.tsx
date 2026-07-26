@@ -578,10 +578,13 @@ const SETTINGS_SECTIONS: { name: string; rows: Row[] }[] = [
   {
     name: "Basic settings",
     rows: [
-      { type: "switch", label: "Maintain Preset", on: true },
+      { type: "switch", label: "Maintain Pressure", on: true },
+      { type: "switch", label: "Height levelling" },
       { type: "switch", label: "Rise on start" },
       { type: "switch", label: "Fall on shutdown" },
       { type: "switch", label: "Safety Mode", on: true },
+      // Note: firmware has a "Detect Pressure Sensors" button here, but we don't
+      // surface that feature in the demo currently.
       { type: "header", label: "Key Fob Settings" },
       { type: "button", label: "Unlearn Fob" },
       { type: "button", label: "Learn Fob" },
@@ -595,10 +598,9 @@ const SETTINGS_SECTIONS: { name: string; rows: Row[] }[] = [
     name: "Levelling Mode",
     rows: [
       { type: "radio", options: ["Pressure Sensor", "Level Sensor"], selected: 0 },
-      { type: "switch", label: "Invert Front Left" },
-      { type: "switch", label: "Invert Front Right" },
-      { type: "switch", label: "Invert Rear Left" },
-      { type: "switch", label: "Invert Rear Right" },
+      { type: "button", label: "Calibrate Min Height" },
+      { type: "button", label: "Calibrate Max Height" },
+      { type: "button", label: "Calibrate Min Ride Height" },
     ],
   },
   {
@@ -624,6 +626,8 @@ const SETTINGS_SECTIONS: { name: string; rows: Row[] }[] = [
       { type: "slider", label: "Brightness", value: 80, min: 1, max: 100 },
       { type: "header", label: "Navigation" },
       { type: "switch", label: "Swipe Navigation" },
+      { type: "header", label: "Screen Orientation" },
+      { type: "button", label: "Switch to Landscape" },
       { type: "header", label: "Theme Colors" },
       {
         type: "radio",
@@ -631,6 +635,8 @@ const SETTINGS_SECTIONS: { name: string; rows: Row[] }[] = [
         selected: 0,
       },
       { type: "button", label: "Custom Color Picker" },
+      { type: "button", label: "Upload custom car (USB)" },
+      { type: "button", label: "Clear custom car images" },
     ],
   },
   {
@@ -643,12 +649,14 @@ const SETTINGS_SECTIONS: { name: string; rows: Row[] }[] = [
       { type: "input", label: "Compressor Off PSI", placeholder: "150" },
       { type: "input", label: "Pressure Sensor Rating PSI", placeholder: "200" },
       { type: "slider", label: "Bag Volume Percentage", value: 100, min: 10, max: 600 },
+      { type: "input", label: "Bag Stretch Below PSI", placeholder: "40" },
+      { type: "input", label: "Bag Stretch PSI", placeholder: "0" },
     ],
   },
   {
     name: "Wifi / Update",
     rows: [
-      { type: "input", label: "SSID", placeholder: "MyNetwork" },
+      { type: "dropdown", label: "SSID", value: "MyNetwork" },
       { type: "input", label: "PASS", placeholder: "********" },
       { type: "button", label: "Start Software Update" },
       { type: "value", label: "Version:", value: "DEVELOPMENT" },

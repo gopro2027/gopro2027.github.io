@@ -190,6 +190,10 @@ export interface ConfigValues {
   rfButtonB: number
   rfButtonC: number
   rfButtonD: number
+  /** If current pressure is below this (PSI), stretch the bag first on air-up. */
+  bagStretchBelowPressure: number
+  /** Pressure (PSI) to inflate to first to unroll/stretch the bag. 0 = disabled. */
+  bagStretchPressure: number
   auxMode: number
   auxTimeUnit: number
   auxPulseDuration: number
@@ -361,7 +365,10 @@ export function buildConfigWrite(c: ConfigValues): Uint8Array {
   view.setUint8(a(17), c.rfButtonB & 0xff)
   view.setUint8(a(18), c.rfButtonC & 0xff)
   view.setUint8(a(19), c.rfButtonD & 0xff)
-  // args8[20] reserved (formerly heightSensorInvertBits); left as echoed rawArgs.
+  // Bag stretch (unroll on air-up): args8[20] trigger-below PSI, args8[21] stretch PSI.
+  view.setUint8(a(20), c.bagStretchBelowPressure & 0xff)
+  view.setUint8(a(21), c.bagStretchPressure & 0xff)
+  // args8[22..23] reserved; left as echoed rawArgs.
   // AuxillaryOutputModePayload at args32[6]: mode / timeUnit / time / interval.
   view.setUint8(a(24), c.auxMode & 0xff)
   view.setUint8(a(25), Math.min(3, Math.max(0, c.auxTimeUnit)))
@@ -426,7 +433,9 @@ export function parseConfig(view: DataView): ConfigValues {
     rfButtonB: view.getUint8(a(17)),
     rfButtonC: view.getUint8(a(18)),
     rfButtonD: view.getUint8(a(19)),
-    // args8[20] reserved (formerly heightSensorInvertBits).
+    bagStretchBelowPressure: view.getUint8(a(20)),
+    bagStretchPressure: view.getUint8(a(21)),
+    // args8[22..23] reserved.
     auxMode: view.getUint8(a(24)),
     auxTimeUnit: Math.min(3, view.getUint8(a(25))),
     auxPulseDuration: view.getUint8(a(26)),
