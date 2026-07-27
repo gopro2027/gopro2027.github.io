@@ -340,13 +340,13 @@ export default function Home() {
     {
       label: "AI Learning",
       title: "Gets better the more you use it.",
-      body: "OAS-MAN automatically learns your air system's flow: your compressor, tank size, and air line layout. Every adjustment refines the next for smoother, quicker results.",
+      body: "OAS-MAN learns how air actually moves through your setup. Every adjustment teaches it a little more about your system.",
       icon: Brain,
     },
     {
       label: "Accurate Presets",
       title: "Hit your height every time.",
-      body: "Dial in your ride-height presets and OAS-MAN nails them, whether you're airing out for a show or raising up to clear a driveway. OAS-Man's machine-learning presets are accurate, every time.",
+      body: "Save a preset once and the system hits that height on its own, whether you're airing out at a show or raising up to clear a steep driveway.",
       icon: Target,
     },
   ]
@@ -603,8 +603,7 @@ export default function Home() {
             <span style={{ color: "var(--oasman-gold)", fontWeight: 600 }}>
               $500
             </span>
-            . Open source, fully customizable, and everything the big brands
-            don&apos;t want you to have.
+            . Open source, fully customizable, setting a new industry standard.
           </p>
 
           <div
@@ -707,7 +706,7 @@ export default function Home() {
         <div style={{ maxWidth: "980px", margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: "4rem" }}>
             <h2 className="apple-headline reveal" style={{ marginBottom: "0.75rem" }}>
-              Supercharged
+              The Hardware
             </h2>
             <p
               className="apple-headline reveal reveal-delay-1"
@@ -1268,9 +1267,10 @@ export default function Home() {
                   lineHeight: 1.65,
                 }}
               >
-                Sensor breaks? That&apos;s a $10 replacement, not a $1,000
-                module. Every component is off-the-shelf, documented, and
-                swappable. No company to go under, no proprietary parts.
+                If a pressure sensor dies, the replacement costs about $10 and
+                ships overnight. The whole system is built from standard parts,
+                so you&apos;re never waiting on a manufacturer for some
+                proprietary module.
               </p>
             </div>
             <div
@@ -1379,7 +1379,7 @@ export default function Home() {
                   marginBottom: "0.75rem",
                 }}
               >
-                Three tabs. Full control.
+                The same three tabs as the real remote.
               </h3>
               <div
                 style={{
@@ -1603,12 +1603,12 @@ export default function Home() {
               {
                 icon: Brain,
                 title: "AI Learning",
-                desc: "Self-calibrating algorithms adapt to your air system.",
+                desc: "Self-calibrating presets that adapt to your air system.",
               },
               {
                 icon: Globe,
                 title: "Open Source",
-                desc: "Every line of code is public. Fork it. Improve it. Own it.",
+                desc: "All the firmware and hardware files are public on GitHub.",
               },
             ].map((feature) => (
               <div key={feature.title} className="feature-card">
@@ -1667,12 +1667,12 @@ export default function Home() {
               {
                 icon: Leaf,
                 title: "Open source, forever.",
-                desc: "We're committed to keeping OAS-MAN fully open source, forever. No paywalls, no gated firmware. Protected by GNU GPL v3",
+                desc: "OAS-MAN is licensed under GNU GPL v3, which means the code stays open permanently. Nobody can take it closed, including us.",
               },
               {
                 icon: Users,
                 title: "Community first.",
-                desc: "Discord and GitHub: the worldwide OAS-MAN community is what makes this project thrive. Everyone builds together.",
+                desc: "Most of the project happens in the Discord: build help, feature ideas, and people showing off their installs.",
               },
               {
                 icon: HeartHandshake,
