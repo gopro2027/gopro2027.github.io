@@ -376,6 +376,9 @@ export function HoldButton({
       onPointerUp={release}
       onPointerLeave={release}
       onPointerCancel={release}
+      onDragStart={(e) => e.preventDefault()}
+      // Prevent the browser from selecting ▲/▼ (or label) text while holding.
+      onSelect={(e) => e.preventDefault()}
       style={{
         background: held ? THEME.accent : THEME.panelAlt,
         border: `1px solid ${held ? THEME.accent : THEME.border}`,
@@ -387,6 +390,11 @@ export function HoldButton({
         alignItems: "center",
         justifyContent: "center",
         userSelect: "none",
+        WebkitUserSelect: "none",
+        MozUserSelect: "none",
+        msUserSelect: "none",
+        WebkitTouchCallout: "none",
+        WebkitTapHighlightColor: "transparent",
         touchAction: "none",
         transition: "background 0.1s ease, border-color 0.1s ease",
         ...style,
@@ -395,4 +403,3 @@ export function HoldButton({
       {children}
     </button>
   )
-}

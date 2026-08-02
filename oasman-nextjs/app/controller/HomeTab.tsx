@@ -116,6 +116,8 @@ function Pill({
         display: "flex",
         flexDirection: "column",
         gap: "0.5rem",
+        userSelect: "none",
+        WebkitUserSelect: "none",
       }}
     >
       <span
@@ -124,6 +126,7 @@ function Pill({
           fontWeight: 600,
           color: THEME.textDim,
           textAlign: "center",
+          userSelect: "none",
         }}
       >
         {pill.label}

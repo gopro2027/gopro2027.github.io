@@ -337,7 +337,6 @@ export default function SettingsTab({
         </>
       )}
 
-      <CompressorCard ble={ble} disabled={disabled} />
       <RfFobCard ble={ble} disabled={disabled} />
       <GameControllerCard ble={ble} disabled={disabled} />
       <BroadcastCard ble={ble} disabled={disabled} />
@@ -360,37 +359,25 @@ function StatusCard({ ble, disabled }: { ble: OasmanBle; disabled: boolean }) {
           gap: "0.5rem",
         }}
       >
-        <StatusPill label="Compressor" value={f.compressorOn ? "On" : "Off"} tone={f.compressorOn ? "good" : "neutral"} />
         <StatusPill label="Comp. Frozen" value={f.compressorFrozen ? "Yes" : "No"} tone={f.compressorFrozen ? "bad" : "neutral"} />
         <StatusPill label="ACC / Vehicle" value={f.accOn ? "On" : "Off"} tone={f.accOn ? "good" : "neutral"} />
         <StatusPill label="E-Brake" value={f.ebrakeOn ? "On" : "Off"} tone={f.ebrakeOn ? "warn" : "neutral"} />
         <StatusPill label="Timer" value={f.timerExpired ? "Expired" : "Active"} />
         <StatusPill label="AI Learn" value={`${ble.aiPercent}%`} />
       </div>
+      {/* Matches LVGL / Flutter: live compressor status + COMPRESSORSTATUS override toggle. */}
+      <Row label="Compressor Status:">
+        <Toggle
+          on={f.compressorOn}
+          disabled={disabled}
+          onChange={(on) => ble.sendRest(buildCompressor(on))}
+        />
+      </Row>
       {disabled && (
         <p style={{ fontSize: "0.72rem", color: THEME.textDim, margin: "0.7rem 0 0" }}>
           Live values appear once connected.
         </p>
       )}
-    </Card>
-  )
-}
-
-function CompressorCard({ ble, disabled }: { ble: OasmanBle; disabled: boolean }) {
-  return (
-    <Card title="Compressor override">
-      <div style={{ display: "flex", gap: "0.6rem" }}>
-        <Button disabled={disabled} onClick={() => ble.sendRest(buildCompressor(true))}>
-          Force compressor ON
-        </Button>
-        <Button
-          variant="ghost"
-          disabled={disabled}
-          onClick={() => ble.sendRest(buildCompressor(false))}
-        >
-          Release override
-        </Button>
-      </div>
     </Card>
   )
 }
