@@ -103,39 +103,55 @@ export function Toggle({
   on,
   onChange,
   disabled,
+  "aria-label": ariaLabel,
 }: {
   on: boolean
   onChange: (v: boolean) => void
   disabled?: boolean
+  "aria-label"?: string
 }) {
   return (
     <button
       type="button"
-      aria-pressed={on}
+      role="switch"
+      aria-checked={on}
+      aria-label={ariaLabel}
       disabled={disabled}
-      onClick={() => onChange(!on)}
+      onClick={(e) => {
+        e.preventDefault()
+        e.stopPropagation()
+        if (disabled) return
+        onChange(!on)
+      }}
       style={{
         position: "relative",
-        width: "44px",
-        height: "24px",
+        // Track size + extra padding so the hit target is ≥44px (easy to tap).
+        width: "52px",
+        height: "32px",
+        padding: 0,
         borderRadius: "999px",
-        border: "none",
+        border: `1px solid ${on ? THEME.accentDark : THEME.border}`,
         background: on ? THEME.accent : "#39414c",
         cursor: disabled ? "not-allowed" : "pointer",
         opacity: disabled ? 0.5 : 1,
         flexShrink: 0,
-        transition: "background 0.2s ease",
+        transition: "background 0.2s ease, border-color 0.2s ease",
+        WebkitTapHighlightColor: "transparent",
+        touchAction: "manipulation",
       }}
     >
       <span
+        aria-hidden
         style={{
           position: "absolute",
-          top: "2px",
-          left: on ? "22px" : "2px",
-          width: "20px",
-          height: "20px",
+          top: "3px",
+          left: on ? "26px" : "3px",
+          width: "24px",
+          height: "24px",
           borderRadius: "50%",
           background: "#fff",
+          boxShadow: "0 1px 3px rgba(0,0,0,0.35)",
+          pointerEvents: "none",
           transition: "left 0.2s ease",
         }}
       />
@@ -325,8 +341,11 @@ export function PressureGrid({
 }
 
 /**
- * Press-and-hold button. Fires onPress when held, onRelease when released
- * or the pointer leaves. Used for valve air up/down.
+ * Press-and-hold button. Fires onPress while held and onRelease on pointer up /
+ * cancel. Uses pointer capture so a slight drift during a long-press still
+ * delivers the release. Callbacks live in refs so BLE-driven parent re-renders
+ * (new inline handler identities) cannot tear down an in-progress hold and leave
+ * the button visually stuck.
  */
 export function HoldButton({
   children,
@@ -343,30 +362,44 @@ export function HoldButton({
 }) {
   const [held, setHeld] = useState(false)
   const heldRef = useRef(false)
+  const onPressRef = useRef(onPress)
+  const onReleaseRef = useRef(onRelease)
+  onPressRef.current = onPress
+  onReleaseRef.current = onRelease
 
-  const press = (e: React.PointerEvent) => {
-    if (disabled) return
-    e.preventDefault()
-    if (heldRef.current) return
-    heldRef.current = true
-    setHeld(true)
-    onPress()
-  }
   const release = () => {
     if (!heldRef.current) return
     heldRef.current = false
     setHeld(false)
-    onRelease()
+    onReleaseRef.current()
   }
 
+  const press = (e: React.PointerEvent<HTMLButtonElement>) => {
+    if (disabled) return
+    if (e.pointerType === "mouse" && e.button !== 0) return
+    // Keep the browser from starting a text-selection drag; still allow the hold.
+    e.preventDefault()
+    if (heldRef.current) return
+    heldRef.current = true
+    setHeld(true)
+    try {
+      // Ensures pointerup/cancel reach this button even if the pointer drifts.
+      e.currentTarget.setPointerCapture(e.pointerId)
+    } catch {
+      /* ignore */
+    }
+    onPressRef.current()
+  }
+
+  // Unmount-only safety: close valves if the control disappears mid-hold.
   useEffect(() => {
     return () => {
       if (heldRef.current) {
         heldRef.current = false
-        onRelease()
+        onReleaseRef.current()
       }
     }
-  }, [onRelease])
+  }, [])
 
   return (
     <button
@@ -374,11 +407,9 @@ export function HoldButton({
       disabled={disabled}
       onPointerDown={press}
       onPointerUp={release}
-      onPointerLeave={release}
       onPointerCancel={release}
+      onLostPointerCapture={release}
       onDragStart={(e) => e.preventDefault()}
-      // Prevent the browser from selecting ▲/▼ (or label) text while holding.
-      onSelect={(e) => e.preventDefault()}
       style={{
         background: held ? THEME.accent : THEME.panelAlt,
         border: `1px solid ${held ? THEME.accent : THEME.border}`,
@@ -403,3 +434,4 @@ export function HoldButton({
       {children}
     </button>
   )
+}

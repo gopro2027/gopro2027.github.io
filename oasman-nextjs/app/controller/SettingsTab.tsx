@@ -72,6 +72,7 @@ export default function SettingsTab({
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "1.1rem" }}>
       <StatusCard ble={ble} disabled={disabled} />
+      <CompressorCard ble={ble} disabled={disabled} />
 
       {!draft ? (
         <Card>
@@ -365,19 +366,66 @@ function StatusCard({ ble, disabled }: { ble: OasmanBle; disabled: boolean }) {
         <StatusPill label="Timer" value={f.timerExpired ? "Expired" : "Active"} />
         <StatusPill label="AI Learn" value={`${ble.aiPercent}%`} />
       </div>
-      {/* Matches LVGL / Flutter: live compressor status + COMPRESSORSTATUS override toggle. */}
-      <Row label="Compressor Status:">
-        <Toggle
-          on={f.compressorOn}
-          disabled={disabled}
-          onChange={(on) => ble.sendRest(buildCompressor(on))}
-        />
-      </Row>
       {disabled && (
         <p style={{ fontSize: "0.72rem", color: THEME.textDim, margin: "0.7rem 0 0" }}>
           Live values appear once connected.
         </p>
       )}
+    </Card>
+  )
+}
+
+/**
+ * LVGL / Flutter parity: a real ON/OFF switch that sends COMPRESSORSTATUS.
+ * Uses optimistic UI so the knob moves immediately; live status reconciles after.
+ */
+function CompressorCard({ ble, disabled }: { ble: OasmanBle; disabled: boolean }) {
+  const liveOn = ble.flags.compressorOn
+  const [pending, setPending] = useState<boolean | null>(null)
+  const shown = pending ?? liveOn
+
+  useEffect(() => {
+    if (pending === null) return
+    if (pending === liveOn) {
+      setPending(null)
+      return
+    }
+    // If the manifold rejects/overrides (tank full, ACC off, safety mode…),
+    // snap back to live status after a short window.
+    const t = window.setTimeout(() => setPending(null), 2500)
+    return () => window.clearTimeout(t)
+  }, [liveOn, pending])
+
+  return (
+    <Card title="Compressor">
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: "1rem",
+          padding: "0.35rem 0",
+        }}
+      >
+        <div style={{ display: "flex", flexDirection: "column", gap: "0.2rem" }}>
+          <span style={{ fontSize: "0.9rem", fontWeight: 600, color: THEME.text }}>
+            Compressor Status
+          </span>
+          <span style={{ fontSize: "0.72rem", color: THEME.textDim }}>
+            {shown ? "On — override enabled" : "Off — override disabled"}
+            {ble.flags.compressorFrozen ? " · frozen/paused" : ""}
+          </span>
+        </div>
+        <Toggle
+          aria-label="Compressor Status"
+          on={shown}
+          disabled={disabled}
+          onChange={(on) => {
+            setPending(on)
+            void ble.sendRest(buildCompressor(on))
+          }}
+        />
+      </div>
     </Card>
   )
 }
