@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import {
   Bluetooth,
   BluetoothConnected,
@@ -20,10 +20,39 @@ import SettingsTab from "./SettingsTab"
 
 type Tab = "home" | "presets" | "settings"
 
+const PASSKEY_STORAGE_KEY = "oasman-controller-passkey"
+
+function readStoredPasskey(): string | null {
+  try {
+    const saved = localStorage.getItem(PASSKEY_STORAGE_KEY)
+    return saved && /^\d+$/.test(saved) ? saved : null
+  } catch {
+    return null
+  }
+}
+
+function writeStoredPasskey(value: string) {
+  try {
+    localStorage.setItem(PASSKEY_STORAGE_KEY, value)
+  } catch {
+    // ignore quota / private-mode failures
+  }
+}
+
 export default function ControllerPage() {
   const ble = useOasmanBle()
   const [tab, setTab] = useState<Tab>("home")
-  const [passkey, setPasskey] = useState(String(DEFAULT_PASSKEY))
+  const [passkey, setPasskeyState] = useState(String(DEFAULT_PASSKEY))
+
+  useEffect(() => {
+    const saved = readStoredPasskey()
+    if (saved) setPasskeyState(saved)
+  }, [])
+
+  const setPasskey = (value: string) => {
+    setPasskeyState(value)
+    writeStoredPasskey(value)
+  }
 
   const connected = ble.state === "connected"
   const busy = ble.state === "connecting" || ble.state === "authenticating"
