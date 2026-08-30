@@ -215,12 +215,12 @@ export default function Home() {
             OASMan
           </h1>
 
-          <p
+          {/* <p
             className="oas-lede oas-in oas-in-2"
             style={{ marginTop: "1.75rem", maxWidth: "44ch" }}
           >
             Worlds most advanced air suspension, fully open source.
-          </p>
+          </p> */}
 
           <div
             className="oas-in oas-in-3"
