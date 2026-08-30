@@ -1,39 +1,13 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
-import type { LucideIcon } from "lucide-react"
+import { useEffect } from "react"
 import dynamic from "next/dynamic"
-import {
-  Github,
-  Zap,
-  Brain,
-  Target,
-  Unlock,
-  Cpu,
-  Gamepad2,
-  Bluetooth,
-  Gauge,
-  BatteryCharging,
-  Wifi,
-  SlidersHorizontal,
-  Wrench,
-  Rocket,
-  BookOpen,
-  Car,
-  Globe,
-  Leaf,
-  Users,
-  HeartHandshake,
-  DollarSign,
-  Package,
-  MessageCircle,
-  ChevronRight,
-} from "lucide-react"
+import { ArrowUpRight } from "lucide-react"
 import InstagramEmbed from "./InstagramEmbed"
 import PrintfulHatEmbed from "./PrintfulHatEmbed"
 import ControllerEmulator from "./ControllerEmulator"
 
-// Three.js uses browser APIs, so this must be client-only
+// Three.js uses browser APIs, so this must be client-only.
 const PCBViewer = dynamic(() => import("./PCBViewer"), {
   ssr: false,
   loading: () => (
@@ -41,1399 +15,296 @@ const PCBViewer = dynamic(() => import("./PCBViewer"), {
       className="shimmer-placeholder"
       style={{
         width: "100%",
-        height: "520px",
-        borderRadius: "24px",
+        height: "var(--pcb-height)",
+        borderRadius: "10px",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
       }}
     >
-      <span
-        style={{
-          fontSize: "0.8125rem",
-          color: "rgba(62,44,35,0.55)",
-          letterSpacing: "0.06em",
-          textTransform: "uppercase",
-        }}
-      >
-        Loading model…
-      </span>
+      <span className="oas-mono">Loading board…</span>
     </div>
   ),
 })
 
-/* ─── Scroll reveal hook ─── */
+const DISCORD = "https://discord.gg/pUf7FmHKpg"
+const PATREON = "https://www.patreon.com/c/oasman"
+const INSTAGRAM = "https://www.instagram.com/oasman.co"
+
+/* ─── Scroll reveal ─── */
 function useReveal() {
   useEffect(() => {
+    const els = Array.from(document.querySelectorAll<HTMLElement>(".reveal"))
+
+    const show = (el: Element) => {
+      el.classList.add("visible")
+      observer.unobserve(el)
+    }
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible")
-            observer.unobserve(entry.target)
-          }
+          if (entry.isIntersecting) show(entry.target)
         })
       },
       { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
     )
-    document.querySelectorAll(".reveal").forEach((el) => observer.observe(el))
-    return () => observer.disconnect()
+    els.forEach((el) => observer.observe(el))
+
+    // Safety net. IntersectionObserver stops delivering while the tab is
+    // backgrounded, and a deep link (/#pricing) can land mid-page before the
+    // first delivery — which would strand that content at opacity 0. Sweep
+    // anything already on screen that the observer has not handled. Runs late
+    // enough that the normal path still gets to animate.
+    const sweep = () => {
+      for (const el of els) {
+        if (el.classList.contains("visible")) continue
+        const r = el.getBoundingClientRect()
+        if (r.top < window.innerHeight && r.bottom > 0) show(el)
+      }
+    }
+    const timer = window.setTimeout(sweep, 900)
+    window.addEventListener("load", sweep)
+    document.addEventListener("visibilitychange", sweep)
+
+    return () => {
+      observer.disconnect()
+      window.clearTimeout(timer)
+      window.removeEventListener("load", sweep)
+      document.removeEventListener("visibilitychange", sweep)
+    }
   }, [])
 }
 
-/* ─── Reusable icon badge ─── */
-function IconBadge({
-  icon: Icon,
-  size = "md",
-  solid = false,
+/* ─── Section header ─── */
+function SectionHead({
+  eyebrow,
+  title,
+  lede,
 }: {
-  icon: LucideIcon
-  size?: "md" | "lg"
-  solid?: boolean
+  eyebrow: string
+  title: React.ReactNode
+  lede?: string
 }) {
   return (
-    <span
-      className={`icon-badge icon-badge-${size}${solid ? " icon-badge-solid" : ""}`}
-    >
-      <Icon size={size === "lg" ? 26 : 20} strokeWidth={1.75} />
-    </span>
-  )
-}
-
-/* ─── Benchmark bar ─── */
-function BenchBar({
-  label,
-  value,
-  maxValue,
-  accent = false,
-}: {
-  label: string
-  value: number
-  maxValue: number
-  accent?: boolean
-}) {
-  const ref = useRef<HTMLDivElement>(null)
-  const [animated, setAnimated] = useState(false)
-  const pct = Math.round((value / maxValue) * 100)
-
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    const obs = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setAnimated(true)
-          obs.disconnect()
-        }
-      },
-      { threshold: 0.5 }
-    )
-    obs.observe(el)
-    return () => obs.disconnect()
-  }, [])
-
-  return (
-    <div ref={ref} style={{ marginBottom: "1.5rem" }}>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "baseline",
-          marginBottom: "0.5rem",
-        }}
+    <div style={{ marginBottom: "clamp(2.5rem, 5vw, 4rem)" }}>
+      <p className="oas-eyebrow reveal">{eyebrow}</p>
+      <h2
+        className="oas-display oas-h2 reveal reveal-delay-1"
+        style={{ marginTop: "1.25rem", maxWidth: "18ch" }}
       >
-        <span
-          style={{
-            fontSize: "0.9375rem",
-            color: accent ? "var(--oasman-gold)" : "var(--oasman-text-secondary)",
-            fontWeight: accent ? 600 : 400,
-          }}
-        >
-          {label}
-        </span>
-        <span
-          style={{
-            fontSize: accent ? "1.125rem" : "0.9375rem",
-            color: accent ? "var(--oasman-gold)" : "var(--oasman-text-tertiary)",
-            fontWeight: accent ? 700 : 500,
-          }}
-        >
-          ${value.toLocaleString()}
-        </span>
-      </div>
-      <div className="bench-bar-track">
-        <div
-          className="bench-bar-fill"
-          style={{
-            width: animated ? `${pct}%` : "0%",
-            background: accent
-              ? "linear-gradient(90deg, #d35f1c, #e76f2e)"
-              : "rgba(74,48,26,0.1)",
-          }}
-        />
-      </div>
+        {title}
+      </h2>
+      {lede && (
+        <p className="oas-lede reveal reveal-delay-2" style={{ marginTop: "1.25rem" }}>
+          {lede}
+        </p>
+      )}
     </div>
   )
 }
 
-/* ─── AI learning visualization ─── */
-function AILearningVisual() {
-  const bars = [0.55, 0.7, 0.85, 0.95, 0.78, 0.9, 0.99]
+/* ─── Spec row ─── */
+function Spec({ k, v }: { k: string; v: string }) {
   return (
-    <div
-      style={{
-        background: "radial-gradient(circle at 50% 0%, #fdf8ee, #f9f1e2)",
-        border: "1px solid rgba(74,48,26,0.12)",
-        borderRadius: "16px",
-        padding: "1.5rem",
-        height: "100%",
-        minHeight: "300px",
-        display: "flex",
-        flexDirection: "column",
-      }}
-    >
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          marginBottom: "1.5rem",
-        }}
-      >
-        <span
-          style={{
-            fontSize: "0.8125rem",
-            fontWeight: 600,
-            color: "var(--oasman-text-secondary)",
-          }}
-        >
-          System learning
-        </span>
-        <span
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: "0.375rem",
-            fontSize: "0.75rem",
-            color: "var(--oasman-gold)",
-          }}
-        >
-          <span
-            style={{
-              width: "7px",
-              height: "7px",
-              borderRadius: "50%",
-              background: "var(--oasman-gold)",
-              animation: "pulse 2s ease-in-out infinite",
-            }}
-          />
-          Live
-        </span>
-      </div>
-
-      {/* Animated learning bars */}
-      <div
-        style={{
-          flex: 1,
-          display: "flex",
-          alignItems: "flex-end",
-          gap: "0.5rem",
-          minHeight: "120px",
-        }}
-      >
-        {bars.map((h, i) => (
-          <div
-            key={i}
-            style={{
-              flex: 1,
-              height: "100%",
-              display: "flex",
-              alignItems: "flex-end",
-            }}
-          >
-            <div
-              className="ai-bar"
-              style={{
-                height: `${h * 100}%`,
-                animationDelay: `${i * 0.22}s`,
-              }}
-            />
-          </div>
-        ))}
-      </div>
-
-      {/* Accuracy readout */}
-      <div
-        style={{
-          marginTop: "1.5rem",
-          paddingTop: "1.25rem",
-          borderTop: "1px solid rgba(74,48,26,0.12)",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "flex-end",
-        }}
-      >
-        <div>
-          <div
-            style={{
-              fontSize: "2rem",
-              fontWeight: 700,
-              color: "#3e2c23",
-              lineHeight: 1,
-            }}
-          >
-            99.2%
-          </div>
-          <div
-            style={{
-              fontSize: "0.75rem",
-              color: "var(--oasman-text-tertiary)",
-              marginTop: "0.25rem",
-            }}
-          >
-            Preset accuracy
-          </div>
-        </div>
-        <div style={{ textAlign: "right" }}>
-          <div
-            style={{
-              fontSize: "2rem",
-              fontWeight: 700,
-              color: "var(--oasman-gold)",
-              lineHeight: 1,
-            }}
-          >
-            0
-          </div>
-          <div
-            style={{
-              fontSize: "0.75rem",
-              color: "var(--oasman-text-tertiary)",
-              marginTop: "0.25rem",
-            }}
-          >
-            Manual calibrations
-          </div>
-        </div>
-      </div>
+    <div className="oas-spec">
+      <span className="oas-spec-k">{k}</span>
+      <span className="oas-spec-v">{v}</span>
     </div>
   )
 }
+
+/* ─── Core feature list (the Manifold section) ─── */
+const FEATURES: { title: string; body: string }[] = [
+  {
+    title: "Industry standard four-corner control",
+    body: "Every corner gets its own valve, so no body roll.",
+  },
+  {
+    title: "No calibration",
+    body: "There is no setup routine to run before your first drive, air it up and go! OASMan is accurate out of the box, but preset speed and smoothness improves as the system learns how your air system responds.",
+  },
+  {
+    title: "Wireless updates",
+    body: "New firmware goes on over Wi-Fi via the controller. Super easy regular updates.",
+  },
+  {
+    title: "Saved presets",
+    body: "Save a height once and the system hits it accurately on command.",
+  },
+  {
+    title: "Pressure or height level sensing",
+    body: "OASMan optionally supports height sensors too for exceptionally consistent height control on those highest quality builds.",
+  },
+  {
+    title: "Compressor control",
+    body: "No separate analog sensor for the compressor required.",
+  },
+  {
+    title: "Auxillary control",
+    body: "Light bar? Water drain? Nitrous purge? You can control it through the controller with OASMan's optional auxillary output.",
+  },
+  {
+    title: "Safety",
+    body: "OASMan was thoughtfully designed with safety a top priority and has many monitoring mechanisms in place to ensure a safe drive every time. OASMan also includes various safety protocols for compliance with government regulations around the world. Your's not covered? Join the discord and we'll help you get your oasman system legal.",
+  },
+  {
+    title: "Wireless control",
+    body: "Bluetooth LE out to the touch screen remote, your Android phone, Chrome web browser, gamepad, or key fob. IOS coming soon but for now you can use our web controller on IOS devices.",
+  },
+  {
+    title: "Innovation",
+    body: "OASMan has many innovative features such as our height-sensorless weight adjustment, which will make adjustments to your bags for added or subtracted weight, such as filling up the trunk with heavy cargo, without having to use level sensors.",
+  },
+]
 
 export default function Home() {
   useReveal()
 
-  const [activeTab, setActiveTab] = useState(0)
-
-  const aiTabs: {
-    label: string
-    title: string
-    body: string
-    icon: LucideIcon
-  }[] = [
-    {
-      label: "No Calibration",
-      title: "Works right out of the box.",
-      body: "No initial calibration required. OAS-Man will improve preset accuracy over time as you use it.",
-      icon: Zap,
-    },
-    {
-      label: "AI Learning",
-      title: "Gets better the more you use it.",
-      body: "OAS-MAN learns how air actually moves through your setup. Every adjustment teaches it a little more about your system.",
-      icon: Brain,
-    },
-    {
-      label: "Accurate Presets",
-      title: "Hit your height every time.",
-      body: "Save a preset once and the system hits that height on its own, whether you're airing out at a show or raising up to clear a steep driveway.",
-      icon: Target,
-    },
-  ]
-
   return (
-    <div style={{ backgroundColor: "#f5e9d8", color: "#3e2c23", minHeight: "100vh" }}>
-      {/* ─── Global Nav ─── */}
-      <nav className="global-nav">
-        <div
-          style={{
-            maxWidth: "980px",
-            margin: "0 auto",
-            padding: "0 1.5rem",
-            height: "52px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <a
-            href="/"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "0.625rem",
-              textDecoration: "none",
-            }}
-          >
-            <img
-              src="/assets/oasman_logo.jpg"
-              alt="OAS-MAN logo"
-              width={30}
-              height={30}
-              style={{
-                width: "30px",
-                height: "30px",
-                objectFit: "contain",
-                borderRadius: "8px",
-                mixBlendMode: "multiply",
-                flexShrink: 0,
-              }}
-            />
-            <span
-              style={{
-                fontWeight: 700,
-                fontSize: "0.9375rem",
-                letterSpacing: "0.02em",
-                color: "var(--oasman-text-primary)",
-              }}
-            >
-              OAS-MAN
-            </span>
+    <div style={{ background: "var(--oas-void)", minHeight: "100vh" }}>
+      {/* ═══ Nav ═══ */}
+      <nav className="oas-nav">
+        <div className="oas-wrap oas-nav-inner">
+          <a href="/" className="oas-nav-brand">
+            <img src="/assets/oasman_logo.jpg" alt="" width={26} height={26} />
+            <span>OASMan</span>
           </a>
-          <div style={{ display: "flex", alignItems: "center", gap: "1.5rem" }}>
-            <a
-              href="#demo"
-              style={{
-                fontSize: "0.8125rem",
-                color: "var(--oasman-text-secondary)",
-                textDecoration: "none",
-                transition: "color 0.2s",
-              }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = "#3e2c23")}
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.color = "var(--oasman-text-secondary)")
-              }
-            >
-              Live Demo
+
+          <div className="oas-nav-links">
+            <a className="oas-nav-link" href="#demo">
+              Demo
+            </a>
+            <a className="oas-nav-link" href="#manifold">
+              Features
+            </a>
+            <a className="oas-nav-link" href="#pricing">
+              Pricing
+            </a>
+          </div>
+
+          <div className="oas-nav-actions">
+            <a className="oas-btn oas-btn-ghost oas-btn-sm" href="/controller">
+              Open web controller
             </a>
             <a
-              href="https://oasman.dev/docs"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                fontSize: "0.8125rem",
-                fontWeight: 600,
-                color: "var(--oasman-gold)",
-                textDecoration: "none",
-                transition: "color 0.2s",
-              }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = "#e76f2e")}
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.color = "var(--oasman-gold)")
-              }
+              className="oas-btn oas-btn-ghost oas-btn-sm"
+              href="https://oasman.dev/flash/"
             >
-              Docs
-            </a>
-            <a
-              href="https://github.com/gopro2027/ArduinoAirSuspensionController"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ color: "var(--oasman-text-secondary)", transition: "color 0.2s", display: "flex" }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = "#3e2c23")}
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.color = "var(--oasman-text-secondary)")
-              }
-            >
-              <Github size={18} />
+              Software updates
             </a>
           </div>
         </div>
       </nav>
 
-      {/* ─── Local Nav ─── */}
-      <div className="local-nav">
-        <div style={{ maxWidth: "980px", margin: "0 auto", padding: "0 1.5rem" }}>
-          <div
-            className="local-nav-links"
-            style={{ display: "flex", alignItems: "stretch", gap: "0" }}
-          >
-            {[
-              { label: "Overview", href: "#overview" },
-              { label: "Features", href: "#features" },
-              { label: "Specs", href: "#specs" },
-              { label: "Community", href: "#community" },
-            ].map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
-                style={{
-                  padding: "0.875rem 1.125rem",
-                  fontSize: "0.8125rem",
-                  color: "var(--oasman-text-secondary)",
-                  textDecoration: "none",
-                  transition: "color 0.2s",
-                  whiteSpace: "nowrap",
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = "#3e2c23")}
-                onMouseLeave={(e) =>
-                  (e.currentTarget.style.color = "var(--oasman-text-secondary)")
-                }
-              >
-                {item.label}
-              </a>
-            ))}
-            <a
-              href="https://oasman.dev/docs"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                marginLeft: "auto",
-                alignSelf: "center",
-                padding: "0.4rem 1rem",
-                fontSize: "0.8125rem",
-                fontWeight: 500,
-                color: "#fff",
-                background: "linear-gradient(135deg, #d35f1c, #f1a14e)",
-                borderRadius: "980px",
-                textDecoration: "none",
-                transition: "filter 0.2s",
-                whiteSpace: "nowrap",
-              }}
-              onMouseEnter={(e) => (e.currentTarget.style.filter = "brightness(1.1)")}
-              onMouseLeave={(e) => (e.currentTarget.style.filter = "brightness(1)")}
-            >
-              Get Started
-            </a>
-          </div>
-        </div>
-      </div>
-
-      {/* ─── Hero ─── */}
-      <section
-        id="overview"
+      {/* ═══ Hero ═══ */}
+      <header
         style={{
           position: "relative",
-          background: "linear-gradient(180deg, #f5e9d8 0%, #ecddc4 100%)",
-          paddingTop: "5rem",
-          paddingBottom: "0",
-          textAlign: "center",
-          overflow: "hidden",
+          paddingTop: "clamp(4rem, 9vw, 7rem)",
+          paddingBottom: "clamp(3rem, 6vw, 5rem)",
         }}
       >
-        {/* Blurred, shaded car backdrop */}
-        <div
-          aria-hidden="true"
-          style={{
-            position: "absolute",
-            inset: 0,
-            backgroundImage: "url('/assets/bluecar.jpg')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            filter: "blur(28px) saturate(1.1)",
-            transform: "scale(1.15)",
-            opacity: 0.5,
-            zIndex: 0,
-            pointerEvents: "none",
-          }}
-        />
-        {/* Dark shading overlay so text stays legible */}
-        <div
-          aria-hidden="true"
-          style={{
-            position: "absolute",
-            inset: 0,
-            background:
-              "linear-gradient(180deg, rgba(245,233,216,0.55) 0%, rgba(245,233,216,0.42) 45%, rgba(236,221,196,0.92) 100%)",
-            zIndex: 0,
-            pointerEvents: "none",
-          }}
-        />
-        <div className="hero-glow" />
-        <div
-          style={{
-            maxWidth: "980px",
-            margin: "0 auto",
-            padding: "0 1.5rem",
-            position: "relative",
-            zIndex: 1,
-          }}
-        >
-          <p className="apple-eyebrow reveal" style={{ marginBottom: "1rem" }}>
-            Open Source · DIY · Affordable
-          </p>
-          <h1
-            className="reveal reveal-delay-1"
-            style={{
-              fontSize: "clamp(3rem, 8vw, 6.5rem)",
-              fontWeight: 700,
-              letterSpacing: "-0.03em",
-              lineHeight: 1.02,
-              marginBottom: "1rem",
-              color: "#3e2c23",
-            }}
-          >
-            OAS-MAN
+        <div className="oas-perfboard" aria-hidden="true" />
+        <div className="oas-bloom" aria-hidden="true" />
+
+        <div className="oas-wrap">
+          <p className="oas-eyebrow oas-in oas-in-1">Open source air suspension</p>
+
+          <h1 className="oas-wordmark" style={{ margin: "1.5rem 0 0" }}>
+            OASMan
           </h1>
+
           <p
-            className="apple-subheadline reveal reveal-delay-2"
-            style={{
-              maxWidth: "560px",
-              margin: "0 auto 1rem",
-              fontSize: "clamp(1.375rem, 3vw, 2rem)",
-              fontWeight: 400,
-              lineHeight: 1.15,
-              color: "#6b5444",
-            }}
+            className="oas-lede oas-in oas-in-2"
+            style={{ marginTop: "1.75rem", maxWidth: "44ch" }}
           >
-            DIY Air Suspension,
-            <br />
-            For a fraction of the price.
-          </p>
-          <p
-            className="reveal reveal-delay-3"
-            style={{
-              fontSize: "1.0625rem",
-              color: "#6b5444",
-              maxWidth: "480px",
-              margin: "0 auto 2.5rem",
-              lineHeight: 1.6,
-            }}
-          >
-            DIY air suspension for under{" "}
-            <span style={{ color: "var(--oasman-gold)", fontWeight: 600 }}>
-              $500
-            </span>
-            . Open source, fully customizable, setting a new industry standard.
+            Worlds most advanced air suspension, fully open source.
           </p>
 
           <div
-            className="reveal reveal-delay-4"
-            style={{
-              display: "flex",
-              gap: "1rem",
-              justifyContent: "center",
-              flexWrap: "wrap",
-              marginBottom: "3.5rem",
-            }}
+            className="oas-in oas-in-3"
+            style={{ marginTop: "clamp(3rem, 6vw, 4.5rem)" }}
           >
-            <a
-              href="https://oasman.dev/docs"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-primary"
-            >
-              View Build Instructions
-              <ChevronRight size={15} />
-            </a>
-            <a
-              href="https://github.com/gopro2027/ArduinoAirSuspensionController"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-secondary"
-            >
-              <Github size={16} />
-              View on GitHub
-            </a>
-          </div>
-
-          {/* PCB 3D Model */}
-          <div className="reveal" style={{ maxWidth: "860px", margin: "0 auto" }}>
             <PCBViewer />
-          </div>
-          <p
-            style={{
-              fontSize: "0.8125rem",
-              color: "var(--oasman-text-tertiary)",
-              marginTop: "0.5rem",
-              paddingBottom: "1rem",
-            }}
-          >
-            The OAS-MAN manifold board. Scroll to explore.
-          </p>
-        </div>
-      </section>
-
-      {/* ─── Hero stat strip ─── */}
-      <section
-        style={{
-          background: "#ecddc4",
-          padding: "3rem 1.5rem",
-          borderBottom: "1px solid rgba(74,48,26,0.1)",
-        }}
-      >
-        <div
-          className="stat-strip reveal"
-          style={{
-            maxWidth: "820px",
-            margin: "0 auto",
-            display: "grid",
-            gridTemplateColumns: "repeat(3, 1fr)",
-            gap: "1rem",
-          }}
-        >
-          {[
-            { value: "67%", label: "Cheaper than the competition" },
-            { value: "100%", label: "Open source, forever" },
-            { value: "<$499", label: "Total build cost" },
-          ].map((stat) => (
-            <div key={stat.label} className="stat-strip-item">
-              <div
-                style={{
-                  fontSize: "clamp(2rem, 5vw, 2.75rem)",
-                  fontWeight: 700,
-                  color: "var(--oasman-gold)",
-                  letterSpacing: "-0.02em",
-                }}
-              >
-                {stat.value}
-              </div>
-              <div
-                style={{
-                  fontSize: "0.8125rem",
-                  color: "var(--oasman-text-secondary)",
-                  marginTop: "0.25rem",
-                }}
-              >
-                {stat.label}
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ─── "Supercharged by" ─── */}
-      <section id="specs" style={{ background: "#f9f1e2", padding: "6rem 1.5rem" }}>
-        <div style={{ maxWidth: "980px", margin: "0 auto" }}>
-          <div style={{ textAlign: "center", marginBottom: "4rem" }}>
-            <h2 className="apple-headline reveal" style={{ marginBottom: "0.75rem" }}>
-              The Hardware
-            </h2>
-            <p
-              className="apple-headline reveal reveal-delay-1"
-              style={{ color: "var(--oasman-gold)" }}
-            >
-              Manifold &amp; Controller.
-            </p>
-          </div>
-
-          <div
-            className="chip-cards-grid reveal"
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: "1.5rem",
-              marginBottom: "4rem",
-            }}
-          >
-            {/* Manifold card */}
-            <div className="chip-card">
-              <div
-                className="section-eyebrow-row"
-                style={{ marginBottom: "1.25rem" }}
-              >
-                <IconBadge icon={Cpu} />
-                <span className="apple-eyebrow">Manifold</span>
-              </div>
-              <h3
-                style={{
-                  fontSize: "1.75rem",
-                  fontWeight: 700,
-                  letterSpacing: "-0.02em",
-                  color: "#3e2c23",
-                  marginBottom: "1.5rem",
-                  lineHeight: 1.1,
-                }}
-              >
-                The heart of your system.
-              </h3>
-              <ul
-                style={{
-                  listStyle: "none",
-                  padding: 0,
-                  margin: "0 0 1.5rem",
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "0.625rem",
-                }}
-              >
-                {[
-                  "4-corner independent valve control",
-                  "Pressure or Height sensor compatible",
-                  "Compressor control",
-                  "And more!",
-                ].map((item) => (
-                  <li
-                    key={item}
-                    style={{
-                      fontSize: "0.9375rem",
-                      color: "var(--oasman-text-secondary)",
-                      display: "flex",
-                      alignItems: "flex-start",
-                      gap: "0.5rem",
-                    }}
-                  >
-                    <span style={{ color: "var(--oasman-gold)", flexShrink: 0 }}>·</span>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-              <div
-                style={{
-                  borderTop: "1px solid rgba(74,48,26,0.12)",
-                  paddingTop: "1.25rem",
-                  display: "flex",
-                  flexWrap: "wrap",
-                  gap: "1.25rem",
-                }}
-              >
-                {[
-                  ["No soldering required", "Pre-built"],
-                  ["Corners", "4"],
-                  ["Open source", "100%"],
-                ].map(([k, v]) => (
-                  <div key={k}>
-                    <div
-                      style={{
-                        fontSize: "1.25rem",
-                        fontWeight: 700,
-                        color: "var(--oasman-gold)",
-                      }}
-                    >
-                      {v}
-                    </div>
-                    <div
-                      style={{
-                        fontSize: "0.75rem",
-                        color: "var(--oasman-text-tertiary)",
-                      }}
-                    >
-                      {k}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Controller card */}
-            <div className="chip-card">
-              <div
-                className="section-eyebrow-row"
-                style={{ marginBottom: "1.25rem" }}
-              >
-                <IconBadge icon={Gamepad2} />
-                <span className="apple-eyebrow">Controller</span>
-              </div>
-              <h3
-                style={{
-                  fontSize: "1.75rem",
-                  fontWeight: 700,
-                  letterSpacing: "-0.02em",
-                  color: "#3e2c23",
-                  marginBottom: "1.5rem",
-                  lineHeight: 1.1,
-                }}
-              >
-                You choose your control.
-              </h3>
-              <ul
-                style={{
-                  listStyle: "none",
-                  padding: 0,
-                  margin: "0 0 1.5rem",
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "0.625rem",
-                }}
-              >
-                {[
-                  "Android/IOS mobile apps",
-                  "Dedicated touch screen remote",
-                  "PS3, PS4, Xbox, Switch, Wii gamepad support",
-                  "Key fob support",
-                ].map((item) => (
-                  <li
-                    key={item}
-                    style={{
-                      fontSize: "0.9375rem",
-                      color: "var(--oasman-text-secondary)",
-                      display: "flex",
-                      alignItems: "flex-start",
-                      gap: "0.5rem",
-                    }}
-                  >
-                    <span style={{ color: "var(--oasman-gold)", flexShrink: 0 }}>·</span>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-              <div
-                style={{
-                  borderTop: "1px solid rgba(74,48,26,0.12)",
-                  paddingTop: "1.25rem",
-                  display: "flex",
-                  flexWrap: "wrap",
-                  gap: "1.25rem",
-                }}
-              >
-                {[
-                  ["Wireless", "BLE"],
-                  ["Presets", "5"],
-                  ["Gamepads supported", "10+"],
-                ].map(([k, v]) => (
-                  <div key={k}>
-                    <div
-                      style={{
-                        fontSize: "1.25rem",
-                        fontWeight: 700,
-                        color: "var(--oasman-gold)",
-                      }}
-                    >
-                      {v}
-                    </div>
-                    <div
-                      style={{
-                        fontSize: "0.75rem",
-                        color: "var(--oasman-text-tertiary)",
-                      }}
-                    >
-                      {k}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          <p
-            className="reveal"
-            style={{
-              maxWidth: "680px",
-              margin: "0 auto",
-              fontSize: "1.0625rem",
-              color: "var(--oasman-text-secondary)",
-              lineHeight: 1.7,
-              textAlign: "center",
-            }}
-          >
-            Built by enthusiasts, for enthusiasts, with no corporate nonsense.
-            OAS-MAN pairs proven open-source hardware with AI-powered presets,
-            wireless control, and affordable, off-the-shelf parts. Revolutionary,
-            not evolutionary.
-          </p>
-        </div>
-      </section>
-
-      {/* ─── Price comparison ─── */}
-      <section
-        style={{
-          background: "#f5e9d8",
-          padding: "6rem 1.5rem",
-          borderTop: "1px solid rgba(74,48,26,0.1)",
-        }}
-      >
-        <div style={{ maxWidth: "680px", margin: "0 auto" }}>
-          <p
-            className="apple-eyebrow reveal"
-            style={{ marginBottom: "0.75rem", textAlign: "center" }}
-          >
-            Choose your build
-          </p>
-          <h2
-            className="apple-headline reveal reveal-delay-1"
-            style={{ textAlign: "center", marginBottom: "0.75rem" }}
-          >
-            67% cheaper than
-            <br />
-            the competition.
-          </h2>
-          <p
-            className="apple-body reveal reveal-delay-2"
-            style={{ textAlign: "center", marginBottom: "3.5rem" }}
-          >
-            Why pay $1,500 for a locked, non-repairable ecosystem when you can
-            build your own fully open system for a fraction of the cost?
-          </p>
-
-          <div className="reveal">
-            <p
+            <div
               style={{
-                fontSize: "0.75rem",
-                color: "var(--oasman-text-tertiary)",
-                marginBottom: "1.5rem",
-                textTransform: "uppercase",
-                letterSpacing: "0.06em",
-              }}
-            >
-              Total system cost
-            </p>
-            <BenchBar label="Competitor #1" value={1500} maxValue={1600} />
-            <BenchBar label="Competitor #2" value={1000} maxValue={1600} />
-            <BenchBar label="OAS-MAN" value={499} maxValue={1600} accent />
-            <p
-              style={{
-                fontSize: "0.75rem",
-                color: "var(--oasman-text-tertiary)",
+                display: "flex",
+                justifyContent: "space-between",
+                flexWrap: "wrap",
+                gap: "0.75rem",
                 marginTop: "1rem",
-                lineHeight: 1.5,
               }}
             >
-              Estimated build cost varies based on parts sourced. OAS-MAN
-              electronics only; air bags, compressor, and tank sold separately.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* ─── Smart Suspension / AI ─── */}
-      <section
-        id="features"
-        style={{
-          background: "#ecddc4",
-          padding: "6rem 1.5rem",
-          borderTop: "1px solid rgba(74,48,26,0.1)",
-        }}
-      >
-        <div style={{ maxWidth: "980px", margin: "0 auto" }}>
-          <div style={{ textAlign: "center", marginBottom: "3rem" }}>
-            <h2 className="apple-headline reveal" style={{ marginBottom: "0.5rem" }}>
-              Smart Suspension.
-            </h2>
-            <p
-              className="apple-headline reveal reveal-delay-1"
-              style={{ color: "var(--oasman-gold)", marginBottom: "1.25rem" }}
-            >
-              Air, simplified.
-            </p>
-            <p
-              className="apple-body reveal reveal-delay-2"
-              style={{ maxWidth: "560px", margin: "0 auto" }}
-            >
-              Innovative machine-learning algorithms learn your air system&apos;s
-              flow to optimize for smooth, quick, accurate presets,
-              automatically.
-            </p>
-          </div>
-
-          <div
-            className="reveal"
-            style={{
-              display: "flex",
-              gap: "0.5rem",
-              justifyContent: "center",
-              flexWrap: "wrap",
-              marginBottom: "2.5rem",
-            }}
-          >
-            {aiTabs.map((tab, i) => (
-              <button
-                key={tab.label}
-                className={`tab-btn${activeTab === i ? " active" : ""}`}
-                onClick={() => setActiveTab(i)}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </div>
-
-          <div
-            className="ai-card reveal"
-            style={{
-              background: "#fdf8ee",
-              border: "1px solid rgba(74,48,26,0.12)",
-              borderRadius: "20px",
-              padding: "2.5rem",
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: "2.5rem",
-              alignItems: "center",
-            }}
-          >
-            <div>
-              <div style={{ marginBottom: "1.25rem" }}>
-                <IconBadge icon={aiTabs[activeTab].icon} size="lg" solid />
-              </div>
-              <h3
-                style={{
-                  fontSize: "1.5rem",
-                  fontWeight: 700,
-                  letterSpacing: "-0.02em",
-                  color: "#3e2c23",
-                  marginBottom: "0.75rem",
-                  lineHeight: 1.2,
-                }}
-              >
-                {aiTabs[activeTab].title}
-              </h3>
-              <p
-                style={{
-                  fontSize: "1rem",
-                  color: "var(--oasman-text-secondary)",
-                  lineHeight: 1.65,
-                }}
-              >
-                {aiTabs[activeTab].body}
-              </p>
-            </div>
-            <AILearningVisual />
-          </div>
-
-          {/* Open source callout */}
-          <div
-            className="reveal"
-            style={{
-              marginTop: "2rem",
-              background: "#fdf8ee",
-              border: "1px solid rgba(231,111,46,0.22)",
-              borderRadius: "20px",
-              padding: "2rem 2.5rem",
-              display: "flex",
-              alignItems: "flex-start",
-              gap: "1.5rem",
-            }}
-          >
-            <IconBadge icon={Unlock} size="lg" solid />
-            <div>
-              <h4
-                style={{
-                  fontSize: "1.125rem",
-                  fontWeight: 700,
-                  color: "#3e2c23",
-                  marginBottom: "0.375rem",
-                }}
-              >
-                Open source means no black boxes.
-              </h4>
-              <p
-                style={{
-                  fontSize: "0.9375rem",
-                  color: "var(--oasman-text-secondary)",
-                  lineHeight: 1.6,
-                }}
-              >
-                Every line of OAS-MAN&apos;s firmware is public. Audit it, modify
-                it, improve it. No proprietary firmware that bricks when the
-                company goes under.
-              </p>
+              <span className="oas-mono">Manifold board</span>
+              <span className="oas-mono">Drag to spin · scroll to explore</span>
             </div>
           </div>
         </div>
-      </section>
+      </header>
 
-      {/* ─── Design / Wireless (real controller photo) ─── */}
-      <section
-        style={{
-          background: "#f9f1e2",
-          padding: "6rem 1.5rem",
-          borderTop: "1px solid rgba(74,48,26,0.1)",
-        }}
-      >
-        <div style={{ maxWidth: "980px", margin: "0 auto" }}>
-          <p className="apple-eyebrow reveal" style={{ marginBottom: "0.75rem" }}>
-            Design
-          </p>
-          <h2 className="apple-headline reveal reveal-delay-1" style={{ marginBottom: "0.5rem" }}>
-            Leave the wires in the 90's
-          </h2>
-          <p
-            className="apple-headline reveal reveal-delay-2"
-            style={{ color: "var(--oasman-gold)", marginBottom: "4rem" }}
-          >
-            Wireless at the core
-          </p>
-
-          <div
-            className="two-col-grid reveal"
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: "3rem",
-              alignItems: "center",
-              marginBottom: "4rem",
-            }}
-          >
-            <div
-              style={{
-                borderRadius: "20px",
-                overflow: "hidden",
-                background: "#ecddc4",
-                border: "1px solid rgba(74,48,26,0.1)",
-              }}
-            >
-              <img
-                src="/assets/controller_photo.png"
-                alt="OAS-MAN wireless touch screen controller"
-                style={{
-                  width: "100%",
-                  display: "block",
-                  objectFit: "cover",
-                }}
-              />
-            </div>
-            <div>
-              <h3
-                style={{
-                  fontSize: "1.75rem",
-                  fontWeight: 700,
-                  letterSpacing: "-0.02em",
-                  color: "#3e2c23",
-                  marginBottom: "1rem",
-                  lineHeight: 1.15,
-                }}
-              >
-                Step into the future.
-              </h3>
-              <p
-                style={{
-                  fontSize: "1rem",
-                  color: "var(--oasman-text-secondary)",
-                  lineHeight: 1.65,
-                  marginBottom: "1.75rem",
-                }}
-              >
-                OAS-MAN is a fully wireless system. BLE technology delivers a
-                quick, responsive connection between your controller and
-                manifold, making it easier to install and easier to use. Control your
-                vehicle from inside or out on the dedicated touch screen remote.
-              </p>
-              <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
-                {[
-                  "Fully wireless BLE connection",
-                  "Dedicated touch screen remote",
-                  "Responsive, real-time adjustments",
-                ].map((item) => (
-                  <div
-                    key={item}
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "0.75rem",
-                      fontSize: "0.9375rem",
-                      color: "var(--oasman-text-secondary)",
-                    }}
-                  >
-                    <span
-                      style={{
-                        width: "20px",
-                        height: "20px",
-                        borderRadius: "50%",
-                        background: "rgba(231,111,46,0.2)",
-                        border: "1px solid rgba(231,111,46,0.35)",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        flexShrink: 0,
-                        fontSize: "0.625rem",
-                        color: "var(--oasman-gold)",
-                      }}
-                    >
-                      ✓
-                    </span>
-                    {item}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Affordable & repairable callout */}
-          <div
-            className="callout-grid reveal"
-            style={{
-              background: "#fdf8ee",
-              borderRadius: "20px",
-              padding: "2.5rem",
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: "2rem",
-              alignItems: "center",
-            }}
-          >
-            <div>
-              <h3
-                style={{
-                  fontSize: "1.375rem",
-                  fontWeight: 700,
-                  letterSpacing: "-0.02em",
-                  color: "#3e2c23",
-                  marginBottom: "0.75rem",
-                }}
-              >
-                Affordable and repairable.
-              </h3>
-              <p
-                style={{
-                  fontSize: "0.9375rem",
-                  color: "var(--oasman-text-secondary)",
-                  lineHeight: 1.65,
-                }}
-              >
-                If a pressure sensor dies, the replacement costs about $10 and
-                ships overnight. The whole system is built from standard parts,
-                so you&apos;re never waiting on a manufacturer for some
-                proprietary module.
-              </p>
-            </div>
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                gap: "1rem",
-              }}
-            >
-              {[
-                { val: "$10", label: "Sensor replacement" },
-                { val: "100%", label: "Modular design" },
-                { val: "0", label: "Proprietary parts" },
-                { val: "∞", label: "Community support" },
-              ].map(({ val, label }) => (
-                <div
-                  key={label}
-                  style={{
-                    background: "#fdf8ee",
-                    borderRadius: "12px",
-                    padding: "1rem",
-                    textAlign: "center",
-                  }}
-                >
-                  <div
-                    style={{
-                      fontSize: "1.5rem",
-                      fontWeight: 700,
-                      color: "var(--oasman-gold)",
-                      marginBottom: "0.25rem",
-                    }}
-                  >
-                    {val}
-                  </div>
-                  <div
-                    style={{
-                      fontSize: "0.75rem",
-                      color: "var(--oasman-text-tertiary)",
-                    }}
-                  >
-                    {label}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+      {/* ═══ In a sentence ═══ */}
+      <section aria-label="In a sentence" className="oas-quote-band">
+        <div className="oas-wrap oas-quote reveal">
+          <blockquote className="oas-quote-text">
+            The most advanced air suspension software ever created.
+          </blockquote>
+          <p className="oas-eyebrow">by enthusiasts, for enthusiasts</p>
         </div>
       </section>
 
-      {/* ─── Interactive controller emulator ─── */}
-      <section
-        id="demo"
-        style={{
-          background: "#f5e9d8",
-          padding: "6rem 1.5rem",
-          borderTop: "1px solid rgba(74,48,26,0.1)",
-        }}
-      >
-        <div style={{ maxWidth: "980px", margin: "0 auto", textAlign: "center" }}>
-          <p className="apple-eyebrow reveal" style={{ marginBottom: "0.75rem" }}>
-            Live demo
-          </p>
-          <h2 className="apple-headline reveal" style={{ marginBottom: "0.5rem" }}>
-            Try the controller.
-          </h2>
-          <p
-            className="apple-headline reveal reveal-delay-1"
-            style={{ color: "var(--oasman-gold)", marginBottom: "1.25rem" }}
-          >
-            Right in your browser.
-          </p>
+      {/* ═══ Live demo ═══ */}
+      <section id="demo" className="oas-section" style={{ borderTop: 0 }}>
+        <div className="oas-wrap">
+          <SectionHead
+            eyebrow="Live demo"
+            title="Try oasman"
+          />
+
           <div
-            className="demo-layout reveal"
+            className="oas-demo-layout reveal"
             style={{
               display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: "3rem",
+              gridTemplateColumns: "auto 1fr",
+              gap: "clamp(2.5rem, 6vw, 5rem)",
               alignItems: "center",
-              textAlign: "left",
             }}
           >
-            {/* Description — spans both cols on desktop (above), reordered on mobile */}
-            <p
-              className="apple-body demo-description"
-              style={{
-                gridColumn: "1 / -1",
-                textAlign: "center",
-                maxWidth: "560px",
-                margin: "0 auto 0.5rem",
-              }}
-            >
-              This is a working replica of the OAS-MAN touch screen remote. Air
-              each corner up or down on Home, save and load up to five height
-              presets, and browse every setting, exactly like the real firmware.
-            </p>
-            <div className="demo-controller" style={{ display: "flex", justifyContent: "center" }}>
+            <div style={{ display: "flex", justifyContent: "center" }}>
               <ControllerEmulator />
             </div>
-            <div className="demo-bullets">
-              <h3
-                style={{
-                  fontSize: "1.5rem",
-                  fontWeight: 700,
-                  letterSpacing: "-0.02em",
-                  color: "#3e2c23",
-                  marginBottom: "0.75rem",
-                }}
-              >
-                The same three tabs as the real remote.
-              </h3>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "1.25rem",
-                }}
-              >
+
+            <div>
+              <h3 className="oas-h3">Full mock demo of the controller</h3>
+              <div style={{ marginTop: "1.75rem" }}>
                 {[
                   {
-                    title: "Home",
-                    desc: "Hold any pill to air a corner, an axle, or the whole front/rear up or down in real time.",
+                    k: "Home",
+                    v: "Hold a pill to air one corner, an axle, or the whole car up or down.",
                   },
                   {
-                    title: "Presets",
-                    desc: "Tap 1-5 to set your stance, then Save or Load. Watch the car rise and drop to each height.",
+                    k: "Presets",
+                    v: "Tap 1–5 to pick a stance.",
                   },
                   {
-                    title: "Settings",
-                    desc: "Browse all ten configuration sections, from AI learning to theme colors and Wi-Fi updates.",
+                    k: "Settings",
+                    v: "Every configuration section, from rise on start to wireless updates.",
                   },
-                ].map((item) => (
-                  <div key={item.title} style={{ display: "flex", gap: "0.75rem" }}>
-                    <span
-                      style={{
-                        width: "8px",
-                        height: "8px",
-                        borderRadius: "50%",
-                        background: "var(--oasman-gold)",
-                        marginTop: "0.5rem",
-                        flexShrink: 0,
-                      }}
-                    />
-                    <div>
-                      <div
-                        style={{
-                          fontSize: "1rem",
-                          fontWeight: 700,
-                          color: "#3e2c23",
-                          marginBottom: "0.2rem",
-                        }}
-                      >
-                        {item.title}
-                      </div>
-                      <p
-                        style={{
-                          fontSize: "0.9375rem",
-                          color: "var(--oasman-text-secondary)",
-                          lineHeight: 1.6,
-                        }}
-                      >
-                        {item.desc}
-                      </p>
-                    </div>
+                ].map((row) => (
+                  <div
+                    key={row.k}
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "5.5rem 1fr",
+                      gap: "1.25rem",
+                      padding: "1rem 0",
+                      borderTop: "1px solid var(--oas-rule)",
+                    }}
+                  >
+                    <span className="oas-spec-k" style={{ color: "var(--oas-air)" }}>
+                      {row.k}
+                    </span>
+                    <span className="oas-body">{row.v}</span>
                   </div>
                 ))}
               </div>
@@ -1442,465 +313,297 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ─── Gaming controllers ─── */}
-      <section
-        style={{
-          background: "#ecddc4",
-          padding: "6rem 1.5rem",
-          borderTop: "1px solid rgba(74,48,26,0.1)",
-        }}
-      >
-        <div style={{ maxWidth: "980px", margin: "0 auto" }}>
+      {/* ═══ Control ═══ */}
+      <section className="oas-section">
+        <div className="oas-wrap">
+          <SectionHead
+            eyebrow="Control"
+            title="Leave the wires in the nineties."
+          />
+
           <div
-            className="two-col-grid reveal"
+            className="oas-split reveal"
             style={{
               display: "grid",
               gridTemplateColumns: "1fr 1fr",
-              gap: "4rem",
+              gap: "clamp(2rem, 4vw, 3.5rem)",
               alignItems: "center",
             }}
           >
+            <div className="oas-frame oas-split-media">
+              <img
+                src="/assets/controller_photo.png"
+                alt="The OASMan wireless touch screen remote"
+                style={{ width: "100%", display: "block" }}
+              />
+            </div>
+
             <div>
-              <div
-                className="section-eyebrow-row"
-                style={{ marginBottom: "1rem" }}
-              >
-                <IconBadge icon={Gamepad2} />
-                <span className="apple-eyebrow">Unique Features</span>
-              </div>
-              <h2
-                style={{
-                  fontSize: "clamp(2rem, 4vw, 3rem)",
-                  fontWeight: 700,
-                  letterSpacing: "-0.025em",
-                  color: "#3e2c23",
-                  marginBottom: "1rem",
-                  lineHeight: 1.1,
-                }}
-              >
-                Use gaming{" "}
-                <span style={{ color: "var(--oasman-gold)" }}>controllers.</span>
-              </h2>
-              <p
-                style={{
-                  fontSize: "1rem",
-                  color: "var(--oasman-text-secondary)",
-                  lineHeight: 1.65,
-                  marginBottom: "2rem",
-                }}
-              >
-                Your car is unique, so your controller should be too. Control
-                your suspension with a PS4, Xbox, Wii, Switch, or any compatible
-                gamepad. Real-time adjustments, fully wireless.
+              <h3 className="oas-h3">The remote in your hand</h3>
+              <p className="oas-body" style={{ margin: "1rem 0 1.75rem", maxWidth: "42ch" }}>
+                A dedicated touch screen that pairs to the manifold wirelessly. Say goodbye to wired remotes.
               </p>
-              <div
-                style={{
-                  borderTop: "1px solid rgba(74,48,26,0.12)",
-                  paddingTop: "1.5rem",
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "0.75rem",
-                }}
-              >
-                {[
-                  "PS3, PS4, Xbox, Wii, Switch, and more",
-                  "Joystick air flow control",
-                ].map((item) => (
-                  <div
-                    key={item}
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "0.75rem",
-                      fontSize: "0.9375rem",
-                      color: "var(--oasman-text-secondary)",
-                    }}
-                  >
-                    <span
-                      style={{
-                        width: "6px",
-                        height: "6px",
-                        borderRadius: "50%",
-                        background: "var(--oasman-gold)",
-                        flexShrink: 0,
-                      }}
-                    />
-                    {item}
-                  </div>
+              <Spec k="Link" v="Bluetooth LE" />
+              <Spec k="Response" v="Instantaneous" />
+              <Spec k="Range" v="Works from outside the car" />
+              <Spec k="Buttons" v="Dedicated quick air up button, and power button" />
+              <Spec k="Case" v="Optional anodized billet aluminum case" />
+            </div>
+          </div>
+
+          <div
+            className="oas-split reveal"
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+              gap: "clamp(2rem, 4vw, 3.5rem)",
+              alignItems: "center",
+              marginTop: "clamp(3rem, 6vw, 5rem)",
+            }}
+          >
+            <div>
+              <h3 className="oas-h3">Or a gamepad</h3>
+              <p className="oas-body" style={{ margin: "1rem 0 1.5rem", maxWidth: "42ch" }}>
+                Pair a console controller and run the valves off the sticks. The funnest addition to air suspension!
+              </p>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
+                {["PS3/4/5", "Xbox One/Series X/S", "Switch", "Wii/Fit", " And More!"].map((pad) => (
+                  <span key={pad} className="oas-chip">
+                    {pad}
+                  </span>
                 ))}
               </div>
             </div>
-            <div style={{ display: "flex", justifyContent: "center" }}>
+
+            <div className="oas-frame" style={{ padding: "1rem" }}>
               <InstagramEmbed />
             </div>
           </div>
         </div>
       </section>
 
-      {/* ─── Endless Customization ─── */}
-      <section
-        style={{
-          background: "#f5e9d8",
-          padding: "6rem 1.5rem",
-          borderTop: "1px solid rgba(74,48,26,0.1)",
-        }}
-      >
-        <div style={{ maxWidth: "980px", margin: "0 auto" }}>
-          <div style={{ marginBottom: "3rem" }}>
-            <h2 className="apple-headline reveal" style={{ marginBottom: "0.5rem" }}>
-              Endless customization.
-            </h2>
-            <p className="apple-body reveal reveal-delay-1" style={{ maxWidth: "520px" }}>
-              Built for every build: restomods, street cars, and track machines.
-              OAS-MAN adapts to how you drive.
-            </p>
-          </div>
+      {/* ═══ Manifold ═══ */}
+      <section id="manifold" className="oas-section">
+        <div className="oas-wrap">
+          <SectionHead
+            eyebrow="Features"
+            title="Innovative features"
+            lede="See why OASMan is is the best"
+          />
 
-          <div
-            className="features-list-grid reveal"
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(3, 1fr)",
-              gap: "1rem",
-            }}
-          >
-            {[
-              {
-                icon: Wifi,
-                title: "Fully Wireless",
-                desc: "Touch screen, phone, or any gaming controller, no wires needed.",
-              },
-              {
-                icon: SlidersHorizontal,
-                title: "Your Rules",
-                desc: "Customize how you want, using the parts you want.",
-              },
-              {
-                icon: Unlock,
-                title: "Never Locked In",
-                desc: "Proprietary? No way. You own your system completely.",
-              },
-              {
-                icon: Wrench,
-                title: "Affordable Repairs",
-                desc: "Sensor breaks? $10 replacement, not $1,000.",
-              },
-              {
-                icon: Rocket,
-                title: "Future Proof",
-                desc: "Community-driven development. No company to go under.",
-              },
-              {
-                icon: BookOpen,
-                title: "Well Documented",
-                desc: "Built by enthusiasts, with full guides and support.",
-              },
-              {
-                icon: Car,
-                title: "Any Build Works",
-                desc: "Restomods, street cars, track builds, all supported.",
-              },
-              {
-                icon: Brain,
-                title: "AI Learning",
-                desc: "Self-calibrating presets that adapt to your air system.",
-              },
-              {
-                icon: Globe,
-                title: "Open Source",
-                desc: "All the firmware and hardware files are public on GitHub.",
-              },
-            ].map((feature) => (
-              <div key={feature.title} className="feature-card">
-                <div style={{ marginBottom: "1rem" }}>
-                  <IconBadge icon={feature.icon} />
-                </div>
-                <h3
-                  style={{
-                    fontSize: "1.0625rem",
-                    fontWeight: 700,
-                    color: "#3e2c23",
-                    marginBottom: "0.5rem",
-                  }}
-                >
-                  {feature.title}
-                </h3>
-                <p
-                  style={{
-                    fontSize: "0.875rem",
-                    color: "var(--oasman-text-secondary)",
-                    lineHeight: 1.55,
-                  }}
-                >
-                  {feature.desc}
-                </p>
+          <div className="oas-features reveal">
+            {FEATURES.map((f) => (
+              <div key={f.title} className="oas-feature">
+                <h3 className="oas-h3 oas-feature-title">{f.title}</h3>
+                <p className="oas-body">{f.body}</p>
               </div>
             ))}
+            <div id="open-source" className="oas-feature oas-feature-wide">
+              <h3 className="oas-h3 oas-feature-title">Fully open source</h3>
+              <p className="oas-body">
+                Firmware, schematics, and board files are GPL v3 — nobody can
+                take it closed later. Read exactly what the board does, change
+                it, and flash your own. No licence server, no account, no
+                subscription that can switch your car off. Standard parts with
+                public datasheets, repairable not replaceable.
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ─── Values ─── */}
-      <section
-        style={{
-          background: "#ecddc4",
-          padding: "5rem 1.5rem",
-          borderTop: "1px solid rgba(74,48,26,0.1)",
-        }}
-      >
-        <div style={{ maxWidth: "980px", margin: "0 auto" }}>
-          <h2
-            className="apple-headline reveal"
-            style={{ textAlign: "center", marginBottom: "3rem" }}
-          >
-            Built for enthusiasts, not shareholders.
-          </h2>
+      {/* ═══ Pricing ═══ */}
+      <section id="pricing" className="oas-section">
+        <div className="oas-wrap">
+          <SectionHead
+            eyebrow="Get one"
+            title="HOW TO GET OASMAN"
+          />
+
           <div
-            className="grid-3"
+            className="oas-split reveal"
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(3, 1fr)",
-              gap: "1.5rem",
+              gridTemplateColumns: "1fr 1fr",
+              gap: "clamp(1rem, 2vw, 1.5rem)",
             }}
           >
-            {[
-              {
-                icon: Leaf,
-                title: "Open source, forever.",
-                desc: "OAS-MAN is licensed under GNU GPL v3, which means the code stays open permanently. Nobody can take it closed, including us.",
-              },
-              {
-                icon: Users,
-                title: "Community first.",
-                desc: "Most of the project happens in the Discord: build help, feature ideas, and people showing off their installs.",
-              },
-              {
-                icon: HeartHandshake,
-                title: "Accessible by design.",
-                desc: "Good air suspension shouldn't be a luxury. OAS-MAN exists to make air suspension financially accessible to everyone.",
-              },
-            ].map((v) => (
+            <article
+              className="oas-panel oas-panel-hover"
+              style={{ display: "flex", flexDirection: "column" }}
+            >
+              <p className="oas-mono" style={{ margin: 0 }}>
+                Do it yourself
+              </p>
               <div
-                key={v.title}
-                className="reveal"
+                className="oas-num"
                 style={{
-                  background: "#fdf8ee",
-                  border: "1px solid rgba(74,48,26,0.1)",
-                  borderRadius: "18px",
-                  padding: "2rem",
+                  fontSize: "clamp(2.5rem, 6vw, 3.75rem)",
+                  color: "var(--oas-psi)",
+                  margin: "1.125rem 0 1.25rem",
                 }}
               >
-                <div style={{ marginBottom: "1.25rem" }}>
-                  <IconBadge icon={v.icon} size="lg" />
-                </div>
-                <h3
-                  style={{
-                    fontSize: "1.0625rem",
-                    fontWeight: 700,
-                    color: "#3e2c23",
-                    marginBottom: "0.625rem",
-                  }}
-                >
-                  {v.title}
-                </h3>
-                <p
-                  style={{
-                    fontSize: "0.875rem",
-                    color: "var(--oasman-text-secondary)",
-                    lineHeight: 1.6,
-                  }}
-                >
-                  {v.desc}
-                </p>
+                &lt;$500
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
+              <p className="oas-body" style={{ marginBottom: "1.75rem", maxWidth: "36ch" }}>
+                Order the parts, assemble the boards, and flash the firmware.
+                Everything you need is published.
+              </p>
+              <Spec k="Price" v="About $500 in parts" />
+              <Spec k="You supply" v="Manifold system assembly" />
+              <Spec k="Best for" v="Techy people or on a strict budget" />
+              <div style={{ marginTop: "auto", paddingTop: "1.75rem" }}>
+                <a
+                  className="oas-btn oas-btn-ghost"
+                  href="https://oasman.dev"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  View the documentation website
+                </a>
+              </div>
+            </article>
 
-      {/* ─── Community CTA ─── */}
-      <section
-        id="community"
-        style={{
-          background: "#f5e9d8",
-          padding: "6rem 1.5rem",
-          borderTop: "1px solid rgba(74,48,26,0.1)",
-        }}
-      >
-        <div style={{ maxWidth: "620px", margin: "0 auto", textAlign: "center" }}>
-          <h2 className="apple-headline reveal" style={{ marginBottom: "1rem" }}>
-            Ready to build?
-          </h2>
-          <p className="apple-body reveal reveal-delay-1" style={{ marginBottom: "2.5rem" }}>
-            Join the community of DIY builders who&apos;ve ditched overpriced
-            systems and embraced open-source innovation. Everything you need is
-            on GitHub.
-          </p>
-          <div
-            className="reveal reveal-delay-2"
-            style={{
-              display: "flex",
-              gap: "1rem",
-              justifyContent: "center",
-              flexWrap: "wrap",
-            }}
+            <article
+              className="oas-panel oas-panel-hover"
+              style={{ display: "flex", flexDirection: "column" }}
+            >
+              <p className="oas-mono" style={{ margin: 0 }}>
+                Prebuilt
+              </p>
+              <div
+                className="oas-num"
+                style={{
+                  fontSize: "clamp(2.5rem, 6vw, 3.75rem)",
+                  color: "var(--oas-mute)",
+                  margin: "1.125rem 0 1.25rem",
+                }}
+              >
+                TBD
+              </div>
+              <p className="oas-body" style={{ marginBottom: "1.75rem", maxWidth: "36ch" }}>
+                Assembled, flashed, and tested before it ships. Wire it into the
+                car and pair the remote.
+              </p>
+              <Spec k="Price" v="Not set yet" />
+              <Spec k="You supply" v="Installation" />
+              <Spec k="Best for" v="Most people" />
+              <div style={{ marginTop: "auto", paddingTop: "1.75rem" }}>
+                <a
+                  className="oas-btn oas-btn-ghost"
+                  href="https://oasman.co"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  See oasman.co
+                  <ArrowUpRight size={14} strokeWidth={2} />
+                </a>
+              </div>
+            </article>
+          </div>
+
+          <p
+            className="oas-body"
+            style={{ marginTop: "2rem", fontSize: "0.8125rem", maxWidth: "62ch" }}
           >
-            <a
-              href="https://oasman.dev/docs"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-primary"
-            >
-              View Build Instructions
-              <ChevronRight size={15} />
-            </a>
-            <a
-              href="https://github.com/gopro2027/ArduinoAirSuspensionController"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-secondary"
-            >
-              <Github size={16} />
-              View on GitHub
-            </a>
-          </div>
-
-          
+            The DIY figure covers the OASMan electronics and moves with where
+            you source parts. Bags, compressor, and tank are separate either
+            way.
+          </p>
         </div>
       </section>
 
-      {/* ─── Merch ─── */}
+      {/* ═══ Merch ═══ */}
       <PrintfulHatEmbed />
 
-      {/* ─── Footer ─── */}
+      {/* ═══ Footer ═══ */}
       <footer
         style={{
-          background: "#f9f1e2",
-          borderTop: "1px solid rgba(74,48,26,0.1)",
-          padding: "3rem 1.5rem",
+          borderTop: "1px solid var(--oas-rule)",
+          background: "var(--oas-deck)",
+          paddingBlock: "clamp(3rem, 6vw, 4.5rem)",
         }}
       >
-        <div style={{ maxWidth: "980px", margin: "0 auto" }}>
+        <div className="oas-wrap">
           <div
-            className="footer-grid"
+            className="oas-footer-grid"
             style={{
               display: "grid",
-              gridTemplateColumns: "1.5fr 1fr 1fr 1fr",
-              gap: "2rem",
-              marginBottom: "2.5rem",
+              gridTemplateColumns: "1.6fr 1fr 1fr 1fr",
+              gap: "2.5rem",
+              marginBottom: "3rem",
             }}
           >
             <div>
               <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "0.5rem",
-                  marginBottom: "0.875rem",
-                }}
+                style={{ display: "flex", alignItems: "center", gap: "0.625rem" }}
               >
                 <img
                   src="/assets/oasman_logo.jpg"
-                  alt="OAS-MAN logo"
+                  alt=""
                   width={24}
                   height={24}
-                  style={{
-                    width: "24px",
-                    height: "24px",
-                    objectFit: "contain",
-                    borderRadius: "6px",
-                    mixBlendMode: "multiply",
-                  }}
+                  style={{ width: 24, height: 24, borderRadius: 5, objectFit: "contain" }}
                 />
                 <span
-                  style={{
-                    fontWeight: 700,
-                    fontSize: "0.9375rem",
-                    color: "var(--oasman-gold)",
-                  }}
+                  className="oas-display"
+                  style={{ fontSize: "0.9375rem", lineHeight: 1 }}
                 >
-                  OAS-MAN
+                  OASMan
                 </span>
               </div>
               <p
-                style={{
-                  fontSize: "0.8125rem",
-                  color: "var(--oasman-text-tertiary)",
-                  lineHeight: 1.65,
-                  maxWidth: "220px",
-                }}
+                className="oas-body"
+                style={{ marginTop: "1rem", fontSize: "0.8125rem", maxWidth: "26ch" }}
               >
-                Open source air suspension. Built by the community, for the
-                community. Est. 2022.
+                Open source air suspension. GPL v3, built in the open since
+                2022.
               </p>
             </div>
 
             {[
               {
-                title: "Project",
-                links: [
-                  ["GitHub", "https://github.com/gopro2027/ArduinoAirSuspensionController"],
-                  ["Documentation", "https://oasman.dev/docs"],
-                  ["Software Update", "https://oasman.dev/flash"],
-                ],
-              },
-              {
                 title: "Community",
                 links: [
-                  ["Discord", "https://discord.gg/pUf7FmHKpg"],
-                  ["Patreon", "https://www.patreon.com/c/oasman"],
-                  ["Instagram", "https://www.instagram.com/oasman.co"],
+                  ["Discord", DISCORD],
+                  ["Patreon", PATREON],
+                  ["Instagram", INSTAGRAM],
                 ],
               },
               {
-                title: "Links",
+                title: "Explore",
                 links: [
-                  ["OASMan.dev", "https://oasman.dev"],
-                  ["Merch (Hat)", "#merch"],
-                  ["Docs", "https://oasman.dev/docs"],
+                  ["Manifold", "#manifold"],
+                  ["Live demo", "#demo"],
+                  ["Web controller", "/controller"],
                 ],
+              },
+              {
+                title: "Shop",
+                links: [["Merch", "#merch"]],
               },
             ].map((col) => (
               <div key={col.title}>
-                <h4
-                  style={{
-                    fontSize: "0.75rem",
-                    fontWeight: 700,
-                    color: "var(--oasman-text-primary)",
-                    letterSpacing: "0.04em",
-                    marginBottom: "0.875rem",
-                  }}
-                >
+                <h4 className="oas-mono" style={{ color: "var(--oas-chalk)", margin: 0 }}>
                   {col.title}
                 </h4>
                 <ul
                   style={{
                     listStyle: "none",
                     padding: 0,
-                    margin: 0,
+                    margin: "1.125rem 0 0",
                     display: "flex",
                     flexDirection: "column",
-                    gap: "0.5rem",
+                    gap: "0.75rem",
                   }}
                 >
                   {col.links.map(([label, href]) => (
                     <li key={label}>
                       <a
+                        className="oas-nav-link"
                         href={href}
                         target={href.startsWith("http") ? "_blank" : undefined}
                         rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
-                        style={{
-                          fontSize: "0.8125rem",
-                          color: "var(--oasman-text-tertiary)",
-                          textDecoration: "none",
-                          transition: "color 0.2s",
-                        }}
-                        onMouseEnter={(e) =>
-                          (e.currentTarget.style.color = "var(--oasman-gold)")
-                        }
-                        onMouseLeave={(e) =>
-                          (e.currentTarget.style.color = "var(--oasman-text-tertiary)")
-                        }
                       >
                         {label}
                       </a>
@@ -1912,73 +615,26 @@ export default function Home() {
           </div>
 
           <div
+            className="oas-footer-bottom"
             style={{
-              borderTop: "1px solid rgba(74,48,26,0.1)",
-              paddingTop: "1.5rem",
+              borderTop: "1px solid var(--oas-rule)",
+              paddingTop: "1.75rem",
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
               flexWrap: "wrap",
-              gap: "0.75rem",
+              gap: "1rem",
             }}
           >
-            <p style={{ fontSize: "0.75rem", color: "var(--oasman-text-tertiary)" }}>
-              Copyright © 2025 OAS-Man. 100% open source. Community driven.
+            <p className="oas-mono" style={{ margin: 0 }}>
+              © 2025 OASMan · Licensed GPL v3
             </p>
-            <div style={{ display: "flex", gap: "1.5rem" }}>
-              {[
-                ["OASMan.dev", "https://oasman.dev"],
-                ["Discord", "https://discord.gg/pUf7FmHKpg"],
-                ["GitHub", "https://github.com/gopro2027/ArduinoAirSuspensionController"],
-              ].map(([label, href]) => (
-                <a
-                  key={label}
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    fontSize: "0.75rem",
-                    color: "var(--oasman-text-tertiary)",
-                    textDecoration: "none",
-                    transition: "color 0.2s",
-                  }}
-                  onMouseEnter={(e) =>
-                    (e.currentTarget.style.color = "var(--oasman-gold)")
-                  }
-                  onMouseLeave={(e) =>
-                    (e.currentTarget.style.color = "var(--oasman-text-tertiary)")
-                  }
-                >
-                  {label}
-                </a>
-              ))}
-            </div>
+            <p className="oas-mono" style={{ margin: 0 }}>
+              Built in the open
+            </p>
           </div>
         </div>
       </footer>
-
-      {/* ─── Responsive overrides ─── */}
-      <style>{`
-        @media (max-width: 768px) {
-          .footer-grid {
-            grid-template-columns: 1fr 1fr !important;
-          }
-          .local-nav-links {
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-          }
-          .local-nav-links::-webkit-scrollbar {
-            display: none;
-          }
-        }
-
-        @media (max-width: 560px) {
-          .footer-grid {
-            grid-template-columns: 1fr !important;
-          }
-        }
-      `}</style>
     </div>
   )
 }

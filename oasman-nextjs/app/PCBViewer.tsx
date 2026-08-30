@@ -14,6 +14,14 @@ import { MTLLoader } from "three/examples/jsm/loaders/MTLLoader.js"
  * version differs from what fiber expects. Vanilla Three.js sidesteps that
  * entirely and works on any React version.
  */
+/* Rotation envelope the scroll animation drives the board through. fitModel()
+   sizes the model against these, so keep the two in step. */
+const MAX_TILT_X = 0.5   // radians of pitch at full scroll
+const MAX_ROLL_Z = 0.42  // radians of roll at full scroll
+// Worst-case width and height never peak at the same spin angle, so the bound
+// above is a little pessimistic; this claws some of that back.
+const FIT_MARGIN = 0.98
+
 export default function PCBViewer() {
   const mountRef = useRef<HTMLDivElement>(null)
   const scrollRef = useRef(0)
@@ -149,6 +157,38 @@ export default function PCBViewer() {
     placeholder.rotation.set(-0.45, 0.55, 0.18)
     group.add(placeholder)
 
+    // ─── Fit the board to whatever space the page gives us ───
+    // The camera has a fixed vertical FOV, so a narrow phone viewport shows a
+    // much narrower slice of world than a wide desktop one. Rescale the model
+    // to the current aspect instead of assuming a fixed size, or the board
+    // gets cropped on mobile.
+    let modelSize: THREE.Vector3 | null = null
+
+    const fitModel = () => {
+      if (!modelSize) return
+      const visibleH = 2 * camera.position.z * Math.tan((camera.fov * Math.PI) / 360)
+      const visibleW = visibleH * (width / height)
+
+      // Fit the worst case across the whole rotation range, not the resting
+      // pose — fitting the resting pose is what let the board clip once it
+      // started turning. Worked outward through the rotation order (X·Y·Z):
+      //   Y spin  — width and depth both reach hypot(x, z); a board turned
+      //             edge-on is as deep as it is long.
+      //   X tilt  — folds that depth into the vertical, so the tall term uses
+      //             `spun`, not the board's own thickness.
+      //   Z roll  — mixes the resulting width and height into each other.
+      const { x, y, z } = modelSize
+      const spun = Math.hypot(x, z) || 1
+      const tilted = y * Math.cos(MAX_TILT_X) + spun * Math.sin(MAX_TILT_X)
+      const cz = Math.cos(MAX_ROLL_Z)
+      const sz = Math.sin(MAX_ROLL_Z)
+      const extentW = spun * cz + tilted * sz
+      const extentH = spun * sz + tilted * cz
+
+      const scale = Math.min((visibleW * FIT_MARGIN) / extentW, (visibleH * FIT_MARGIN) / extentH)
+      group.scale.setScalar(scale)
+    }
+
     // ─── Load model (MTL then OBJ) ───
     const mtlLoader = new MTLLoader()
     mtlLoader.load(
@@ -163,13 +203,12 @@ export default function PCBViewer() {
           (obj) => {
             if (disposed) return
             // Center geometry at the group origin so rotation pivots about
-            // the PCB center, then scale to fit a ~3 unit bounding box.
+            // the PCB center, then fit it to the viewport.
             const box = new THREE.Box3().setFromObject(obj)
             const center = box.getCenter(new THREE.Vector3())
-            const size = box.getSize(new THREE.Vector3())
-            const maxDim = Math.max(size.x, size.y, size.z) || 1
             obj.position.sub(center)
-            group.scale.setScalar(3.0 / maxDim)
+            modelSize = box.getSize(new THREE.Vector3())
+            fitModel()
             // Swap the placeholder for the real model.
             group.remove(placeholder)
             placeholderResources.forEach((r) => r.dispose())
@@ -190,6 +229,7 @@ export default function PCBViewer() {
       camera.aspect = width / height
       camera.updateProjectionMatrix()
       renderer.setSize(width, height)
+      fitModel()
     }
     window.addEventListener("resize", onResize)
 
@@ -265,9 +305,9 @@ export default function PCBViewer() {
     const animate = () => {
       frameId = requestAnimationFrame(animate)
       const s = scrollRef.current
-      const targetX = -0.5 * s
+      const targetX = -MAX_TILT_X * s
       const targetY = s * Math.PI * 2.6 + dragRef.current
-      const targetZ = 0.42 * s
+      const targetZ = MAX_ROLL_Z * s
       group.rotation.x += (targetX - group.rotation.x) * 0.055
       group.rotation.y += (targetY - group.rotation.y) * 0.055
       group.rotation.z += (targetZ - group.rotation.z) * 0.055
@@ -324,36 +364,13 @@ export default function PCBViewer() {
     }
   }, [])
 
+  // The stage is deliberately taller than the space this reserves in the page,
+  // and nothing clips it — the board swings over the copy above and below
+  // rather than being cut off at the edges of its own box.
   return (
-    <div
-      style={{
-        width: "100%",
-        height: "520px",
-        position: "relative",
-        borderRadius: "24px",
-        overflow: "hidden",
-      }}
-    >
-      {/* Soft floor glow beneath the board */}
-      <div
-        style={{
-          position: "absolute",
-          bottom: "8%",
-          left: "50%",
-          transform: "translateX(-50%)",
-          width: "55%",
-          height: "60px",
-          background:
-            "radial-gradient(ellipse at center, rgba(231,111,46,0.22), transparent 70%)",
-          filter: "blur(12px)",
-          zIndex: 0,
-          pointerEvents: "none",
-        }}
-      />
-      <div
-        ref={mountRef}
-        style={{ width: "100%", height: "100%", position: "relative", zIndex: 1 }}
-      />
+    <div className="pcb-viewer">
+      <div className="pcb-glow" aria-hidden="true" />
+      <div ref={mountRef} className="pcb-stage" />
     </div>
   )
 }

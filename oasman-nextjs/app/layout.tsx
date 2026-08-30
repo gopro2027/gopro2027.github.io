@@ -1,10 +1,34 @@
 import type React from "react"
+import type { Metadata, Viewport } from "next"
+import { Archivo, IBM_Plex_Mono, Instrument_Sans } from "next/font/google"
 import "./globals.css"
 
-export const metadata = {
-  title: "OASMan - Open Source Air Suspension Management",
+/* Display — variable width axis is load-bearing: the hero wordmark animates
+   from wdth 62 (laid out) to wdth 122 (aired up). */
+const archivo = Archivo({
+  subsets: ["latin"],
+  axes: ["wdth"],
+  variable: "--font-display",
+  display: "swap",
+})
+
+const instrumentSans = Instrument_Sans({
+  subsets: ["latin"],
+  variable: "--font-body",
+  display: "swap",
+})
+
+const plexMono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-mono",
+  display: "swap",
+})
+
+export const metadata: Metadata = {
+  title: "OASMan — Open Source Air Suspension",
   description:
-    "DIY air suspension system for under $500. Fully customizable, open source, with gaming controller support.",
+    "Worlds first open source air suspension.",
   icons: {
     icon: "/assets/favicon.ico",
     shortcut: "/assets/favicon.ico",
@@ -12,9 +36,17 @@ export const metadata = {
   },
 }
 
+export const viewport: Viewport = {
+  themeColor: "#08090b",
+  colorScheme: "dark",
+}
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html
+      lang="en"
+      className={`${archivo.variable} ${instrumentSans.variable} ${plexMono.variable}`}
+    >
       <body>{children}</body>
     </html>
   )

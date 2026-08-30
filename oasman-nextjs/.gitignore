@@ -39,3 +39,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# design-sync generated inputs (.d.ts entry + extracted tokens) — see
+# ../.design-sync/build-inputs.mjs, regenerated on every sync
+/dist
+/index.d.ts
