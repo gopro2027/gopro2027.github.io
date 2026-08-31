@@ -183,6 +183,9 @@ export default function Home() {
             <a className="oas-nav-link" href="#pricing">
               Pricing
             </a>
+            <a className="oas-nav-link" href={DISCORD}>
+              Discord
+            </a>
           </div>
 
           <div className="oas-nav-actions">
