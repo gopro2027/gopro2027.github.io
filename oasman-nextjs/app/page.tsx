@@ -30,6 +30,7 @@ const PCBViewer = dynamic(() => import("./PCBViewer"), {
 const DISCORD = "https://discord.gg/pUf7FmHKpg"
 const PATREON = "https://www.patreon.com/c/oasman"
 const INSTAGRAM = "https://www.instagram.com/oasman.co"
+const GITHUB = "https://github.com/gopro2027/ArduinoAirSuspensionController"
 
 /* ─── Scroll reveal ─── */
 function useReveal() {
@@ -175,7 +176,7 @@ export default function Home() {
             <a className="oas-nav-link" href="#demo">
               Demo
             </a>
-            <a className="oas-nav-link" href="#manifold">
+            <a className="oas-nav-link" href="#features">
               Features
             </a>
             <a className="oas-nav-link" href="#pricing">
@@ -383,7 +384,7 @@ export default function Home() {
       </section>
 
       {/* ═══ Manifold ═══ */}
-      <section id="manifold" className="oas-section">
+      <section id="features" className="oas-section">
         <div className="oas-wrap">
           <SectionHead
             eyebrow="Features"
@@ -568,19 +569,24 @@ export default function Home() {
                   ["Discord", DISCORD],
                   ["Patreon", PATREON],
                   ["Instagram", INSTAGRAM],
+                  ["GitHub", GITHUB],
                 ],
               },
               {
                 title: "Explore",
                 links: [
-                  ["Manifold", "#manifold"],
+                  ["Features", "#features"],
                   ["Live demo", "#demo"],
                   ["Web controller", "/controller"],
+                  ["Documentation", "https://oasman.dev"],
+                  ["Software updates", "https://oasman.dev/flash/"],
                 ],
               },
               {
                 title: "Shop",
-                links: [["Merch", "#merch"]],
+                links: [["Merch", "#merch"],
+                  ["Printful", "https://oasman.printful.me/"],
+              ]
               },
             ].map((col) => (
               <div key={col.title}>
