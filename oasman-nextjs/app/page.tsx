@@ -27,7 +27,8 @@ const PCBViewer = dynamic(() => import("./PCBViewer"), {
   ),
 })
 
-const DISCORD = "https://discord.gg/pUf7FmHKpg"
+// const DISCORD = "https://discord.gg/pUf7FmHKpg"
+const DISCORD = "/discord"
 const PATREON = "https://www.patreon.com/c/oasman"
 const INSTAGRAM = "https://www.instagram.com/oasman.co"
 const GITHUB = "https://github.com/gopro2027/ArduinoAirSuspensionController"
