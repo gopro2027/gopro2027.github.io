@@ -252,7 +252,7 @@ export default function Home() {
       <section aria-label="In a sentence" className="oas-quote-band">
         <div className="oas-wrap oas-quote reveal">
           <blockquote className="oas-quote-text">
-            The most advanced air suspension software ever created.
+            The most advanced air suspension software created.
           </blockquote>
           <p className="oas-eyebrow">by enthusiasts, for enthusiasts</p>
         </div>
