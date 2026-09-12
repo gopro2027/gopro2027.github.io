@@ -27,6 +27,8 @@ import {
   Cmd,
   HeightCalibration,
   Rf,
+  STARTWEB_PASSWORD_MAX,
+  STARTWEB_SSID_MAX,
   type ConfigValues,
 } from "./protocol"
 import type { OasmanBle } from "./useOasmanBle"
@@ -198,6 +200,14 @@ export default function SettingsTab({
               disabled={disabled}
             />
             <NumberRow
+              label="Compressor Crank Offset (seconds)"
+              value={draft.compressorCrankOffset}
+              onChange={(v) => patch({ compressorCrankOffset: v })}
+              min={0}
+              max={255}
+              disabled={disabled}
+            />
+            <NumberRow
               label="Bag Max PSI"
               value={draft.bagMaxPressure}
               onChange={(v) => patch({ bagMaxPressure: v })}
@@ -211,14 +221,6 @@ export default function SettingsTab({
               onChange={(v) => patch({ pressureSensorMax: v })}
               min={1}
               max={65535}
-              disabled={disabled}
-            />
-            <NumberRow
-              label="Bag Volume %"
-              value={draft.bagVolumePercentage}
-              onChange={(v) => patch({ bagVolumePercentage: v })}
-              min={10}
-              max={600}
               disabled={disabled}
             />
             {!draft.heightSensorMode && (
@@ -364,6 +366,11 @@ function StatusCard({ ble, disabled }: { ble: OasmanBle; disabled: boolean }) {
         <StatusPill label="ACC / Vehicle" value={f.accOn ? "On" : "Off"} tone={f.accOn ? "good" : "neutral"} />
         <StatusPill label="E-Brake" value={f.ebrakeOn ? "On" : "Off"} tone={f.ebrakeOn ? "warn" : "neutral"} />
         <StatusPill label="Timer" value={f.timerExpired ? "Expired" : "Active"} />
+        <StatusPill
+          label="Adjusting"
+          value={f.adjustmentInProgress ? "Yes" : "No"}
+          tone={f.adjustmentInProgress ? "good" : "neutral"}
+        />
         <StatusPill label="AI Learn" value={`${ble.aiPercent}%`} />
       </div>
       {disabled && (
@@ -556,18 +563,39 @@ function BroadcastCard({ ble, disabled }: { ble: OasmanBle; disabled: boolean })
 function WifiCard({ ble, disabled }: { ble: OasmanBle; disabled: boolean }) {
   const [ssid, setSsid] = useState("")
   const [pass, setPass] = useState("")
+  const [allowInsecure, setAllowInsecure] = useState(false)
   return (
     <Card title="Wi-Fi / Software update">
       <Row label="SSID">
-        <TextField value={ssid} onChange={setSsid} placeholder="MyNetwork" disabled={disabled} />
+        <TextField
+          value={ssid}
+          onChange={setSsid}
+          placeholder="MyNetwork"
+          maxLength={STARTWEB_SSID_MAX}
+          disabled={disabled}
+        />
       </Row>
       <Row label="Password">
-        <TextField value={pass} onChange={setPass} type="password" disabled={disabled} />
+        <TextField
+          value={pass}
+          onChange={setPass}
+          type="password"
+          maxLength={STARTWEB_PASSWORD_MAX}
+          disabled={disabled}
+        />
+      </Row>
+      <Row label="Allow insecure (HTTP)">
+        <Toggle
+          on={allowInsecure}
+          onChange={setAllowInsecure}
+          disabled={disabled}
+          aria-label="Allow a one-time insecure HTTP update"
+        />
       </Row>
       <div style={{ display: "flex", alignItems: "center", gap: "0.8rem", marginTop: "0.7rem" }}>
         <Button
           disabled={disabled || ssid.length === 0}
-          onClick={() => ble.sendRest(buildStartWeb(ssid, pass))}
+          onClick={() => ble.sendRest(buildStartWeb(ssid, pass, allowInsecure))}
         >
           Start software update
         </Button>

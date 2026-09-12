@@ -39,6 +39,7 @@ const ZERO_FLAGS: StatusFlags = {
   timerExpired: false,
   clock: false,
   ebrakeOn: false,
+  adjustmentInProgress: false,
 }
 
 export interface OasmanBle {

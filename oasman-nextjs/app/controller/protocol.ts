@@ -36,7 +36,7 @@ export const Cmd = {
   CALIBRATE: 13,
   STARTWEB: 14,
   ASSIGNRECEPIENT: 15,
-  MESSAGE: 16,
+  // 16 retired (formerly MESSAGE); do not reuse
   SAVECURRENTPRESSURESTOPROFILE: 17,
   PRESETREPORT: 18,
   GETCONFIGVALUES: 21,
@@ -61,6 +61,8 @@ export const StatusBit = {
   TIMER_STATUS_EXPIRED: 3,
   CLOCK: 4,
   EBRAKE_STATUS_ON: 5,
+  /** isAnyWheelActive(): a corner is actively filling/dumping to a target. */
+  ADJUSTMENT_IN_PROGRESS: 6,
 } as const
 
 /** User-config flags carried in GETCONFIGVALUES configFlagsBits (args32[1]). */
@@ -153,6 +155,7 @@ export interface StatusFlags {
   timerExpired: boolean
   clock: boolean
   ebrakeOn: boolean
+  adjustmentInProgress: boolean
 }
 
 export interface StatusReport {
@@ -182,7 +185,6 @@ export interface ConfigValues {
   aiEnabled: boolean
   sensorlessLeveling: boolean
   pressureSensorMax: number
-  bagVolumePercentage: number
   bagMaxPressure: number
   compressorOnPSI: number
   compressorOffPSI: number
@@ -194,6 +196,8 @@ export interface ConfigValues {
   bagStretchBelowPressure: number
   /** Pressure (PSI) to inflate to first to unroll/stretch the bag. 0 = disabled. */
   bagStretchPressure: number
+  /** Seconds to hold the compressor off after power up / accessory power. */
+  compressorCrankOffset: number
   auxMode: number
   auxTimeUnit: number
   auxPulseDuration: number
@@ -301,11 +305,31 @@ function writeUtf8(bytes: Uint8Array, offset: number, text: string, max: number)
   }
 }
 
-/** OTA / Wi-Fi update: SSID in args[0..49], password in args[50..99]. */
-export function buildStartWeb(ssid: string, password: string): Uint8Array {
+/** Max SSID length in bytes (field is args[0..32], NUL-terminated). */
+export const STARTWEB_SSID_MAX = 32
+/** Max Wi-Fi password length in bytes (field is args[33..97], NUL-terminated). */
+export const STARTWEB_PASSWORD_MAX = 64
+/** args[98]: 1 = allow a one-time insecure HTTP update. */
+export const STARTWEB_INSECURE_FLAG_INDEX = 98
+
+/**
+ * OTA / Wi-Fi update (StartwebPacket): SSID in args[0..32] (max 32 bytes),
+ * password in args[33..97] (max 64 bytes), both NUL-terminated, and the
+ * allow-insecure flag in args[98].
+ *
+ * Breaking change from the old 50/50 split (args[0..49] / args[50..99], flag at
+ * args[49]): the manifold must run matching firmware for STARTWEB to work.
+ */
+export function buildStartWeb(
+  ssid: string,
+  password: string,
+  allowInsecure = false,
+): Uint8Array {
   const { bytes } = newPacket(Cmd.STARTWEB)
-  writeUtf8(bytes, a(0), ssid, 49)
-  writeUtf8(bytes, a(50), password, 49)
+  // The packet is zero-filled, so writing at most max bytes leaves each field NUL-terminated.
+  writeUtf8(bytes, a(0), ssid, STARTWEB_SSID_MAX)
+  writeUtf8(bytes, a(33), password, STARTWEB_PASSWORD_MAX)
+  bytes[a(STARTWEB_INSECURE_FLAG_INDEX)] = allowInsecure ? 1 : 0
   return bytes
 }
 
@@ -356,7 +380,7 @@ export function buildConfigWrite(c: ConfigValues): Uint8Array {
   view.setUint32(a(0), c.systemShutoffTimeM >>> 0, true)
   view.setUint32(a(4), flags >>> 0, true)
   view.setUint16(a(8), c.pressureSensorMax & 0xffff, true)
-  view.setUint16(a(10), c.bagVolumePercentage & 0xffff, true)
+  // args16[5] (a(10..11)) retired; left as echoed rawArgs.
   view.setUint8(a(12), c.bagMaxPressure & 0xff)
   view.setUint8(a(13), c.compressorOnPSI & 0xff)
   view.setUint8(a(14), c.compressorOffPSI & 0xff)
@@ -368,7 +392,8 @@ export function buildConfigWrite(c: ConfigValues): Uint8Array {
   // Bag stretch (unroll on air-up): args8[20] trigger-below PSI, args8[21] stretch PSI.
   view.setUint8(a(20), c.bagStretchBelowPressure & 0xff)
   view.setUint8(a(21), c.bagStretchPressure & 0xff)
-  // args8[22..23] reserved; left as echoed rawArgs.
+  view.setUint8(a(22), c.compressorCrankOffset & 0xff)
+  // args8[23] reserved; left as echoed rawArgs.
   // AuxillaryOutputModePayload at args32[6]: mode / timeUnit / time / interval.
   view.setUint8(a(24), c.auxMode & 0xff)
   view.setUint8(a(25), Math.min(3, Math.max(0, c.auxTimeUnit)))
@@ -404,6 +429,7 @@ export function parseStatus(view: DataView): StatusReport | null {
       timerExpired: bit(flagsBits, StatusBit.TIMER_STATUS_EXPIRED),
       clock: bit(flagsBits, StatusBit.CLOCK),
       ebrakeOn: bit(flagsBits, StatusBit.EBRAKE_STATUS_ON),
+      adjustmentInProgress: bit(flagsBits, StatusBit.ADJUSTMENT_IN_PROGRESS),
     },
   }
 }
@@ -425,7 +451,7 @@ export function parseConfig(view: DataView): ConfigValues {
     aiEnabled: bit(flags, ConfigFlag.CONFIG_AI_STATUS_ENABLED),
     sensorlessLeveling: bit(flags, ConfigFlag.CONFIG_SENSORLESS_LEVELING),
     pressureSensorMax: view.getUint16(a(8), true),
-    bagVolumePercentage: view.getUint16(a(10), true),
+    // args16[5] (a(10..11)) retired (formerly bagVolumePercentage); left unused.
     bagMaxPressure: view.getUint8(a(12)),
     compressorOnPSI: view.getUint8(a(13)),
     compressorOffPSI: view.getUint8(a(14)),
@@ -435,7 +461,8 @@ export function parseConfig(view: DataView): ConfigValues {
     rfButtonD: view.getUint8(a(19)),
     bagStretchBelowPressure: view.getUint8(a(20)),
     bagStretchPressure: view.getUint8(a(21)),
-    // args8[22..23] reserved.
+    compressorCrankOffset: view.getUint8(a(22)),
+    // args8[23] reserved.
     auxMode: view.getUint8(a(24)),
     auxTimeUnit: Math.min(3, view.getUint8(a(25))),
     auxPulseDuration: view.getUint8(a(26)),
